@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "exec": "ts-node -r tsconfig-paths/register apps/users/src/main.ts",
+  "legacyWatch": true
+}

@@ -28,6 +28,15 @@
         "tsConfigPath": "apps/gamification/tsconfig.app.json"
       }
     },
+    "http-gateway": {
+      "type": "application",
+      "root": "apps/http-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/http-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/http-gateway/tsconfig.app.json"
+      }
+    },
     "new": {
       "type": "application",
       "root": "apps/new",

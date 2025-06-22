@@ -1,0 +1,118 @@
+export const errorConstants = {
+  // token jwt
+  TOKEN_EXPIRED: 'Authentication failed: Token has expired.',
+  INVALID_TOKEN: 'Authentication failed: Invalid token.',
+  UNAUTHORIZED: 'Authentication failed: Unauthorized access.',
+
+  // user DTO messages
+  FIRST_NAME_FIELD_REQUIRED: 'firstName field is required',
+  FIRST_NAME_FIELD_LENGTH: 'firstName must be between 2 and 30 characters',
+  FIRST_NAME_FIELD_STRING: 'firstName must be a string',
+  LAST_NAME_FIELD_REQUIRED: 'lastName field is required',
+  LAST_NAME_FIELD_LENGTH: 'lastName must be between 2 and 30 characters',
+  LAST_NAME_FIELD_STRING: 'lastName must be a string',
+  EMAIL_REQUIRED: 'Email field is required',
+  INVALID_EMAIL: 'Email must be a valid email address',
+  EMAIL_IN_USE: 'Email is already registered',
+  PASSWORD_FIELD_REQUIRED: 'Password field is required',
+  PASSWORD_MIN_LENGTH: 'Password must be at least 6 characters',
+  PASSWORD_MAX_LENGTH: 'Password must be no more than 10 characters',
+  PASSWORD_FIELD_STRING: 'Password must be a string',
+  USER_NOT_FOUND: 'User does not exist.',
+  INVALID_CREDENTIALS: 'Invalid user credentials',
+  BIO_FIELD_LENGTH: 'Bio must not exceed 160 characters',
+  BIO_FIELD_STRING: 'Bio must be a string',
+  COUNTRY_FIELD_LENGTH: 'Country must be between 2 and 50 characters',
+  COUNTRY_FIELD_STRING: 'Country must be a string',
+  USERNAME_FIELD_LENGTH: 'Username must be between 3 and 30 characters',
+  USERNAME_FIELD_STRING: 'Username must be a string',
+  INVALID_URL: 'Website URL must be valid',
+  WEBSITE_URL_FIELD_STRING: 'Website URL must be a string',
+  CONTACT_NUMBER_FIELD_STRING: 'Contact number must be a string',
+  PROFILE_PICTURE_FIELD_STRING: 'Profile picture must be a string',
+  COVER_PICTURE_FIELD_STRING: 'Cover photo must be a string',
+  OTP_EXPIRED: 'The OTP has expired.',
+  INVALID_OTP: 'The provided OTP is invalid.',
+  USER_EMAIL_NOT_EXIST: "User with the given email doesn't exist",
+  INVALID_AUTH_TYPE: 'Login via OTP is not supported for this account',
+  INTERESTS_FIELD_ARRAY: 'Interests must be an array.',
+  INTERESTS_MIN_SIZE: 'At least one interest is required.',
+  INTERESTS_FIELD_STRING: 'Each interest must be a string.',
+  //  User perfences dto
+  INVALID_AUTHENTICATION_TYPE: 'The provided authentication type is invalid.',
+  RECOVERY_CODES_MUST_BE_ARRAY: 'Recovery codes must be provided as an array.',
+  RECOVERY_CODES_MUST_BE_STRINGS: 'Each recovery code must be a valid string.',
+  ENABLE_TWO_STEP_AUTHENTICATION_MUST_BE_BOOLEAN:'Enable two-step authentication must be a boolean value.',
+  OTP_EXPIRY_MUST_BE_DATE: 'OTP expiry must be a valid date.',
+
+  // verify otp dto
+  SECRET_MUST_BE_STRING: 'The OTP secret must be a valid string.',
+  SECRET_REQUIRED: 'The OTP secret is required.',
+
+  // CreatePostDto related messages
+  INVALID_CATEGORY: 'Please select a valid category for the post.',
+  INVALID_VIDEO_URL: 'Please provide a valid URL for the video.',
+  TITLE_LENGTH: 'Title cannot exceed 100 characters.',
+  INVALID_TITLE: 'Title must be a valid string.',
+  VIDEO_URL_REQUIRED: 'Video URL is required.',
+  INVALID_VIEWS_COUNT: 'Views count must be a valid integer.',
+  INVALID_LIKES_COUNT: 'Likes count must be a valid integer.',
+  DESCRIPTION_LENGTH: 'Description cannot exceed 1000 characters.',
+  INVALID_DESCRIPTION: 'Description must be a valid string.',
+  INVALID_TAGS_ARRAY: 'Tags must be provided as an array of strings.',
+  INVALID_TAGS_STRING: 'Each tag must be a valid string.',
+  INVALID_THUMBNAIL: 'Thumbnail must be a valid image URL.',
+  THUMBNAIL_REQUIRED: 'Thumbnail URL is required.',
+  POST_NOT_FOUND: 'Post not found or empty',
+
+  // product dto
+  IMAGE_FIELD_STRING: 'Image URL must be a string.',
+  IMAGE_FIELD_REQUIRED: 'Image URL is required.',
+  IMAGE_FIELD_INVALID_URL: 'Image URL must be a valid URL.',
+  PRODUCT_NAME_FIELD_STRING: 'Product name must be a string.',
+  PRODUCT_NAME_FIELD_REQUIRED: 'Product name is required.',
+  PRODUCT_NAME_FIELD_LENGTH:'Product name must be between 2 and 50 characters.',
+  DELIVERY_TYPE_FIELD_INVALID: 'Please select a valid type for the product',
+  STORE_NAME_FIELD_STRING: 'Store name must be a string.',
+  STORE_NAME_FIELD_REQUIRED: 'Store name is required.',
+  STORE_NAME_FIELD_LENGTH: 'Store name must be between 2 and 50 characters.',
+  STORE_LINK_FIELD_STRING: 'Store link must be a string.',
+  STORE_LINK_FIELD_REQUIRED: 'Store link is required.',
+  STORE_LINK_FIELD_INVALID_URL: 'Store link must be a valid URL.',
+  PRODUCT_NOT_FOUND: 'Product not found or empty',
+
+  // PLAY LIST dTO
+  PLAYLIST_NAME: 'The playlist name must be a valid string.',
+  PLAYLIST_NAME_REQUIRED: 'The playlist name is required.',
+  PLAYLISTS_NOT_FOUND :'Playlist not found or empty',
+
+  // toggleSubscription
+  SUBSCRIPTION_NOT_FOUND: 'Subscriber or Creator not found',
+  SCBSCRIBE_YOURSELF: 'You cannot subscribe to yourself',
+  UNSUBSCRIBED: 'Successfully unsubscribed',
+  SUBSCRIBED: 'Successfully subscribed',
+  SUBSCRIBER_FIELD_STRING: 'The Subscriber id must be a valid string',
+  SUBSCRIBER_FIELD_REQUIRED: 'The Creater id be required',
+  CREATERID_FIELD_STRING: 'The Creater id must be a valid string',
+  CREATERID_FIELD_REQUIRED: 'The Creater id must be required',
+
+
+  // creator dto
+
+FIELD_REQUIRED: 'This field is required.',
+FIELD_STRING: 'This field must be a string.',
+ID_FIELD_REQUIRED: 'The ID is required.',
+ID_FIELD_STRING: 'The ID must be a string.',
+USER_FIELD_REQUIRED: 'The User ID is required.',
+USER_FIELD_STRING: 'The User ID must be a string.',
+ACCOUNT_TYPE_FIELD_REQUIRED: 'The account type is required.',
+ACCOUNT_TYPE_FIELD_ENUM: 'The account type must be one of the following: FREE.',
+BILLING_PERIOD_FIELD_STRING: 'The billing period must be a string.',
+PAYMENT_METHOD_FIELD_STRING: 'The payment method must be a string.',
+BANK_ACCOUNT_NUMBER_FIELD_STRING: 'The bank account number must be a string.',
+BANK_NAME_FIELD_STRING: 'The bank name must be a string.',
+BANK_ACCOUNT_HOLDER_NAME_FIELD_STRING: 'The bank account holder name must be a string.',
+
+};
+
+export default errorConstants;
