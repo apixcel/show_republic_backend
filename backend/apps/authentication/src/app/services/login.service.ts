@@ -26,7 +26,10 @@ export class LoginService {
     const { email, password } = loginDto;
     const em = this.em.fork();
     const userRepo = em.getRepository(UserEntity);
-    const user = await userRepo.findOne({ email });
+    const user = await userRepo.findOne(
+      { email },
+      { populate: ['preferences'] },
+    );
 
     if (!user) {
       throw new RpcException(
