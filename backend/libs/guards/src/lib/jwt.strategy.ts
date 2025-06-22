@@ -25,10 +25,9 @@ export class JWTSTRATEGY extends PassportStrategy(JwtStrategy) {
     private readonly em: EntityManager,
   ) {
     super({
-      // @
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Extract JWT from Authorization header
       ignoreExpiration: false, // Ensure expiration is respected
-      secretOrKey: configService.get<string>('JWT_SECRET_KEY')!, // Use the same secret used for signing JWT
+      secretOrKey: configService.get<string>('JWT_SECRET_KEY') || 'secret', // Use the same secret used for signing JWT
     });
   }
 

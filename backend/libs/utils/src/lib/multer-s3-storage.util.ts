@@ -1,8 +1,9 @@
-import { DeleteObjectCommand } from '@aws-sdk/client-s3';
+import multerS3 from 'multer-s3';
+// import { S3 } from 'aws-sdk';
 import { s3Client } from '@show-republic/config'; // Adjust the import path as necessary
 import { Request } from 'express';
-import multerS3 from 'multer-s3';
 import { v4 as uuidv4 } from 'uuid'; // Ensure this package is installed
+import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 /**
  * Multer S3 storage configuration.
@@ -13,14 +14,14 @@ export const multerS3Storage = multerS3({
   metadata: (
     req: Request,
     file: Express.Multer.File,
-    cb: (error: any, metadata?: any) => void,
+    cb: (error: any, metadata?: any) => void
   ) => {
     cb(null, { fieldName: file.fieldname });
   },
   key: (
     req: Request,
     file: Express.Multer.File,
-    cb: (error: any, key?: string) => void,
+    cb: (error: any, key?: string) => void
   ) => {
     // Determine folder based on the request URL
     let folder = 'default';
@@ -36,11 +37,13 @@ export const multerS3Storage = multerS3({
   },
 });
 
-export const deleteImageFromS3 = async (key: string): Promise<void> => {
+
+export const  deleteImageFromS3= async (key: string): Promise<void> => {
+  
   try {
     const deleteParams = {
-      Bucket: 'showrepublic', // Your S3 bucket name
-      Key: key, // The S3 key of the image to delete
+      Bucket: 'showrepublic',  // Your S3 bucket name
+      Key: key,               // The S3 key of the image to delete
     };
 
     // Create the DeleteObjectCommand with the parameters
@@ -48,10 +51,10 @@ export const deleteImageFromS3 = async (key: string): Promise<void> => {
 
     // Execute the command with the s3Client
     await s3Client.send(command);
-
+    
     console.log(`Image deleted successfully: ${key}`);
   } catch (error) {
     console.error('Error deleting image from S3:', error);
     throw new Error('Failed to delete image from S3.');
   }
-};
+}

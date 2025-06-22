@@ -1,22 +1,33 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "paths": {}
-  }
+    "target": "ES2020",                     // Specify ECMAScript target version
+    "module": "CommonJS",                   // Specify module code generation
+    "lib": ["ES2020", "DOM"],               // Specify library files to be included
+    "moduleResolution": "node",              // Use Node.js style resolution
+    "emitDecoratorMetadata": true,           // Enables experimental support for decorators
+    "experimentalDecorators": true,          // Enables experimental support for decorators
+    "strict": true,                          // Enable all strict type-checking options
+    "esModuleInterop": true,                 // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true,                    // Skip type checking of all declaration files
+    "outDir": "./dist",                      // Redirect output structure to the dist directory
+    "baseUrl": ".",                          // Base directory to resolve non-relative module names
+    "paths": {
+      "@show-republic/config": ["libs/config/src/index.ts"],
+      "@show-republic/dtos": ["libs/dtos/src/index.ts"],
+      "@show-republic/entities": ["libs/entities/src/index.ts"],
+      "@show-republic/guards": ["libs/guards/src/index.ts"],
+      "@show-republic/types": ["libs/types/src/index.ts"],
+      "@show-republic/utils": ["libs/utils/src/index.ts"],
+      "@show-republic/validators": ["libs/validators/src/index.ts"]
+    }
+  },
+  "include": [
+    "apps/**/*",                             // Include all files in the apps directory
+    "libs/**/*"                              // Include all files in the libs directory
+  ],
+  "exclude": [
+    "node_modules",                          // Exclude node_modules
+    "dist",                                  // Exclude dist directory
+    "**/*.spec.ts"                           // Exclude test files
+  ]
 }
