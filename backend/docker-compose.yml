@@ -61,6 +61,33 @@ services:
       start_period: 30s
       timeout: 10s
 
+  admin-service:
+    build:
+      context: .
+      dockerfile: ./apps/admins/Dockerfile
+    container_name: admin-service
+    volumes:
+      - ./apps/admins:/var/www/apps/admins:cached
+      - ./libs:/var/www/libs/:cached
+
+    env_file:
+      - .env
+    ports:
+      - '5000:3000'
+    networks:
+      - app-network
+    restart: always
+    environment:
+      NODE_OPTIONS: '--max-old-space-size=4096'
+    depends_on:
+      - nats
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://admin-service:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+
   nats:
     image: nats
     container_name: nats-server
@@ -123,6 +150,6 @@ services:
 networks:
   app-network:
     driver: bridge
-    
+
 volumes:
   postgres_data:
