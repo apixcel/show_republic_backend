@@ -77,6 +77,52 @@ services:
       start_period: 30s
       timeout: 10s
 
+  # PostgreSQL Database
+  postgresdb:
+    image: postgres:13
+    container_name: postgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qubitars
+      POSTGRES_DB: demo
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hammadakram6223@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: qubitars
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://pgadmin:80/']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
 networks:
   app-network:
     driver: bridge
+    
+volumes:
+  postgres_data:

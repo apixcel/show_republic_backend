@@ -1,22 +1,22 @@
-import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import PostgresdbConfig from './postgresdb.config';
+import { Module } from '@nestjs/common';
 import MongodbConfig from './mongodb.config';
+import PostgresdbConfig from './postgresdb.config';
 
 @Module({
   imports: [
     MikroOrmModule.forRoot({
-        ...MongodbConfig, // MongoDB configuration
-        contextName: 'mongo', // Name context as 'mongo'
-        registerRequestContext: false,
-      }),
-      
+      ...MongodbConfig,
+      contextName: 'mongo',
+      registerRequestContext: false,
+    }),
     MikroOrmModule.forRoot({
       ...PostgresdbConfig,
       contextName: 'postgres',
-      registerRequestContext: false, // Enable request context for scoped repositories
+      registerRequestContext: false,
     }),
+    MikroOrmModule, // ✅ Explicitly import base module
   ],
-  exports: [MikroOrmModule], // Export MikroORM for reuse
+  exports: [MikroOrmModule], // ✅ Now it's valid to export
 })
 export class DatabaseModule {}
