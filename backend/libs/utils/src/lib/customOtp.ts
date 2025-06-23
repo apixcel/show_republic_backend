@@ -9,7 +9,7 @@ export class OtpService {
 
   async customOtpGen(
     email: string,
-    firstName: string
+    firstName: string,
   ): Promise<{ otp: number }> {
     const otp = Math.floor(1000 + Math.random() * 9000);
 
@@ -21,7 +21,7 @@ export class OtpService {
   async customexpiry(): Promise<{ expiry: Date }> {
     const otpExpiryMinutes = this.configService.get<number>(
       'OTP_EXPIRY_MINUTES',
-      10
+      10,
     ); // Default to 10 if not found
     const expiry = new Date(Date.now() + otpExpiryMinutes * 60000); // Calculate expiry time
     return { expiry };
@@ -40,11 +40,16 @@ export class OtpService {
         },
       });
 
+      console.log(
+        this.configService.get<string>('EMAIL'),
+        this.configService.get<string>('PASS'),
+      );
+
       // Resolve the path and read the HTML template file
       const filePath = path.resolve(
         __dirname,
         'email-templates',
-        'otp-verification-template.html'
+        'otp-verification-template.html',
       );
       if (!fs.existsSync(filePath)) {
         throw new Error(`Template file not found at ${filePath}`);
@@ -65,11 +70,11 @@ export class OtpService {
       };
 
       // Send the OTP email
-      // await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
       console.log('OTP email sent successfully', otp);
     } catch (error) {
       console.error('Error sending OTP email:', error);
-      throw new Error('Failed to send OTP email.');
+      // throw new Error('Failed to send OTP email.');
     }
   }
 }
