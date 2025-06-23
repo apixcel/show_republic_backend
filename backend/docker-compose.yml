@@ -88,6 +88,34 @@ services:
       start_period: 20s
       timeout: 10s
 
+  # Posts Service
+  posts:
+    build:
+      context: .
+      dockerfile: ./apps/posts/Dockerfile
+    container_name: posts
+    volumes:
+      - ./apps/posts:/var/www/apps/posts
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '7000:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://posts:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   nats:
     image: nats
     container_name: nats-server

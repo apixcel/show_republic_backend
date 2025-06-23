@@ -1,0 +1,26 @@
+{
+  "name": "posts",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/posts/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "posts:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "posts:build:development"
+        },
+        "production": {
+          "buildTarget": "posts:build:production"
+        }
+      }
+    }
+  }
+}
