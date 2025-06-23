@@ -13,9 +13,9 @@ import { CreatePostDto } from '@show-republic/dtos';
 import { AuthGuard } from '@nestjs/passport';
 
 @UseGuards(AuthGuard('jwt')) // Use the built-in JwtAuthGuard directly
-@Controller()
+@Controller('post')
 export class PostController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
 
   // ***** Create Post*******
 

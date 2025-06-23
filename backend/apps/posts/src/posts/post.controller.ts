@@ -1,14 +1,14 @@
-import { Controller} from '@nestjs/common';
-import { CreatePostService } from './services/Createpost.service'
+import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreatePostDto } from '@show-republic/dtos';
 import { ViewPostService } from './services/ViewPost.service';
+import { CreatePostService } from './services/createpost.service';
 
 @Controller()
 export class PostController {
   constructor(private readonly createPostService: CreatePostService,
-    private readonly  viewPostService: ViewPostService
-  ) {}
+    private readonly viewPostService: ViewPostService
+  ) { }
 
   // ****** Create Post *******
   @MessagePattern({ cmd: 'createPost' })

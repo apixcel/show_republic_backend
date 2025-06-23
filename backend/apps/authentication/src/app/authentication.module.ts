@@ -29,4 +29,4 @@ import { RegisterService } from './services/register.service';
   controllers: [AppController],
   providers: [LoginService, RegisterService, JWTSTRATEGY, OtpService],
 })
-export class AuthenticationModule {}
+export class AuthenticationModule { }

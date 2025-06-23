@@ -9,7 +9,7 @@ export class AppController {
   constructor(
     private readonly loginService: LoginService,
     private readonly registerService: RegisterService,
-  ) {}
+  ) { }
 
   @MessagePattern({ cmd: 'auth_login' })
   login(loginDto: LoginDto): Promise<{ accessToken: string }> {

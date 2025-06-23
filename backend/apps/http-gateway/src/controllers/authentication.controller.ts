@@ -5,7 +5,7 @@ import { lastValueFrom } from 'rxjs';
 
 @Controller('auth')
 export class AuthenticationController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
 
   // *****login*******
   @Post('login')
