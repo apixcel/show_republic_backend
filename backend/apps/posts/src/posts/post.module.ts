@@ -5,6 +5,7 @@ import { ViewPostService } from './services/ViewPost.service';
 import { PostEntity } from '@show-republic/entities';
 import { DatabaseModule, MongodbConfig } from '@show-republic/config';
 import { CreatePostService } from './services/createpost.service';
+import { ViewAllPostService } from './services/ViewAllPost.service';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { CreatePostService } from './services/createpost.service';
     MikroOrmModule.forFeature([PostEntity], 'mongo'), // Use 'mongo' context here
   ],
   controllers: [PostController],
-  providers: [CreatePostService, ViewPostService],
+  providers: [CreatePostService, ViewPostService, ViewAllPostService],
 })
 export class PostModule { }

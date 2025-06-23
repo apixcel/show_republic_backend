@@ -13,7 +13,6 @@ import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
 import { VerifyOtpService } from './services/verifyOtp.service';
 
-
 @Module({
   imports: [
     ConfigModule,

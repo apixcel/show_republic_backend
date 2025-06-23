@@ -39,4 +39,16 @@ export class PostController {
     );
     return postData;
   }
+
+
+
+  // ***** View all posts *******
+  @Get('view_all')
+  async getAllPosts() {
+    const postData = await lastValueFrom(
+      this.natsClient.send({ cmd: 'viewAllPosts' }, {}) // Send empty payload or as needed
+    );
+    return postData;
+  }
+
 }

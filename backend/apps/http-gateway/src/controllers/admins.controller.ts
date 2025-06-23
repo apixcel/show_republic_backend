@@ -11,13 +11,13 @@ import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Controller('admin')
 export class AdminsController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
 
 
   // ****** View Profile *******
   @Get('view_admins')
   async getAdmins(@Request() req: any) {
-    
+
     return await lastValueFrom(
       this.natsClient.send({ cmd: 'viewAdmins' }, "")
     );
@@ -31,7 +31,7 @@ export class AdminsController {
     return res;
   }
 
-  
+
   @Post('signup')
   async signup(@Body() payload: any) {
     const res = await firstValueFrom(
@@ -39,4 +39,7 @@ export class AdminsController {
     );
     return res;
   }
+
+
+
 }
