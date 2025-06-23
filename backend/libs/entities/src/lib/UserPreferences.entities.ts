@@ -1,9 +1,8 @@
 // UserPreferences.ts
 import { Entity, Enum, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { AuthenticationType } from '@show-republic/types';
 import { UserEntity } from '@show-republic/entities';
+import { AuthenticationType } from '@show-republic/types';
 import { v4 as uuidv4 } from 'uuid';
-
 
 @Entity()
 export class UserPreferencesEntity {

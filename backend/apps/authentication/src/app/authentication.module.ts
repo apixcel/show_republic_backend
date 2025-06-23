@@ -10,6 +10,9 @@ import { OtpService } from '@show-republic/utils';
 import { AppController } from './app.controller';
 import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
+import { ResendOtpService } from './services/resendOtp.service';
+import { VerifyOtpService } from './services/verifyOtp.service';
+
 
 @Module({
   imports: [
@@ -27,6 +30,13 @@ import { RegisterService } from './services/register.service';
     }),
   ],
   controllers: [AppController],
-  providers: [LoginService, RegisterService, JWTSTRATEGY, OtpService],
+  providers: [
+    LoginService,
+    RegisterService,
+    JWTSTRATEGY,
+    OtpService,
+    ResendOtpService,
+    VerifyOtpService,
+  ],
 })
 export class AuthenticationModule { }

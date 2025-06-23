@@ -1,4 +1,11 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler, HttpException, HttpStatus,} from '@nestjs/common';
+import {
+  CallHandler,
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -13,11 +20,14 @@ export class TransformInterceptor implements NestInterceptor {
       })),
       catchError((error) => {
         // Transform the error
-        const status = error.status || HttpStatus.INTERNAL_SERVER_ERROR;
+        const status =
+          typeof error.status === 'number'
+            ? error.status
+            : HttpStatus.INTERNAL_SERVER_ERROR;
         const message = error.message || 'An unexpected error occurred';
 
         return throwError(() => new HttpException(message, status));
-      })
+      }),
     );
   }
 }

@@ -1,7 +1,12 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { CustomValidationPipe, HttpExceptionFilter, TransformInterceptor } from '@show-republic/validators';
+import { ConfigService } from '@show-republic/config';
+import {
+  CustomValidationPipe,
+  HttpExceptionFilter,
+  TransformInterceptor,
+} from '@show-republic/validators';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -14,8 +19,8 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  // const configService = app.get(ConfigService);
-  const configService = { port: 3000 };
+  const configService = app.get(ConfigService);
+  // const configService = { port: 3000 };
   const port = configService.port || 3000;
   await app.listen(port);
   Logger.log(
