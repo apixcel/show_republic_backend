@@ -5,8 +5,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { DatabaseModule } from '@show-republic/config';
 import { UserEntity } from '@show-republic/entities';
+import { JWTSTRATEGY } from '@show-republic/guards';
+import { OtpService } from '@show-republic/utils';
 import { AppController } from './app.controller';
 import { LoginService } from './services/login.service';
+import { RegisterService } from './services/register.service';
 
 @Module({
   imports: [
@@ -24,6 +27,6 @@ import { LoginService } from './services/login.service';
     }),
   ],
   controllers: [AppController],
-  providers: [LoginService],
+  providers: [LoginService, RegisterService, JWTSTRATEGY, OtpService],
 })
 export class AuthenticationModule {}
