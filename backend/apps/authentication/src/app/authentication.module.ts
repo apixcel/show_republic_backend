@@ -6,8 +6,9 @@ import { PassportModule } from '@nestjs/passport';
 import { DatabaseModule } from '@show-republic/config';
 import { UserEntity } from '@show-republic/entities';
 import { JWTSTRATEGY } from '@show-republic/guards';
-import { OtpService } from '@show-republic/utils';
+import { OtpService, SendEmailService } from '@show-republic/utils';
 import { AppController } from './app.controller';
+import { ForgotPasswordService } from './services/forgotPassword.service';
 import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
@@ -34,8 +35,10 @@ import { VerifyOtpService } from './services/verifyOtp.service';
     RegisterService,
     JWTSTRATEGY,
     OtpService,
+    SendEmailService,
     ResendOtpService,
     VerifyOtpService,
+    ForgotPasswordService,
   ],
 })
-export class AuthenticationModule { }
+export class AuthenticationModule {}

@@ -55,5 +55,8 @@ export class ConfigService {
   public get OTP_EXPIRY_MINUTES(): number {
     return this.config.get<number>('OTP_EXPIRY_MINUTES');
   }
+  public get JWT_RESET_SECRET(): string {
+    return this.config.get<string>('JWT_RESET_SECRET');
+  }
 
 }

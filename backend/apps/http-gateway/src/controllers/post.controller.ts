@@ -1,21 +1,21 @@
 import {
-  Controller,
-  Post,
   Body,
-  Inject,
-  Request,
+  Controller,
   Get,
+  Inject,
+  Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
-import { CreatePostDto } from '@show-republic/dtos';
 import { AuthGuard } from '@nestjs/passport';
+import { CreatePostDto } from '@show-republic/dtos';
+import { lastValueFrom } from 'rxjs';
 
 @UseGuards(AuthGuard('jwt')) // Use the built-in JwtAuthGuard directly
 @Controller('post')
 export class PostController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
 
   // ***** Create Post*******
 
@@ -24,7 +24,7 @@ export class PostController {
     const userId = req.user.userId;
     const data = { ...createPostDto, userId: userId };
     const postData = await lastValueFrom(
-      this.natsClient.send({ cmd: 'createPost' }, data) // Ensure command name matches
+      this.natsClient.send({ cmd: 'createPost' }, data),
     );
     return postData;
   }
@@ -35,7 +35,7 @@ export class PostController {
     // If the token is valid, `req.user` will contain the user info
     const userId = req.user.userId;
     const postData = await lastValueFrom(
-      this.natsClient.send({ cmd: 'viewPost' }, userId) // Ensure command name matches
+      this.natsClient.send({ cmd: 'viewPost' }, userId),
     );
     return postData;
   }

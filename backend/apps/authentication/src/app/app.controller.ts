@@ -1,6 +1,15 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { LoginDto, resendOtpDto, UserDto, UserPreferencesDto, VerifyOtpDto } from '@show-republic/dtos';
+import {
+  ForogotPasswordRequestDto,
+  LoginDto,
+  resendOtpDto,
+  ResetPasswordDto,
+  UserDto,
+  UserPreferencesDto,
+  VerifyOtpDto,
+} from '@show-republic/dtos';
+import { ForgotPasswordService } from './services/forgotPassword.service';
 import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
@@ -13,7 +22,8 @@ export class AppController {
     private readonly registerService: RegisterService,
     private readonly resendOtpService: ResendOtpService,
     private readonly verifyOtpService: VerifyOtpService,
-  ) { }
+    private readonly forgotPasswordService: ForgotPasswordService,
+  ) {}
 
   @MessagePattern({ cmd: 'auth_login' })
   login(loginDto: LoginDto): Promise<{ accessToken: string }> {
@@ -34,6 +44,14 @@ export class AppController {
   @MessagePattern({ cmd: 'auth_otp_verify' })
   verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<{ accessToken: string }> {
     return this.verifyOtpService.verify(verifyOtpDto);
+  }
+  @MessagePattern({ cmd: 'auth_req_forgot_password' })
+  forgotPasswordRequest(payload: ForogotPasswordRequestDto) {
+    return this.forgotPasswordService.forgotPasswordRequest(payload.email);
+  }
+  @MessagePattern({ cmd: 'auth_req_reset_password' })
+  resetPassword(payload: ResetPasswordDto) {
+    return this.forgotPasswordService.resetPassword(payload);
   }
 
   @MessagePattern({ cmd: 'auth_test' })

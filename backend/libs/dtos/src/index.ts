@@ -8,3 +8,4 @@ export * from './lib/Playlist.dto';
 export * from './lib/Product.dto';
 export * from './lib/UserCreator.dto';
 export * from './lib/Category.dto';
+export * from './lib/forogotPassword.dto';
