@@ -1,8 +1,10 @@
 import { EntityManager } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { RpcException } from '@nestjs/microservices';
 import { UserEntity } from '@show-republic/entities';
+import { errorConstants } from '@show-republic/utils';
 
 @Injectable()
 export class LoginService {
