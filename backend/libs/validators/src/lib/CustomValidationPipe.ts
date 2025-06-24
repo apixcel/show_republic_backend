@@ -1,7 +1,7 @@
 import {
-  ValidationPipe,
   BadRequestException,
   ValidationError,
+  ValidationPipe,
 } from '@nestjs/common';
 
 export class CustomValidationPipe extends ValidationPipe {
@@ -12,7 +12,7 @@ export class CustomValidationPipe extends ValidationPipe {
         .map((error) => {
           // Extract the constraints and split them by comma
           const constraints = Object.values(error.constraints || {}).flatMap(
-            (constraint) => constraint.split(', ').map((msg) => msg.trim())
+            (constraint) => constraint.split(', ').map((msg) => msg.trim()),
           );
 
           // Return the adjusted constraints

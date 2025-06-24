@@ -13,7 +13,7 @@ export class AppController {
     private readonly registerService: RegisterService,
     private readonly resendOtpService: ResendOtpService,
     private readonly verifyOtpService: VerifyOtpService,
-  ) {}
+  ) { }
 
   @MessagePattern({ cmd: 'auth_login' })
   login(loginDto: LoginDto): Promise<{ accessToken: string }> {

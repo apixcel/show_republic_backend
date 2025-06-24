@@ -1,20 +1,28 @@
-import { defineConfig, ReflectMetadataProvider } from '@mikro-orm/postgresql';
-import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
-import { Migrator } from '@mikro-orm/migrations';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
+import { Migrator } from '@mikro-orm/migrations';
+import {
+  defineConfig,
+  PostgreSqlDriver,
+  ReflectMetadataProvider,
+} from '@mikro-orm/postgresql';
 import { SeedManager } from '@mikro-orm/seeder';
-import { PlaylistEntity, UserEntity, UserPreferencesEntity } from '@show-republic/entities'
+import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
+import {
+  CategoryEntity,
+  PlaylistEntity,
+  UserEntity,
+  UserPreferencesEntity,
+} from '@show-republic/entities';
 import path from 'path';
 
 const PostgresdbConfig = defineConfig({
-  host: 'postgresdb',  
+  host: 'postgresdb',
   port: 5432,
   user: 'postgres',
   password: 'qubitars',
   dbName: 'demo',
   driver: PostgreSqlDriver,
-  entities: [UserEntity,UserPreferencesEntity,PlaylistEntity],  // Ensure compiled JS files are referenced
+  entities: [UserEntity, UserPreferencesEntity, PlaylistEntity, CategoryEntity], // Ensure compiled JS files are referenced
   debug: true,
   highlighter: new SqlHighlighter(),
   metadataProvider: ReflectMetadataProvider,
@@ -33,4 +41,4 @@ const PostgresdbConfig = defineConfig({
     }
   },
 });
-export default PostgresdbConfig ; // Export the config for use in the module
+export default PostgresdbConfig; // Export the config for use in the module

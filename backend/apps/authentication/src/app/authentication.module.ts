@@ -38,4 +38,4 @@ import { VerifyOtpService } from './services/verifyOtp.service';
     VerifyOtpService,
   ],
 })
-export class AuthenticationModule {}
+export class AuthenticationModule { }

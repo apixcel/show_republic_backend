@@ -37,13 +37,13 @@
         "tsConfigPath": "apps/http-gateway/tsconfig.app.json"
       }
     },
-    "new": {
+    "category": {
       "type": "application",
-      "root": "apps/new",
+      "root": "apps/category",
       "entryFile": "main",
-      "sourceRoot": "apps/new/src",
+      "sourceRoot": "apps/category/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/new/tsconfig.app.json"
+        "tsConfigPath": "apps/category/tsconfig.app.json"
       }
     }
   }
