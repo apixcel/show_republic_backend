@@ -44,9 +44,11 @@ export class PostController {
 
   // ***** View all posts *******
   @Get('view_all')
-  async getAllPosts() {
+  async getAllPosts(@Request() req: any) {
+    const page = req.query?.page ? Number(req.query.page) : 1;
+    const limit = req.query?.limit ? Number(req.query.limit) : 30;
     const postData = await lastValueFrom(
-      this.natsClient.send({ cmd: 'viewAllPosts' }, {}) // Send empty payload or as needed
+      this.natsClient.send({ cmd: 'viewAllPosts' }, { page, limit })
     );
     return postData;
   }

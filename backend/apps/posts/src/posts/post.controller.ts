@@ -26,8 +26,8 @@ export class PostController {
 
   // ****** View All Post *******
   @MessagePattern({ cmd: 'viewAllPosts' })
-  async viewAllPosts(): Promise<any> {
-    return await this.viewAllPostService.viewAll();
+  async viewAllPosts({ page = 1, limit = 30 }: { page?: number; limit?: number } = {}): Promise<any> {
+    return await this.viewAllPostService.viewAll(page, limit);
   }
 
 }
