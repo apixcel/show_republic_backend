@@ -20,7 +20,7 @@ export class ViewAllPostService {
         private readonly pgEm: PostgresEntityManager, // ======== Inject Postgres EntityManager ======>
     ) { }
 
-    async viewAll(page = 1, limit = 30): Promise<{ posts: any[], users: any[] }> {
+    async viewAll(page = 1, limit = 30): Promise<{ posts: any[], users?: any[] }> {
         const forkedMongoEm = this.mongoEm.fork();
         const skip = (page - 1) * limit;
 
@@ -58,6 +58,6 @@ export class ViewAllPostService {
             user: userMap[post.userId] || null,
         }));
 
-        return { posts: postsWithUser, users: safeUsers };
+        return { posts: postsWithUser };
     }
 }
