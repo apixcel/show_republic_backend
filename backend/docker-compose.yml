@@ -116,6 +116,33 @@ services:
       start_period: 30s
       timeout: 10s
 
+  # category
+  category:
+    build:
+      context: .
+      dockerfile: ./apps/category/Dockerfile
+    container_name: category
+    volumes:
+      - ./apps/category:/var/www/apps/category
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2000:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://category:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   nats:
     image: nats
     container_name: nats-server

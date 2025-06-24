@@ -1,16 +1,18 @@
-import { 
-  Entity, 
-  PrimaryKey, 
-  Property, 
-  OneToOne, 
-  OneToMany, 
-  Collection 
+import {
+  Collection,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+  PrimaryKey,
+  Property,
 } from '@mikro-orm/core';
-import { v4 as uuidv4 } from 'uuid';
 import { Exclude, Expose } from 'class-transformer';
+import { v4 as uuidv4 } from 'uuid';
+import { CategoryEntity } from './Category.entities';
+import { UserCreatorEntity } from './UserCreator.entities';
 import { UserPreferencesEntity } from './UserPreferences.entities';
 import { UserSubscription } from './UserSubscriptions.entities';
-import { UserCreatorEntity} from './UserCreator.entities';
 // import { PaymentEntity } from './SubscriptionsPayment.entities';
 
 @Entity()
@@ -62,24 +64,27 @@ export class UserEntity {
   @Expose()
   coverPhoto?: string;
 
-  @Property({ type: 'json', nullable: false})
-  @Expose()
-  interests!: string[]; // Array of interests selected by the user
+  @ManyToMany(() => CategoryEntity)
+  interests = new Collection<CategoryEntity>(this); // Array of interests selected by the user
 
-  @OneToOne(() => UserPreferencesEntity, preferences => preferences.user, { nullable: true })
+  @OneToOne(() => UserPreferencesEntity, (preferences) => preferences.user, {
+    nullable: true,
+  })
   preferences?: UserPreferencesEntity;
 
-  @OneToMany(() => UserSubscription, subscription => subscription.subscriber)
+  @OneToMany(() => UserSubscription, (subscription) => subscription.subscriber)
   subscriptions = new Collection<UserSubscription>(this);
 
-  @OneToMany(() => UserSubscription, subscription => subscription.creator)
+  @OneToMany(() => UserSubscription, (subscription) => subscription.creator)
   @Expose()
   subscribers = new Collection<UserSubscription>(this);
 
   // @OneToMany(() => PaymentEntity, payment => payment.user)
   // payments = new Collection<PaymentEntity>(this);
 
-  @OneToOne(() => UserCreatorEntity, account => account.user, { nullable: true })
+  @OneToOne(() => UserCreatorEntity, (account) => account.user, {
+    nullable: true,
+  })
   creatorAccount?: UserCreatorEntity;
 
   @Property({ type: 'timestamp', onCreate: () => new Date() })
