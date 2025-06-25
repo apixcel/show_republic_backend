@@ -37,12 +37,13 @@ export class UserDto {
 
   @IsString({ each: true, message: errorConstants.INTERESTS_FIELD_STRING })
   @IsArray({ message: errorConstants.INTERESTS_FIELD_ARRAY })
-  @ArrayMinSize(1, { message: errorConstants.INTERESTS_MIN_SIZE })
-  interests!: string[];
+  // @ArrayMinSize(1, { message: errorConstants.INTERESTS_MIN_SIZE })
+  @IsOptional()
+  interests?: string[];
 }
 
 export class UpdateUserDto {
-  
+
   @IsString()
   @IsOptional()
   userId?: string;
