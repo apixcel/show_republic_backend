@@ -12,7 +12,7 @@ export class SocialLoginService {
     @InjectEntityManager('postgres') // Inject the 'postgres' EntityManager
     private readonly em: EntityManager,
     private configService: ConfigService,
-  ) {}
+  ) { }
   async googleAuthCallBack(user: { email: string; name: string }) {
     const payload = {
       email: user.email as string,

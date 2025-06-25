@@ -12,7 +12,7 @@ export class RegisterService {
     private readonly em: EntityManager,
 
     private readonly otpService: OtpService,
-  ) {}
+  ) { }
 
   async register(
     userData: UserDto,
