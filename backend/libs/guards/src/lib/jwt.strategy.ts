@@ -40,13 +40,13 @@ export class JWTSTRATEGY extends PassportStrategy(JwtStrategy) {
     // console.log(payload,'payloaddddddddddd')
     try {
       // Validate that the user exists
-      const user = await forkedEm.findOne(UserEntity, { id: payload.sub });
+      const user = await forkedEm.findOne(UserEntity, { id: payload.userId });
       if (!user) {
         throw new NotFoundException(errorConstants.USER_NOT_FOUND);
       }
 
       // Return relevant user information for downstream use
-      return { userId: payload.sub };
+      return { userId: payload.userId };
     } catch (error) {
       if (error instanceof TokenExpiredError) {
         throw new UnauthorizedException(errorConstants.TOKEN_EXPIRED);

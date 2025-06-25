@@ -56,11 +56,8 @@ export class AppController {
     return this.forgotPasswordService.resetPassword(payload);
   }
   @MessagePattern({ cmd: 'auth_oauth_google_callback' })
-  googleOauthCallBack(req: any) {
-    return this.socialLoginService.googleAuthCallBack({
-      email: req.user?.email,
-      name: req.user?.name,
-    });
+  googleOauthCallBack(user:{ email: string; name: string }) {
+    return this.socialLoginService.googleAuthCallBack(user);
   }
 
   @MessagePattern({ cmd: 'auth_test' })
