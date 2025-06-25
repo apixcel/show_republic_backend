@@ -14,7 +14,7 @@ export class ViewPostService {
 
     @InjectEntityManager('mongo') // Inject EntityManager for MongoDB context
     private readonly em: EntityManager,
-  ) {}
+  ) { }
 
   async view(userId: string): Promise<PostEntity[]> {
     // Fork the EntityManager to isolate the transaction
@@ -24,9 +24,11 @@ export class ViewPostService {
     const posts = await forkedEm.getRepository(PostEntity).find({ userId });
 
     // If no products are found, throw a RpcException
-    if (!posts || posts.length === 0) {  throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND));  }
+    if (!posts || posts.length === 0) { throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND)); }
 
     // Return the products found
     return posts;
   }
 }
+
+

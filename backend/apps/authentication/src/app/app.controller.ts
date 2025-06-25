@@ -13,6 +13,7 @@ import { ForgotPasswordService } from './services/forgotPassword.service';
 import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
+import { SocialLoginService } from './services/socialLogin.service';
 import { VerifyOtpService } from './services/verifyOtp.service';
 
 @Controller()
@@ -23,6 +24,7 @@ export class AppController {
     private readonly resendOtpService: ResendOtpService,
     private readonly verifyOtpService: VerifyOtpService,
     private readonly forgotPasswordService: ForgotPasswordService,
+    private readonly socialLoginService: SocialLoginService,
   ) {}
 
   @MessagePattern({ cmd: 'auth_login' })
@@ -52,6 +54,13 @@ export class AppController {
   @MessagePattern({ cmd: 'auth_req_reset_password' })
   resetPassword(payload: ResetPasswordDto) {
     return this.forgotPasswordService.resetPassword(payload);
+  }
+  @MessagePattern({ cmd: 'auth_oauth_google_callback' })
+  googleOauthCallBack(req: any) {
+    return this.socialLoginService.googleAuthCallBack({
+      email: req.user?.email,
+      name: req.user?.name,
+    });
   }
 
   @MessagePattern({ cmd: 'auth_test' })

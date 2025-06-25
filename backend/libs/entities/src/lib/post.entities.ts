@@ -1,9 +1,8 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
-import { PostCategory } from '@show-republic/types';
 import { ObjectId } from '@mikro-orm/mongodb';
+import { PostCategory } from '@show-republic/types';
 @Entity()
 export class PostEntity {
-  
   @PrimaryKey()
   _id!: ObjectId;
 

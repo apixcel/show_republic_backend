@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2020",                     // Specify ECMAScript target version
-    "module": "CommonJS",                   // Specify module code generation
-    "lib": ["ES2020", "DOM"],               // Specify library files to be included
-    "moduleResolution": "node",              // Use Node.js style resolution
-    "emitDecoratorMetadata": true,           // Enables experimental support for decorators
-    "experimentalDecorators": true,          // Enables experimental support for decorators
-    "strict": true,                          // Enable all strict type-checking options
-    "esModuleInterop": true,                 // Enables emit interoperability between CommonJS and ES Modules
-    "skipLibCheck": true,                    // Skip type checking of all declaration files
-    "outDir": "./dist",                      // Redirect output structure to the dist directory
-    "baseUrl": ".",                          // Base directory to resolve non-relative module names
+    "target": "ES2020", // Specify ECMAScript target version
+    "module": "CommonJS", // Specify module code generation
+    "lib": ["ES2020", "DOM"], // Specify library files to be included
+    "moduleResolution": "node", // Use Node.js style resolution
+    "emitDecoratorMetadata": true, // Enables experimental support for decorators
+    "experimentalDecorators": true, // Enables experimental support for decorators
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true, // Skip type checking of all declaration files
+    "outDir": "./dist", // Redirect output structure to the dist directory
+    "baseUrl": ".", // Base directory to resolve non-relative module names
     "paths": {
       "@show-republic/config": ["libs/config/src/index.ts"],
       "@show-republic/dtos": ["libs/dtos/src/index.ts"],
@@ -18,16 +18,18 @@
       "@show-republic/guards": ["libs/guards/src/index.ts"],
       "@show-republic/types": ["libs/types/src/index.ts"],
       "@show-republic/utils": ["libs/utils/src/index.ts"],
-      "@show-republic/validators": ["libs/validators/src/index.ts"]
+      "@show-republic/validators": ["libs/validators/src/index.ts"],
+      "@show-republic/oauthStrategy": ["libs/OAuthStrategries/src/index.ts"]
     }
   },
   "include": [
-    "apps/**/*",                             // Include all files in the apps directory
-    "libs/**/*"                              // Include all files in the libs directory
+    "apps/**/*", // Include all files in the apps directory
+    "libs/**/*", // Include all files in the libs directory
+    "backend/create-template-dynamics.js"
   ],
   "exclude": [
-    "node_modules",                          // Exclude node_modules
-    "dist",                                  // Exclude dist directory
-    "**/*.spec.ts"                           // Exclude test files
+    "node_modules", // Exclude node_modules
+    "dist", // Exclude dist directory
+    "**/*.spec.ts" // Exclude test files
   ]
 }
