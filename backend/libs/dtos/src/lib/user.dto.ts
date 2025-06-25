@@ -1,16 +1,15 @@
+import { errorConstants } from '@show-republic/utils';
 import {
-  Length,
+  IsArray,
   IsEmail,
   IsNotEmpty,
-  IsString,
-  MinLength,
-  MaxLength,
   IsOptional,
+  IsString,
   IsUrl,
-  IsArray,
-  ArrayMinSize,
+  Length,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
-import { errorConstants } from '@show-republic/utils';
 
 export class UserDto {
   id!: string; // Optional field if you want to include it in the DTO
@@ -39,11 +38,10 @@ export class UserDto {
   @IsArray({ message: errorConstants.INTERESTS_FIELD_ARRAY })
   // @ArrayMinSize(1, { message: errorConstants.INTERESTS_MIN_SIZE })
   @IsOptional()
-  interests?: string[];
+  interests!: string[];
 }
 
 export class UpdateUserDto {
-
   @IsString()
   @IsOptional()
   userId?: string;

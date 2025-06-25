@@ -1,44 +1,52 @@
-import { IsEnum, IsInt, IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  isNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 export class EnvironmentType {
   @IsEnum(['development', 'production'])
   NODE_ENV!: 'development' | 'production';
 
   @IsInt()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   PORT!: number;
 
   @IsString()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   EMAIL!: string;
 
   @IsString()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   PASS!: string;
 
   @IsString()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   JWT_SECRET_KEY!: string;
 
   @IsString()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   JWT_EXPIRE_KEY!: string;
 
   @IsString()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   CLIENT_URL!: string;
 
   @IsNumber()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   DEFAULT_OTP_LENGTH!: number;
 
   @IsString()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   DEFAULT_ITEM_ALPHABET!: string;
 
   @IsNumber()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   OTP_EXPIRY_MINUTES!: number;
-  
-
+  @IsString()
+  @IsNotEmpty()
+  JWT_RESET_SECRET!: string;
 }

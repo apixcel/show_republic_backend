@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
-import * as nodemailer from 'nodemailer';
 import * as path from 'path';
+import { SendEmailService } from './Sendmail';
 @Injectable()
 export class OtpService {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private emailService: SendEmailService,
+  ) {}
 
   async customOtpGen(
     email: string,
@@ -31,20 +34,6 @@ export class OtpService {
 
   async sendOtpEmail(email: string, otp: number, name: string): Promise<void> {
     try {
-      // Create the transporter using your Gmail credentials
-      const transporter = nodemailer.createTransport({
-        service: 'gmail', // Use the appropriate email service
-        auth: {
-          user: this.configService.get<string>('EMAIL'), // Get email from ConfigService
-          pass: this.configService.get<string>('PASS'), // Get password from ConfigService
-        },
-      });
-
-      console.log(
-        this.configService.get<string>('EMAIL'),
-        this.configService.get<string>('PASS'),
-      );
-
       // Resolve the path and read the HTML template file
       const filePath = path.resolve(
         __dirname,
@@ -58,19 +47,15 @@ export class OtpService {
 
       // Replace placeholders with actual values (OTP and name)
       const htmlContent = htmlTemplate
-        .replace('NAME', name) // Replace the NAME placeholder
-        .replace('123456', otp.toString()); // Replace the OTP value
+        .replace('{{user_name}}', name) // Replace the NAME placeholder
+        .replace('{{otp_code}}', otp.toString()); // Replace the OTP value
 
-      // Define the email options
-      const mailOptions = {
-        from: this.configService.get<string>('EMAIL'),
+      await this.emailService.sendMail({
         to: email,
         subject: 'Account Verification - OTP Code',
         html: htmlContent, // Use the HTML content
-      };
+      });
 
-      // Send the OTP email
-      await transporter.sendMail(mailOptions);
       console.log('OTP email sent successfully', otp);
     } catch (error) {
       console.error('Error sending OTP email:', error);
