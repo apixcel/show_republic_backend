@@ -42,7 +42,7 @@ export const errorConstants = {
   INVALID_AUTHENTICATION_TYPE: 'The provided authentication type is invalid.',
   RECOVERY_CODES_MUST_BE_ARRAY: 'Recovery codes must be provided as an array.',
   RECOVERY_CODES_MUST_BE_STRINGS: 'Each recovery code must be a valid string.',
-  ENABLE_TWO_STEP_AUTHENTICATION_MUST_BE_BOOLEAN:'Enable two-step authentication must be a boolean value.',
+  ENABLE_TWO_STEP_AUTHENTICATION_MUST_BE_BOOLEAN: 'Enable two-step authentication must be a boolean value.',
   OTP_EXPIRY_MUST_BE_DATE: 'OTP expiry must be a valid date.',
 
   // verify otp dto
@@ -51,6 +51,7 @@ export const errorConstants = {
 
   // CreatePostDto related messages
   INVALID_CATEGORY: 'Please select a valid category for the post.',
+  INVALID_POST_TYPE: "The post type must be selected",
   INVALID_VIDEO_URL: 'Please provide a valid URL for the video.',
   TITLE_LENGTH: 'Title cannot exceed 100 characters.',
   INVALID_TITLE: 'Title must be a valid string.',
@@ -71,7 +72,7 @@ export const errorConstants = {
   IMAGE_FIELD_INVALID_URL: 'Image URL must be a valid URL.',
   PRODUCT_NAME_FIELD_STRING: 'Product name must be a string.',
   PRODUCT_NAME_FIELD_REQUIRED: 'Product name is required.',
-  PRODUCT_NAME_FIELD_LENGTH:'Product name must be between 2 and 50 characters.',
+  PRODUCT_NAME_FIELD_LENGTH: 'Product name must be between 2 and 50 characters.',
   DELIVERY_TYPE_FIELD_INVALID: 'Please select a valid type for the product',
   STORE_NAME_FIELD_STRING: 'Store name must be a string.',
   STORE_NAME_FIELD_REQUIRED: 'Store name is required.',
@@ -84,7 +85,7 @@ export const errorConstants = {
   // PLAY LIST dTO
   PLAYLIST_NAME: 'The playlist name must be a valid string.',
   PLAYLIST_NAME_REQUIRED: 'The playlist name is required.',
-  PLAYLISTS_NOT_FOUND :'Playlist not found or empty',
+  PLAYLISTS_NOT_FOUND: 'Playlist not found or empty',
 
   // toggleSubscription
   SUBSCRIPTION_NOT_FOUND: 'Subscriber or Creator not found',
@@ -99,19 +100,19 @@ export const errorConstants = {
 
   // creator dto
 
-FIELD_REQUIRED: 'This field is required.',
-FIELD_STRING: 'This field must be a string.',
-ID_FIELD_REQUIRED: 'The ID is required.',
-ID_FIELD_STRING: 'The ID must be a string.',
-USER_FIELD_REQUIRED: 'The User ID is required.',
-USER_FIELD_STRING: 'The User ID must be a string.',
-ACCOUNT_TYPE_FIELD_REQUIRED: 'The account type is required.',
-ACCOUNT_TYPE_FIELD_ENUM: 'The account type must be one of the following: FREE.',
-BILLING_PERIOD_FIELD_STRING: 'The billing period must be a string.',
-PAYMENT_METHOD_FIELD_STRING: 'The payment method must be a string.',
-BANK_ACCOUNT_NUMBER_FIELD_STRING: 'The bank account number must be a string.',
-BANK_NAME_FIELD_STRING: 'The bank name must be a string.',
-BANK_ACCOUNT_HOLDER_NAME_FIELD_STRING: 'The bank account holder name must be a string.',
+  FIELD_REQUIRED: 'This field is required.',
+  FIELD_STRING: 'This field must be a string.',
+  ID_FIELD_REQUIRED: 'The ID is required.',
+  ID_FIELD_STRING: 'The ID must be a string.',
+  USER_FIELD_REQUIRED: 'The User ID is required.',
+  USER_FIELD_STRING: 'The User ID must be a string.',
+  ACCOUNT_TYPE_FIELD_REQUIRED: 'The account type is required.',
+  ACCOUNT_TYPE_FIELD_ENUM: 'The account type must be one of the following: FREE.',
+  BILLING_PERIOD_FIELD_STRING: 'The billing period must be a string.',
+  PAYMENT_METHOD_FIELD_STRING: 'The payment method must be a string.',
+  BANK_ACCOUNT_NUMBER_FIELD_STRING: 'The bank account number must be a string.',
+  BANK_NAME_FIELD_STRING: 'The bank name must be a string.',
+  BANK_ACCOUNT_HOLDER_NAME_FIELD_STRING: 'The bank account holder name must be a string.',
 
 };
 

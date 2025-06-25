@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Inject, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Put,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ForogotPasswordRequestDto,
   LoginDto,
@@ -66,7 +76,24 @@ export class AuthenticationController {
     return order;
   }
 
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() {
+    // Redirects to Google OAuth
+  }
+
   // *****Signup*******
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleOauthCallBack(@Request() req: any) {
+    const order = await lastValueFrom(
+      this.natsClient.send(
+        { cmd: 'auth_oauth_google_callback' },
+        { email: req.user.email, name: req.user.name },
+      ),
+    );
+    return order;
+  }
   @Get('test')
   async signUp() {
     const order = await lastValueFrom(

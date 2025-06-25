@@ -1,11 +1,4 @@
-import {
-  IsEnum,
-  IsInt,
-  IsNotEmpty,
-  isNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
+import { IsEnum, IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class EnvironmentType {
   @IsEnum(['development', 'production'])
@@ -46,7 +39,24 @@ export class EnvironmentType {
   @IsNumber()
   @IsNotEmpty()
   OTP_EXPIRY_MINUTES!: number;
+
   @IsString()
   @IsNotEmpty()
   JWT_RESET_SECRET!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  GOOGLE_AUTH_CLIENT_ID!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  GOOGLE_AUTH_CLIENT_SECRET!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  SERVER_URL!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  FRONTEND_URL!: string;
 }

@@ -9,16 +9,19 @@ import {
   Length,
 } from 'class-validator';
 
-import { PostCategory } from '@show-republic/types';
 import { errorConstants } from '@show-republic/utils';
+import { PostType } from '@show-republic/types';
 
 export class CreatePostDto {
   @IsString()
   @IsOptional()
   userId!: string;
 
-  @IsEnum(PostCategory, { message: errorConstants.INVALID_CATEGORY })
-  category!: PostCategory;
+  @IsEnum(PostType, { message: errorConstants.INVALID_POST_TYPE })
+  postType!: PostType;
+
+  @IsString({ message: errorConstants.INVALID_CATEGORY })
+  category!: string;
 
   @Length(0, 100, { message: errorConstants.TITLE_LENGTH })
   @IsString({ message: errorConstants.INVALID_TITLE })

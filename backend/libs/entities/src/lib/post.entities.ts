@@ -1,17 +1,19 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
-import { PostCategory } from '@show-republic/types';
 import { ObjectId } from '@mikro-orm/mongodb';
+import { PostType } from '@show-republic/types';
 @Entity()
 export class PostEntity {
-  
   @PrimaryKey()
   _id!: ObjectId;
 
   @Property({ type: 'string' }) // Ensure it's a UUID as a string
   userId!: string; // UUID type for userId
 
-  @Property()
-  category!: PostCategory;
+  @Property({ type: 'string' })
+  postType!: PostType;
+
+  @Property({ type: 'string' })
+  category!: string;
 
   @Property()
   title!: string;

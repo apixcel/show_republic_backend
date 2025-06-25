@@ -1,5 +1,5 @@
-export enum PostCategory {
-    Show = 'show',
-    Promotion = 'promotion',
-    Live = 'live',
-  }
+export enum PostType {
+  Show = 'show',
+  Promotion = 'promotion',
+  Live = 'live',
+}
