@@ -1,36 +1,31 @@
 import { EntityManager } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { BadRequestException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { RpcException } from '@nestjs/microservices';
 import { VerifyOtpDto } from '@show-republic/dtos';
 import { UserPreferencesEntity } from '@show-republic/entities';
 import { AuthenticationType } from '@show-republic/types';
-import { errorConstants } from '@show-republic/utils';
+import { errorConstants, JwtUtilService } from '@show-republic/utils';
 
 export class VerifyOtpService {
   constructor(
     @InjectEntityManager('postgres') // Inject the 'postgres' EntityManager
     private readonly em: EntityManager,
 
-    private readonly jwtService: JwtService,
+    private readonly jwtUtilService: JwtUtilService,
   ) {}
   async verify(verifyOtpDto: VerifyOtpDto): Promise<{ accessToken: string }> {
     const forkedEm = this.em.fork();
 
     // Find user preferences by email directly and select necessary fields
-    const userPreferences = await forkedEm
-      .getRepository(UserPreferencesEntity)
-      .findOne(
-        { user: { email: verifyOtpDto.email } },
-        { fields: ['secret', 'otpExpiry', 'authenticationType', 'user'] }, // Include authenticationType here
-      );
+    const userPreferences = await forkedEm.getRepository(UserPreferencesEntity).findOne(
+      { user: { email: verifyOtpDto.email } },
+      { fields: ['secret', 'otpExpiry', 'authenticationType', 'user'] }, // Include authenticationType here
+    );
 
     // Check if user preferences are found
     if (!userPreferences) {
-      throw new RpcException(
-        new BadRequestException(errorConstants.USER_NOT_FOUND),
-      );
+      throw new RpcException(new BadRequestException(errorConstants.USER_NOT_FOUND));
     }
 
     const { secret, otpExpiry, user } = userPreferences;
@@ -38,16 +33,12 @@ export class VerifyOtpService {
 
     // Check OTP expiration
     if (otpExpiry && currentTime > otpExpiry) {
-      throw new RpcException(
-        new BadRequestException(errorConstants.OTP_EXPIRED),
-      );
+      throw new RpcException(new BadRequestException(errorConstants.OTP_EXPIRED));
     }
 
     // Validate OTP secret
     if (verifyOtpDto.secret !== secret) {
-      throw new RpcException(
-        new BadRequestException(errorConstants.INVALID_OTP),
-      );
+      throw new RpcException(new BadRequestException(errorConstants.INVALID_OTP));
     }
 
     // Clear OTP-related fields and update authentication type
@@ -59,8 +50,8 @@ export class VerifyOtpService {
     await forkedEm.flush();
 
     // Generate JWT token
-    const payload = { email: user.email, sub: user.id };
-    const accessToken = await this.jwtService.signAsync(payload);
+    const payload = { email: user.email, userId: user.id };
+    const accessToken = this.jwtUtilService.generateAccessToken(payload);
 
     // Return the access token
     return { accessToken };

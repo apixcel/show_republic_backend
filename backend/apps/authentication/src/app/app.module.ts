@@ -1,13 +1,13 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { DatabaseModule } from '@show-republic/config';
 import { UserEntity } from '@show-republic/entities';
 import { JWTSTRATEGY } from '@show-republic/guards';
 import { GoogleStrategy } from '@show-republic/oauthStrategy';
-import { OtpService, SendEmailService } from '@show-republic/utils';
+import { JwtUtilService, OtpService, SendEmailService, SetCookieUtilService } from '@show-republic/utils';
 import { AppController } from './app.controller';
 import { ForgotPasswordService } from './services/forgotPassword.service';
 import { LoginService } from './services/login.service';
@@ -22,14 +22,7 @@ import { VerifyOtpService } from './services/verifyOtp.service';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     DatabaseModule,
     MikroOrmModule.forFeature([UserEntity], 'postgres'),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET_KEY'),
-        signOptions: { expiresIn: configService.get<string>('JWT_EXPIRE_KEY') },
-      }),
-    }),
+    JwtModule,
   ],
   controllers: [AppController],
   providers: [
@@ -38,10 +31,12 @@ import { VerifyOtpService } from './services/verifyOtp.service';
     SocialLoginService,
     GoogleStrategy,
     JWTSTRATEGY,
+    JwtUtilService,
     OtpService,
     SendEmailService,
     ResendOtpService,
     VerifyOtpService,
+    SetCookieUtilService,
     ForgotPasswordService,
   ],
 })
