@@ -133,11 +133,40 @@ services:
       NODE_ENV: development
     depends_on:
       - nats
+      - postgresdb
     networks:
       - app-network
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://category:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # category
+  postComment:
+    build:
+      context: .
+      dockerfile: ./apps/PostComment/Dockerfile
+    container_name: postComment
+    volumes:
+      - ./apps/PostComment:/var/www/apps/PostComment
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '4200:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://postComment:3000/health']
       interval: 30s
       retries: 5
       start_period: 30s
