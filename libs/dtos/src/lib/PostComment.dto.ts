@@ -1,16 +1,6 @@
 import { IsMongoId, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreatePostCommentDto {
-  @IsString()
-  @IsMongoId()
-  @IsNotEmpty()
-  userId!: string;
-
-  @IsString()
-  @IsMongoId()
-  @IsNotEmpty()
-  postId!: string;
-
   @IsOptional()
   @IsString()
   @IsMongoId()
@@ -20,4 +10,8 @@ export class CreatePostCommentDto {
   @IsNotEmpty()
   @MaxLength(2000)
   content!: string;
+
+  @IsOptional()
+  @IsString({ each: true })
+  images?: string[];
 }

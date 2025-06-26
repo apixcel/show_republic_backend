@@ -23,6 +23,12 @@ export class PostCommentEntity {
   @Property({ default: 0 })
   likes?: number = 0;
 
+  @Property({ default: [] })
+  images?: string[];
+
+  @Property({ default: 0 })
+  replyCount?: number = 0;
+
   @Property({ type: 'timestamp', onCreate: () => new Date() })
   createdAt?: Date = new Date();
 

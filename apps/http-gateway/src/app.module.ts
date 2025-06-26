@@ -9,6 +9,7 @@ import { SetCookieUtilService } from '@show-republic/utils';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { CategoryController } from './controllers/category.controller';
 import { PostController } from './controllers/post.controller';
+import { PostCommentController } from './controllers/postComment.controller';
 import { NatsClientModule } from './nats-client.module';
 
 @Module({
@@ -19,7 +20,7 @@ import { NatsClientModule } from './nats-client.module';
     MikroOrmModule.forFeature([UserEntity], 'postgres'),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  controllers: [AuthenticationController, PostController, CategoryController],
+  controllers: [AuthenticationController, PostController, CategoryController, PostCommentController],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],
 })
