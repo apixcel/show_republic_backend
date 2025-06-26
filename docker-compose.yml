@@ -1,0 +1,239 @@
+services:
+  # HTTP Gateway Service
+  http-gateway:
+    build:
+      context: .
+      dockerfile: ./apps/http-gateway/Dockerfile
+    container_name: http-gateway-service
+    volumes:
+      - ./apps/http-gateway:/var/www/apps/http-gateway:cached
+      - ./libs:/var/www/libs/:cached
+
+    env_file:
+      - .env
+    ports:
+      - '3000:3000'
+    networks:
+      - app-network
+    restart: always
+    environment:
+      NODE_OPTIONS: '--max-old-space-size=4096'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://http-gateway-service:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+
+  authentication:
+    build:
+      context: .
+      dockerfile: ./apps/authentication/Dockerfile
+    container_name: authentication
+    volumes:
+      - ./apps/authentication:/var/www/apps/authentication:cached
+      - ./libs:/var/www/libs/:cached
+    env_file:
+      - .env
+    ports:
+      - '4000:3000'
+    environment:
+      NODE_OPTIONS: '--max-old-space-size=4096'
+    depends_on:
+      - nats
+      # - postgresdb
+    networks:
+      - app-network
+    restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://authentication:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  admin-service:
+    build:
+      context: .
+      dockerfile: ./apps/admins/Dockerfile
+    container_name: admin-service
+    volumes:
+      - ./apps/admins:/var/www/apps/admins:cached
+      - ./libs:/var/www/libs/:cached
+
+    env_file:
+      - .env
+    ports:
+      - '5000:3000'
+    networks:
+      - app-network
+    restart: always
+    environment:
+      NODE_OPTIONS: '--max-old-space-size=4096'
+    depends_on:
+      - nats
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://admin-service:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+
+  # Posts Service
+  posts:
+    build:
+      context: .
+      dockerfile: ./apps/posts/Dockerfile
+    container_name: posts
+    volumes:
+      - ./apps/posts:/var/www/apps/posts
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '7000:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://posts:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # category
+  category:
+    build:
+      context: .
+      dockerfile: ./apps/category/Dockerfile
+    container_name: category
+    volumes:
+      - ./apps/category:/var/www/apps/category
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2000:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://category:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # postComment
+  post-comment:
+    build:
+      context: .
+      dockerfile: ./apps/post-comment/Dockerfile
+    container_name: post-comment
+    volumes:
+      - ./apps/post-comment:/var/www/apps/post-comment
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '4200:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://post-comment:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  nats:
+    image: nats
+    container_name: nats-server
+    ports:
+      - '4222:4222'
+      - '8222:8222'
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://nats-server:8222/']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # PostgreSQL Database
+  postgresdb:
+    image: postgres:13
+    container_name: postgresdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qubitars
+      POSTGRES_DB: demo
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hammadakram6223@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: qubitars
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://pgadmin:80/']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
