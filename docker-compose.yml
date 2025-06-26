@@ -144,14 +144,14 @@ services:
       start_period: 30s
       timeout: 10s
 
-  # category
-  postComment:
+  # postComment
+  post-comment:
     build:
       context: .
-      dockerfile: ./apps/PostComment/Dockerfile
-    container_name: postComment
+      dockerfile: ./apps/post-comment/Dockerfile
+    container_name: post-comment
     volumes:
-      - ./apps/PostComment:/var/www/apps/PostComment
+      - ./apps/post-comment:/var/www/apps/post-comment
       - ./libs:/var/www/libs/
     env_file:
       - .env
@@ -166,7 +166,7 @@ services:
       - app-network
     restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://postComment:3000/health']
+      test: ['CMD', 'curl', '-f', 'http://post-comment:3000/health']
       interval: 30s
       retries: 5
       start_period: 30s

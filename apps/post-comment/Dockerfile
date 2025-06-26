@@ -21,5 +21,5 @@ COPY . .
 EXPOSE 3000
 
 # Start the application using nodemon with npx
-CMD ["sh", "-c", "sleep 3 && npx nodemon --config apps/PostComment/nodemon.json"]
+CMD ["sh", "-c", "sleep 3 && npx nodemon --config apps/post-comment/nodemon.json"]
 
