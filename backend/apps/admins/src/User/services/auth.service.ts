@@ -5,14 +5,16 @@ import {
   EntityManager,
   RequiredEntityData,
 } from '@mikro-orm/core';
-import { AdminEntity} from '@show-republic/entities';
+import { AdminEntity } from '@show-republic/entities';
 import { comparePassword, errorConstants, hashPassword } from '@show-republic/utils';
 import { RpcException } from '@nestjs/microservices';
 import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid'; // Ensure this package is installed
-import { AdminDto, AdminStatus } from 'libs/dtos/src/lib/AdminDto.dto';
+// import { AdminDto, AdminStatus } from 'libs/dtos/src/lib/AdminDto.dto';
+
 import { ConfigService } from '@nestjs/config';
+import { AdminDto, AdminStatus } from '@show-republic/dtos';
 
 @Injectable()
 export class AuthService {
@@ -31,9 +33,9 @@ export class AuthService {
     Logger.log(`JWT_SECRET: ${jwtSecret}`);
   }
 
-  async signup( adminDto: AdminDto, ): Promise<any> {
+  async signup(adminDto: AdminDto,): Promise<any> {
 
-    
+
     const forkedEm = this.em.fork();
     const adminRepo = forkedEm.getRepository(AdminEntity);
 
@@ -59,7 +61,7 @@ export class AuthService {
     // Persist user and preferences in one transaction
     await forkedEm.persistAndFlush([user]);
 
-    return  true;
+    return true;
 
   }
 
@@ -92,10 +94,10 @@ export class AuthService {
       });
 
       return { accessToken };
-    } catch (error:  any) {
+    } catch (error: any) {
 
 
-      throw new RpcException(new  HttpException(
+      throw new RpcException(new HttpException(
         error.message || 'Internal server error',
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
       ))

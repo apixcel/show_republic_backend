@@ -9,5 +9,6 @@ export * from './lib/post.entities';
 export * from './lib/Product.entities';
 export * from './lib/SocialLoginInfo.entities';
 
+export * from './lib/Admin.entities';
 export * from './lib/Category.entities';
 export * from './lib/PostComment.etnities';

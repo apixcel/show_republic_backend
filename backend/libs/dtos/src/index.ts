@@ -1,3 +1,4 @@
+export * from './lib/AdminDto.dto';
 export * from './lib/Category.dto';
 export * from './lib/forogotPassword.dto';
 export * from './lib/LoginDto.dto';
