@@ -1,0 +1,39 @@
+# Node modules and dependencies
+node_modules
+**/node_modules
+
+# Local environment and configuration files
+.env
+.env.* 
+
+# Logs
+logs
+*.log
+
+# Build outputs
+dist
+**/dist
+
+# Debug and IDE settings
+.vscode
+.idea
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test files and coverage
+coverage
+*.test.ts
+*.spec.ts
+jest.*
+tests/
+
+# Temporary files
+*.swp
+*.tmp
+*.bak
+
+# Docker files themselves
+Dockerfile
+.dockerignore

@@ -10,6 +10,7 @@ import { AuthenticationController } from './controllers/authentication.controlle
 import { CategoryController } from './controllers/category.controller';
 import { PostController } from './controllers/post.controller';
 import { NatsClientModule } from './nats-client.module';
+import { PostLikeToggleController } from './controllers/postLikeToggle.controller';
 
 @Module({
   imports: [
@@ -19,8 +20,8 @@ import { NatsClientModule } from './nats-client.module';
     MikroOrmModule.forFeature([UserEntity], 'postgres'),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  controllers: [AuthenticationController, PostController, CategoryController],
+  controllers: [AuthenticationController, PostController, CategoryController, PostLikeToggleController],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],
 })
-export class AppModule {}
+export class AppModule { }

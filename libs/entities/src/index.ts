@@ -12,3 +12,4 @@ export * from './lib/SocialLoginInfo.entities';
 export * from './lib/Admin.entities';
 export * from './lib/Category.entities';
 export * from './lib/PostComment.etnities';
+export * from './lib/LikeToogle.entities';

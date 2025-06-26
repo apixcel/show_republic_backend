@@ -172,6 +172,34 @@ services:
       start_period: 30s
       timeout: 10s
 
+  # postLikeToggle
+  post-like-toggle:
+    build:
+      context: .
+      dockerfile: ./apps/post-like-toggle/Dockerfile
+    container_name: post-like-toggle
+    volumes:
+      - ./apps/post-like-toggle:/var/www/apps/post-like-toggle
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '4300:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - mongo
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://post-like-toggle:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   nats:
     image: nats
     container_name: nats-server

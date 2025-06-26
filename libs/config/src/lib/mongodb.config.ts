@@ -1,9 +1,9 @@
 import { Options } from '@mikro-orm/core';
 import { MongoDriver } from '@mikro-orm/mongodb';
-import { PostEntity, ProductEntity } from '@show-republic/entities';
+import { LikeEntity, PostEntity, ProductEntity } from '@show-republic/entities';
 
 const MongodbConfig: Options<MongoDriver> = {
-  entities: [ProductEntity, PostEntity],
+  entities: [ProductEntity, PostEntity, LikeEntity],
   dbName: 'show_republic',
   driver: MongoDriver,
   clientUrl:
