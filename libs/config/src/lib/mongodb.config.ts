@@ -1,13 +1,12 @@
 import { Options } from '@mikro-orm/core';
 import { MongoDriver } from '@mikro-orm/mongodb';
-import { LikeEntity, PostEntity, ProductEntity } from '@show-republic/entities';
+import { LikeEntity, PostEntity, ProductEntity, PostCommentEntity } from '@show-republic/entities';
 
 const MongodbConfig: Options<MongoDriver> = {
-  entities: [ProductEntity, PostEntity, LikeEntity],
+  entities: [ProductEntity, PostEntity, PostCommentEntity, LikeEntity],
   dbName: 'show_republic',
   driver: MongoDriver,
-  clientUrl:
-    'mongodb+srv://hammadakram6223:zxDd8HuEaE0Scbot@cluster0.bi4i2.mongodb.net/show_republic',
+  clientUrl: 'mongodb+srv://hammadakram6223:zxDd8HuEaE0Scbot@cluster0.bi4i2.mongodb.net/show_republic',
   debug: true,
 };
 

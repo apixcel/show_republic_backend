@@ -1,4 +1,4 @@
-import { EntityManager } from '@mikro-orm/mongodb';
+import { EntityManager } from '@mikro-orm/core';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { HttpException } from '@nestjs/common';
 import { CategoryEntity, UserEntity } from '@show-republic/entities';

@@ -1,7 +1,6 @@
-
 {
   "watch": [
-    "apps/PostComment/src",
+    "apps/post-comment/src",
     "libs/dtos/src",
     "libs/entities/src",
     "libs/utils/src",
@@ -11,15 +10,9 @@
     "libs/config/src"
   ],
   "ext": "ts,json",
-  "exec": "ts-node -r tsconfig-paths/register apps/PostComment/src/main.ts",
+  "exec": "ts-node -r tsconfig-paths/register apps/post-comment/src/main.ts",
   "legacyWatch": true,
-  "ignore": [
-    "dist/*",
-    "node_modules/*",
-    "logs/*",
-    "*.log"
-  ],
+  "ignore": ["dist/*", "node_modules/*", "logs/*", "*.log"],
   "polling": true,
   "verbose": true
 }
-

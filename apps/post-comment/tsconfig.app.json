@@ -1,11 +1,9 @@
-
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": false,
-    "outDir": "../../dist/apps/PostComment"
+    "outDir": "../../dist/apps/post-comment"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }
-
