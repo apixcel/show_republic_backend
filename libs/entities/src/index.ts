@@ -11,7 +11,8 @@ export * from './lib/SocialLoginInfo.entities';
 
 export * from './lib/Admin.entities';
 export * from './lib/Category.entities';
-export * from './lib/PostComment.etnities';
-export * from './lib/LikeToogle.entities';
-export * from './lib/PostCommentReaction.entities';
 export * from './lib/Challenge.entities';
+export * from './lib/Creator.entities';
+export * from './lib/LikeToogle.entities';
+export * from './lib/PostComment.etnities';
+export * from './lib/PostCommentReaction.entities';

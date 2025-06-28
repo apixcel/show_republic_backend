@@ -14,6 +14,7 @@ import { PostController } from './controllers/post.controller';
 import { PostCommentController } from './controllers/postComment.controller';
 import { PostLikeToggleController } from './controllers/postLikeToggle.controller';
 import { NatsClientModule } from './nats-client.module';
+import { AdminsController } from './controllers/admins.controller';
 
 @Module({
   imports: [
@@ -31,8 +32,9 @@ import { NatsClientModule } from './nats-client.module';
     PostCommentController,
     GameficationController,
     CreatorController,
+    AdminsController
   ],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],
 })
-export class AppModule {}
+export class AppModule { }
