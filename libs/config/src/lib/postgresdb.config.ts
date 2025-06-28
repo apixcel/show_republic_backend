@@ -1,14 +1,11 @@
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator } from '@mikro-orm/migrations';
-import {
-  defineConfig,
-  PostgreSqlDriver,
-  ReflectMetadataProvider,
-} from '@mikro-orm/postgresql';
+import { defineConfig, PostgreSqlDriver, ReflectMetadataProvider } from '@mikro-orm/postgresql';
 import { SeedManager } from '@mikro-orm/seeder';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import {
   CategoryEntity,
+  CreatorEntity,
   PlaylistEntity,
   UserEntity,
   UserPreferencesEntity,
@@ -22,7 +19,7 @@ const PostgresdbConfig = defineConfig({
   password: 'qubitars',
   dbName: 'demo',
   driver: PostgreSqlDriver,
-  entities: [UserEntity, UserPreferencesEntity, PlaylistEntity, CategoryEntity], // Ensure compiled JS files are referenced
+  entities: [UserEntity, UserPreferencesEntity, PlaylistEntity, CategoryEntity, CreatorEntity], // Ensure compiled JS files are referenced
   debug: true,
   highlighter: new SqlHighlighter(),
   metadataProvider: ReflectMetadataProvider,
