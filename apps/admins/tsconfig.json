@@ -1,4 +1,3 @@
-
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
@@ -12,7 +11,7 @@
     "skipLibCheck": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "baseUrl": "../../",
+    "baseUrl": "../../"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

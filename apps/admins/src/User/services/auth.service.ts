@@ -1,14 +1,11 @@
 import { Injectable, ConflictException, NotFoundException, UnauthorizedException, HttpStatus, HttpException, Logger } from '@nestjs/common';
-import { InjectEntityManager, InjectRepository } from '@mikro-orm/nestjs';
+import { InjectEntityManager, } from '@mikro-orm/nestjs';
 import {
-  EntityRepository,
   EntityManager,
-  RequiredEntityData,
 } from '@mikro-orm/core';
 import { AdminEntity } from '@show-republic/entities';
 import { comparePassword, errorConstants, hashPassword } from '@show-republic/utils';
 import { RpcException } from '@nestjs/microservices';
-import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid'; // Ensure this package is installed
 // import { AdminDto, AdminStatus } from 'libs/dtos/src/lib/AdminDto.dto';
@@ -19,13 +16,8 @@ import { AdminDto, AdminStatus } from '@show-republic/dtos';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(AdminEntity, 'mongo')
-    private readonly adminRepository: EntityRepository<AdminEntity>,
-
     @InjectEntityManager('mongo') // Inject the 'postgres' EntityManager
     private readonly em: EntityManager,
-
-    private readonly jwtService: JwtService,
     private configService: ConfigService
 
   ) {
