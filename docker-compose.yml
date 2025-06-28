@@ -116,6 +116,62 @@ services:
       start_period: 30s
       timeout: 10s
 
+  # gamefication service
+  gamefication:
+    build:
+      context: .
+      dockerfile: ./apps/gamefication/Dockerfile
+    container_name: gamefication
+    volumes:
+      - ./apps/gamefication:/var/www/apps/gamefication
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '8500:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://posts:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # creator service
+  creator:
+    build:
+      context: .
+      dockerfile: ./apps/creator/Dockerfile
+    container_name: creator
+    volumes:
+      - ./apps/creator:/var/www/apps/creator
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '6900:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://posts:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   # category
   category:
     build:

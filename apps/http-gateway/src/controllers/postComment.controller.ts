@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import { CreatePostCommentDto } from '@show-republic/dtos';
@@ -23,13 +23,23 @@ export class PostCommentController {
     return order;
   }
   @Get('get/:postId')
-  async getPostComment(@Param('postId') postId: string) {
-    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_post_comment' }, postId));
+  async getPostComment(@Param('postId') postId: string, @Req() req: any) {
+    const userId = req.user?.userId;
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_post_comment' }, { userId, postId }));
     return order;
   }
-  @Get('get/replies-of/:postId')
-  async getAllCommentReplyByCommentId(@Param('postId') postId: string) {
-    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_post_comment_replies' }, postId));
+  @Get('get/replies-of/:commentId')
+  async getAllCommentReplyByCommentId(@Param('commentId') commentId: string, @Req() req: any) {
+    const userId = req.user?.userId;
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_post_comment_replies' }, { commentId, userId }));
+    return order;
+  }
+  @Put('react/t/:commentId')
+  async togglePostCommentReaction(@Param('commentId') commentId: string, @Req() req: any) {
+    const userId = req.user?.userId;
+    const order = await lastValueFrom(
+      this.natsClient.send({ cmd: 'toggle_post_comment_reaction' }, { commentId, userId }),
+    );
     return order;
   }
 }

@@ -2,7 +2,7 @@ import { EntityManager } from '@mikro-orm/core';
 import { ObjectId } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { RpcException } from '@nestjs/microservices';
-import { PostCommentEntity, PostEntity, UserEntity } from '@show-republic/entities';
+import { PostCommentEntity, PostCommentReactionEntity, PostEntity, UserEntity } from '@show-republic/entities';
 
 export class GetPostCommentService {
   constructor(
@@ -13,8 +13,9 @@ export class GetPostCommentService {
     private readonly pgEm: EntityManager,
   ) {}
 
-  async getCommentByPostId(postId: string) {
+  async getCommentByPostId(postId: string, currentUserId: string) {
     const postCommentRepo = this.mongoEm.fork().getRepository(PostCommentEntity);
+    const commentReactionRepo = this.mongoEm.fork().getRepository(PostCommentReactionEntity);
     const postRepo = this.mongoEm.fork().getRepository(PostEntity);
 
     const userRepo = this.pgEm.fork().getRepository(UserEntity);
@@ -28,13 +29,16 @@ export class GetPostCommentService {
     let result = [];
     for (const comment of postComment) {
       const user = await userRepo.findOne({ id: comment.userId });
+      const isLiked = await commentReactionRepo.findOne({ comment: comment._id, userId: currentUserId });
       if (!user) throw new RpcException('User not found');
       result.push({
         ...comment,
+        isLiked: isLiked ? true : false,
         user: {
           firstName: user.firstName,
           lastName: user.lastName,
           username: user.userName,
+          profilePicture: user.profilePicture,
         },
       });
     }
@@ -42,21 +46,26 @@ export class GetPostCommentService {
     return result;
   }
 
-  async getAllCommentReplyByCommentId(commentId: string) {
+  async getAllCommentReplyByCommentId(commentId: string, currentUserId: string) {
     const postCommentRepo = this.mongoEm.fork().getRepository(PostCommentEntity);
     const userRepo = this.pgEm.fork().getRepository(UserEntity);
+    const commentReactionRepo = this.mongoEm.fork().getRepository(PostCommentReactionEntity);
+
     const postComment = await postCommentRepo.find({ repliedOf: commentId });
 
     let result = [];
     for (const comment of postComment) {
       const user = await userRepo.findOne({ id: comment.userId });
       if (!user) throw new RpcException('User not found');
+      const isLiked = await commentReactionRepo.findOne({ comment: comment._id, userId: currentUserId });
       result.push({
         ...comment,
+        isLiked: isLiked ? true : false,
         user: {
           firstName: user.firstName,
           lastName: user.lastName,
           username: user.userName,
+          profilePicture: user.profilePicture,
         },
       });
     }

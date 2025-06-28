@@ -8,10 +8,12 @@ import { GoogleStrategy } from '@show-republic/oauthStrategy';
 import { SetCookieUtilService } from '@show-republic/utils';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { CategoryController } from './controllers/category.controller';
+import { CreatorController } from './controllers/creator.controller';
+import { GameficationController } from './controllers/gamefication.controller';
 import { PostController } from './controllers/post.controller';
 import { PostCommentController } from './controllers/postComment.controller';
-import { NatsClientModule } from './nats-client.module';
 import { PostLikeToggleController } from './controllers/postLikeToggle.controller';
+import { NatsClientModule } from './nats-client.module';
 
 @Module({
   imports: [
@@ -21,8 +23,16 @@ import { PostLikeToggleController } from './controllers/postLikeToggle.controlle
     MikroOrmModule.forFeature([UserEntity], 'postgres'),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  controllers: [AuthenticationController, PostController, CategoryController, PostLikeToggleController, PostCommentController],
+  controllers: [
+    AuthenticationController,
+    PostController,
+    CategoryController,
+    PostLikeToggleController,
+    PostCommentController,
+    GameficationController,
+    CreatorController,
+  ],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],
 })
-export class AppModule { }
+export class AppModule {}
