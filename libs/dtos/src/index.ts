@@ -11,3 +11,5 @@ export * from './lib/UserCreator.dto';
 export * from './lib/UserPreferences.dto';
 export * from './lib/UserSubscription.dto';
 export * from './lib/VerifyOtp.dto';
+
+export * from './lib/Challenge.dto';
