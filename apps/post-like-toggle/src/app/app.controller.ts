@@ -11,4 +11,10 @@ export class LikeController {
   async toggleReaction(@Payload() dto: ToggleLikeDto & { userId: string }) {
     return this.likeService.toggleLikeOrDislike(dto.userId, dto.postId, dto.action);
   }
+
+
+  @MessagePattern({ cmd: 'get-all-reactions' })
+  async getAll() {
+    return this.likeService.getAllReactions();
+  }
 }

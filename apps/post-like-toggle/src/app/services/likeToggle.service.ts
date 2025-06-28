@@ -11,53 +11,87 @@ export class LikeService {
     private readonly mongoEm: EntityManager,
   ) { }
 
-  async toggleLikeOrDislike(userId: string, postId: string, action: 'like' | 'dislike'): Promise<{ message: string }> {
-
+  async toggleLikeOrDislike(
+    userId: string,
+    postId: string,
+    action: 'like' | 'dislike'
+  ): Promise<{ message: string; likes: number; dislikes: number; userReaction: 'like' | 'dislike' | null }> {
     const forkedMongoEm = this.mongoEm.fork();
-    const post = await forkedMongoEm.findOne(PostEntity, postId);
-    if (!post) {
-      throw new NotFoundException('Post not found');
-    }
 
-    const existing = await forkedMongoEm.findOne(LikeEntity, {
-      userId,
-      post: post,
-    });
+    //  Find post and existing reaction in single transaction
+    const [post, existing] = await Promise.all([
+      forkedMongoEm.findOneOrFail(PostEntity, postId),
+      forkedMongoEm.findOne(LikeEntity, { userId, post: postId })
+    ]);
 
+    let message: string;
+    let userReaction: 'like' | 'dislike' | null = null;
+
+    //  Handle all three cases (new reaction, remove, or toggle)
     if (!existing) {
-      const now = new Date();
-      const newLike = forkedMongoEm.create(LikeEntity, {
+      //  New reaction
+      const newReaction = forkedMongoEm.create(LikeEntity, {
         userId,
         post,
         type: action,
-        createdAt: now,
-        updatedAt: now,
+        createdAt: new Date(),
+        updatedAt: new Date()
       });
-      await forkedMongoEm.persistAndFlush(newLike);
-      return { message: `You have ${action} this post.` };
-    }
 
-    if (existing.type === action) {
-      // Already did the same action – remove it (unlike/dislike)
+      await forkedMongoEm.persistAndFlush(newReaction);
+      // @ts-ignore
+
+      post[action + 's']++; // Increment like/dislike count
+      message = `You have ${action}d this post.`;
+      userReaction = action;
+    }
+    else if (existing.type === action) {
+      // Remove existing reaction
       await forkedMongoEm.removeAndFlush(existing);
-      return { message: `You have removed your ${action}.` };
-    } else {
-      // Switch between like and dislike
-      existing.type = action;
-      await forkedMongoEm.persistAndFlush(existing);
-      return { message: `You have changed your reaction to ${action}.` };
+      // @ts-ignore
+
+      post[action + 's']--; // Decrement count
+      message = `You have removed your ${action}.`;
+      userReaction = null;
     }
+    else {
+      //  Switch reaction (like ↔ dislike)
+      const oldAction = existing.type;
+      existing.type = action;
+      existing.updatedAt = new Date();
+      // @ts-ignore
+      post[oldAction + 's']--; // Decrement old reaction
+      // @ts-ignore
+      post[action + 's']++;    // Increment new reaction
+
+      await forkedMongoEm.persistAndFlush(existing);
+      message = `You changed to ${action}.`;
+      userReaction = action;
+    }
+
+    //  Update post counts and return all data
+    await forkedMongoEm.persistAndFlush(post);
+
+    return {
+      message,
+      // @ts-ignore
+      likes: post.likes,
+      // @ts-ignore
+      dislikes: post.dislikes,
+      userReaction
+    };
   }
 
-  async countLikes(postId: string): Promise<{ likes: number; dislikes: number }> {
 
+
+  async getAllReactions(): Promise<LikeEntity[]> {
     const forkedMongoEm = this.mongoEm.fork();
-    const post = await forkedMongoEm.findOne(PostEntity, postId);
-    if (!post) throw new NotFoundException('Post not found');
+    const reactions = await forkedMongoEm.find(LikeEntity, {});
+    if (!reactions || reactions.length === 0) {
+      throw new NotFoundException('No reaction found');
+    }
 
-    const likes = await forkedMongoEm.count(LikeEntity, { post, type: 'like' });
-    const dislikes = await forkedMongoEm.count(LikeEntity, { post, type: 'dislike' });
-
-    return { likes, dislikes };
+    return reactions;
   }
+
 }
