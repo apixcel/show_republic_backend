@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Get,
     Inject,
     Post,
     Request,
@@ -23,6 +24,13 @@ export class PostLikeToggleController {
 
         return await lastValueFrom(
             this.natsClient.send({ cmd: 'post_like_toggle' }, data),
+        );
+    }
+
+    @Get('all-reactions')
+    async getAllReactions() {
+        return await lastValueFrom(
+            this.natsClient.send({ cmd: 'get-all-reactions' }, {})
         );
     }
 }

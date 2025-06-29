@@ -58,6 +58,8 @@ export const errorConstants = {
   VIDEO_URL_REQUIRED: 'Video URL is required.',
   INVALID_VIEWS_COUNT: 'Views count must be a valid integer.',
   INVALID_LIKES_COUNT: 'Likes count must be a valid integer.',
+  INVALID_DISLIKES_COUNT: 'Dislike count must be a valid integer.',
+  INVALID_ISReacted: 'Is Reacted must be a valid string. (like or dislike)',
   DESCRIPTION_LENGTH: 'Description cannot exceed 1000 characters.',
   INVALID_DESCRIPTION: 'Description must be a valid string.',
   INVALID_TAGS_ARRAY: 'Tags must be provided as an array of strings.',

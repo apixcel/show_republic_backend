@@ -27,6 +27,12 @@ export class PostEntity {
   @Property({ default: 0 })
   likes?: number = 0;
 
+  @Property({ default: 0 })
+  dislikes?: number = 0;
+
+  @Property({ default: "" })
+  isReacted?: string;
+
   @Property({ length: 5000, nullable: true })
   description?: string;
 

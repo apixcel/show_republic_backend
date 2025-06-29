@@ -39,6 +39,14 @@ export class CreatePostDto {
   @IsOptional()
   likes: number = 0;
 
+  @IsInt({ message: errorConstants.INVALID_DISLIKES_COUNT })
+  @IsOptional()
+  dislikes: number = 0;
+
+  @IsInt({ message: errorConstants.INVALID_DISLIKES_COUNT })
+  @IsOptional()
+  isReacted?: string;
+
   @Length(0, 1000, { message: errorConstants.DESCRIPTION_LENGTH })
   @IsString({ message: errorConstants.INVALID_DESCRIPTION })
   @IsOptional()
