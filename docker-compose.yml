@@ -50,7 +50,7 @@ services:
       NODE_OPTIONS: '--max-old-space-size=4096'
     depends_on:
       - nats
-      # - postgresdb
+      - postgresdb
     networks:
       - app-network
     restart: always
@@ -81,6 +81,7 @@ services:
       NODE_OPTIONS: '--max-old-space-size=4096'
     depends_on:
       - nats
+      - postgresdb
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://admin-service:3000/health']
       interval: 30s
