@@ -32,7 +32,7 @@ import { AdminsController } from './controllers/admins.controller';
     PostCommentController,
     GameficationController,
     CreatorController,
-    AdminsController
+    AdminsController,
   ],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],
