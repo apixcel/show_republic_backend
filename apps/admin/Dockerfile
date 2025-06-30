@@ -1,3 +1,4 @@
+
 # Use Node.js base image
 FROM node:20
 
@@ -20,4 +21,5 @@ COPY . .
 EXPOSE 3000
 
 # Start the application using nodemon with npx
-CMD ["npx", "nodemon", "--config", "apps/admins/nodemon.json"]
+CMD ["sh", "-c", "sleep 3 && npx nodemon --config apps/admin/nodemon.json"]
+

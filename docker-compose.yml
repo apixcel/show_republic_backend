@@ -31,6 +31,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
+      CLIENT_URL: mongodb://root:root@mongo:27017/show_republic?authSource=admin
     ports:
       - 27017:27017
 
@@ -59,34 +60,6 @@ services:
       interval: 30s
       retries: 5
       start_period: 30s
-      timeout: 10s
-
-  admin-service:
-    build:
-      context: .
-      dockerfile: ./apps/admins/Dockerfile
-    container_name: admin-service
-    volumes:
-      - ./apps/admins:/var/www/apps/admins:cached
-      - ./libs:/var/www/libs/:cached
-
-    env_file:
-      - .env
-    ports:
-      - '5000:3000'
-    networks:
-      - app-network
-    restart: always
-    environment:
-      NODE_OPTIONS: '--max-old-space-size=4096'
-    depends_on:
-      - nats
-      - postgresdb
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://admin-service:3000/health']
-      interval: 30s
-      retries: 5
-      start_period: 20s
       timeout: 10s
 
   # Posts Service
@@ -196,6 +169,34 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://category:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # admin service
+  admin:
+    build:
+      context: .
+      dockerfile: ./apps/admin/Dockerfile
+    container_name: admin
+    volumes:
+      - ./apps/admin:/var/www/apps/admin
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2025:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://admin:3000/health']
       interval: 30s
       retries: 5
       start_period: 30s

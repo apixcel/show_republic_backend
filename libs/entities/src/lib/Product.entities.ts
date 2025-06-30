@@ -1,14 +1,11 @@
-import { Entity, ManyToOne, PrimaryKey, Property, UuidType } from '@mikro-orm/core';
-import { DeliveryType } from '@show-republic/types';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { ObjectId } from '@mikro-orm/mongodb';
-import { UserEntity } from './user.entities';
+import { DeliveryType } from '@show-republic/types';
 @Entity()
 export class ProductEntity {
-  
   @PrimaryKey()
   _id!: ObjectId;
 
-  
   @Property({ type: 'string' }) // Ensure it's a UUID as a string
   userId!: string; // UUID type for userId
 

@@ -4,6 +4,7 @@ import {
   AdminEntity,
   ChallengeEntity,
   LikeEntity,
+  PlaylistEntity,
   PostCommentEntity,
   PostCommentReactionEntity,
   PostEntity,
@@ -19,9 +20,11 @@ const MongodbConfig: Options<MongoDriver> = {
     PostCommentReactionEntity,
     ChallengeEntity,
     AdminEntity,
+    PlaylistEntity,
   ],
   dbName: 'show_republic',
   driver: MongoDriver,
+  
   clientUrl: 'mongodb+srv://hammadakram6223:zxDd8HuEaE0Scbot@cluster0.bi4i2.mongodb.net/show_republic',
   debug: true,
 };

@@ -1,7 +1,8 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
 import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -11,11 +12,12 @@ async function bootstrap() {
       options: {
         servers: ['nats://nats:4222'],
       },
-    }
+    },
   );
 
   await app.listen();
-  Logger.log(`🚀 Admin Service is running....`);
+  Logger.log(`🚀 admin Service is running....`);
 }
 
 bootstrap();
+

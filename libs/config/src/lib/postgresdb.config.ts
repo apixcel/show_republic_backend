@@ -6,9 +6,9 @@ import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import {
   CategoryEntity,
   CreatorEntity,
-  PlaylistEntity,
   UserEntity,
   UserPreferencesEntity,
+  UserSubscriptionEntity,
 } from '@show-republic/entities';
 import path from 'path';
 
@@ -19,7 +19,7 @@ const PostgresdbConfig = defineConfig({
   password: 'qubitars',
   dbName: 'demo',
   driver: PostgreSqlDriver,
-  entities: [UserEntity, UserPreferencesEntity, PlaylistEntity, CategoryEntity, CreatorEntity], // Ensure compiled JS files are referenced
+  entities: [UserEntity, UserPreferencesEntity, CategoryEntity, CreatorEntity, UserSubscriptionEntity], // Ensure compiled JS files are referenced
   debug: true,
   highlighter: new SqlHighlighter(),
   metadataProvider: ReflectMetadataProvider,

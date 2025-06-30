@@ -1,19 +1,15 @@
-import {
-  Collection,
-  Entity,
-  ManyToMany,
-  OneToMany,
-  OneToOne,
-  PrimaryKey,
-  Property,
-} from '@mikro-orm/core';
+import { Collection, Entity, ManyToMany, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Exclude, Expose } from 'class-transformer';
 import { v4 as uuidv4 } from 'uuid';
 import { CategoryEntity } from './Category.entities';
 import { UserCreatorEntity } from './UserCreator.entities';
 import { UserPreferencesEntity } from './UserPreferences.entities';
-import { UserSubscription } from './UserSubscriptions.entities';
+import { UserSubscriptionEntity } from './UserSubscriptions.entities';
 // import { PaymentEntity } from './SubscriptionsPayment.entities';
+export enum UserStatus {
+  ACTIVE = 'active',
+  DISABLE = 'disable',
+}
 
 @Entity()
 export class UserEntity {
@@ -60,6 +56,10 @@ export class UserEntity {
   @Expose()
   profilePicture?: string;
 
+  @Property({ default: UserStatus.ACTIVE })
+  @Expose()
+  status: UserStatus = UserStatus.ACTIVE;
+
   @Property({ nullable: true })
   @Expose()
   coverPhoto?: string;
@@ -72,12 +72,12 @@ export class UserEntity {
   })
   preferences?: UserPreferencesEntity;
 
-  @OneToMany(() => UserSubscription, (subscription) => subscription.subscriber)
-  subscriptions = new Collection<UserSubscription>(this);
+  @OneToMany(() => UserSubscriptionEntity, (subscription) => subscription.subscriber)
+  subscriptions = new Collection<UserSubscriptionEntity>(this);
 
-  @OneToMany(() => UserSubscription, (subscription) => subscription.creator)
+  @OneToMany(() => UserSubscriptionEntity, (subscription) => subscription.creator)
   @Expose()
-  subscribers = new Collection<UserSubscription>(this);
+  subscribers = new Collection<UserSubscriptionEntity>(this);
 
   // @OneToMany(() => PaymentEntity, payment => payment.user)
   // payments = new Collection<PaymentEntity>(this);

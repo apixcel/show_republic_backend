@@ -2,7 +2,7 @@ import { EntityManager } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UserEntity } from '@show-republic/entities';
+import { UserEntity, UserStatus } from '@show-republic/entities';
 import { JwtUtilService } from '@show-republic/utils';
 
 @Injectable()
@@ -33,6 +33,7 @@ export class SocialLoginService {
 
     const newUser = em.create(UserEntity, {
       ...payload,
+      status: UserStatus.ACTIVE,
       firstName: payload.name.split(' ')[0],
       lastName: payload.name.split(' ')[1] || '',
       password: '',
