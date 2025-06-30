@@ -3,7 +3,7 @@ import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { UserDto, UserPreferencesDto } from '@show-republic/dtos';
-import { UserEntity, UserPreferencesEntity } from '@show-republic/entities';
+import { UserEntity, UserPreferencesEntity, UserStatus } from '@show-republic/entities';
 import { errorConstants, hashPassword, OtpService } from '@show-republic/utils';
 @Injectable()
 export class RegisterService {
@@ -12,23 +12,19 @@ export class RegisterService {
     private readonly em: EntityManager,
 
     private readonly otpService: OtpService,
-  ) { }
+  ) {}
 
-  async register(
-    userData: UserDto,
-    userPreferencesDto: UserPreferencesDto,
-  ): Promise<null> {
+  async register(userData: UserDto, userPreferencesDto: UserPreferencesDto): Promise<null> {
     const forkedEm = this.em.fork();
     const userRepo = forkedEm.getRepository(UserEntity);
     const existingUser = await userRepo.findOne({ email: userData.email });
     if (existingUser) {
-      throw new RpcException(
-        new ConflictException(errorConstants.EMAIL_IN_USE),
-      );
+      throw new RpcException(new ConflictException(errorConstants.EMAIL_IN_USE));
     }
     const hashedPassword = await hashPassword(userData.password);
     const user = userRepo.create({
       ...userData,
+      status: UserStatus.ACTIVE,
       password: hashedPassword,
     }); // Create user preferences entity
     const userPreferences = forkedEm.create(UserPreferencesEntity, {
@@ -38,10 +34,7 @@ export class RegisterService {
 
     // Set OTP secret and expiry if not already set
     if (!userPreferences.secret) {
-      const { otp } = await this.otpService.customOtpGen(
-        userData.email,
-        userData.firstName,
-      );
+      const { otp } = await this.otpService.customOtpGen(userData.email, userData.firstName);
       userPreferences.secret = otp;
     }
     if (!userPreferences.otpExpiry) {

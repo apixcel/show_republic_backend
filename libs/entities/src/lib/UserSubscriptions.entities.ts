@@ -2,8 +2,8 @@ import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { UserEntity } from './user.entities';
 
 @Entity()
-export class UserSubscription {
-  @PrimaryKey()
+export class UserSubscriptionEntity {
+  @PrimaryKey({ type: 'uuid' })
   id!: number;
 
   @ManyToOne(() => UserEntity, { nullable: true })

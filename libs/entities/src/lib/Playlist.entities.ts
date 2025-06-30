@@ -1,17 +1,19 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { v4 as uuidv4 } from 'uuid';
-import { UserEntity } from './user.entities';
+import { Collection, Entity, ManyToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { ObjectId } from '@mikro-orm/mongodb';
+import { PostEntity } from './post.entities';
 
 @Entity()
 export class PlaylistEntity {
-  @PrimaryKey({ type: 'uuid' })
-  id: string = uuidv4();
+  @PrimaryKey()
+  _id!: ObjectId;
 
   @Property({ nullable: false })
   name!: string;
 
-  @ManyToOne(() => UserEntity)
-  user!: UserEntity;
+  userId!: string;
+
+  @ManyToMany(() => PostEntity)
+  posts = new Collection<PostEntity>(this); // acts like an array
 
   @Property({ type: 'timestamp', onCreate: () => new Date() })
   createdAt?: Date = new Date();

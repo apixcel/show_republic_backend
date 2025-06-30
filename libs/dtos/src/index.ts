@@ -14,3 +14,4 @@ export * from './lib/VerifyOtp.dto';
 
 export * from './lib/Challenge.dto';
 export * from './lib/Creator.dto';
+export * from './lib/UserManagement.dto';

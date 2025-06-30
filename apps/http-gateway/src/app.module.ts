@@ -6,7 +6,7 @@ import { UserEntity } from '@show-republic/entities';
 import { JWTSTRATEGY } from '@show-republic/guards';
 import { GoogleStrategy } from '@show-republic/oauthStrategy';
 import { SetCookieUtilService } from '@show-republic/utils';
-import { AdminsController } from './controllers/admins.controller';
+import { AdminController } from './controllers/admin.controller';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { CategoryController } from './controllers/category.controller';
 import { CreatorController } from './controllers/creator.controller';
@@ -32,7 +32,7 @@ import { NatsClientModule } from './nats-client.module';
     PostCommentController,
     GameficationController,
     CreatorController,
-    AdminsController,
+    AdminController,
   ],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],

@@ -1,6 +1,7 @@
+
 {
   "watch": [
-    "apps/admins/src",
+    "apps/admin/src",
     "libs/dtos/src",
     "libs/entities/src",
     "libs/utils/src",
@@ -10,7 +11,7 @@
     "libs/config/src"
   ],
   "ext": "ts,json",
-  "exec": "ts-node -r tsconfig-paths/register apps/admins/src/main.ts",
+  "exec": "ts-node -r tsconfig-paths/register apps/admin/src/main.ts",
   "legacyWatch": true,
   "ignore": [
     "dist/*",
@@ -21,3 +22,4 @@
   "polling": true,
   "verbose": true
 }
+
