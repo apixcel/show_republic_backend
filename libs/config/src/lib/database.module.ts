@@ -19,4 +19,4 @@ import PostgresdbConfig from './postgresdb.config';
   ],
   exports: [MikroOrmModule], // ✅ Now it's valid to export
 })
-export class DatabaseModule {}
+export class DatabaseModule { }

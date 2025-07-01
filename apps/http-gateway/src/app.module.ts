@@ -6,10 +6,7 @@ import { UserEntity } from '@show-republic/entities';
 import { JWTSTRATEGY } from '@show-republic/guards';
 import { GoogleStrategy } from '@show-republic/oauthStrategy';
 import { SetCookieUtilService } from '@show-republic/utils';
-<<<<<<< HEAD
-=======
 import { AdminController } from './controllers/admin.controller';
->>>>>>> 4626cc82c787ff944854c30d162dcfc203c2e0b2
 import { AuthenticationController } from './controllers/authentication.controller';
 import { CategoryController } from './controllers/category.controller';
 import { CreatorController } from './controllers/creator.controller';

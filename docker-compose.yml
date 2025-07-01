@@ -24,16 +24,17 @@ services:
       retries: 5
       start_period: 20s
       timeout: 10s
-  mongo:
-    image: mongo
-    container_name: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-      CLIENT_URL: mongodb://root:root@mongo:27017/show_republic?authSource=admin
-    ports:
-      - 27017:27017
+
+  # mongo:
+  #   image: mongo
+  #   container_name: mongo
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: root
+  #     CLIENT_URL: mongodb://root:root@mongo:27017/show_republic?authSource=admin
+  #   ports:
+  #     - 27017:27017
 
   authentication:
     build:
@@ -247,7 +248,7 @@ services:
       NODE_ENV: development
     depends_on:
       - nats
-      - mongo
+      # - mongo
     networks:
       - app-network
     restart: unless-stopped
