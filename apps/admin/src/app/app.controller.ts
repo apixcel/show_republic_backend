@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { LoginDto } from '@show-republic/dtos';
+import { AdminProfileDto, LoginDto } from '@show-republic/dtos';
 import { UserStatus } from '@show-republic/entities';
 import { AdminAuthService } from './services/adminAuth.service';
 import { AdminManagementService } from './services/adminManageMent.service';
@@ -39,5 +39,14 @@ export class AppController {
   @MessagePattern({ cmd: 'admin_am_count_by_role' })
   countAdminsByRole() {
     return this.adminManagementService.countAdminsByRole();
+  }
+  @MessagePattern({ cmd: 'admin_am_create_profile' })
+  createAdminProfile(adminProfileDto: AdminProfileDto) {
+    return this.adminManagementService.createAdminProfile(adminProfileDto);
+  }
+
+  @MessagePattern({ cmd: 'admin_am_get_profile' })
+  getAdminProfileByAdminId(adminId: string) {
+    return this.adminManagementService.getAdminProfileByAdminId(adminId);
   }
 }

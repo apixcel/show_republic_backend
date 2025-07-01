@@ -4,7 +4,6 @@ import { RpcException } from '@nestjs/microservices';
 import { PostEntity, UserEntity, UserStatus } from '@show-republic/entities';
 import { isUUID } from 'class-validator';
 
-// @UseGuards(AuthGuard('jwt'))
 export class UserManagementService {
   constructor(
     @InjectEntityManager('postgres')

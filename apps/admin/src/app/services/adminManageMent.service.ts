@@ -1,7 +1,9 @@
 import { EntityManager } from '@mikro-orm/core';
-import { MongoEntityManager } from '@mikro-orm/mongodb';
+import { MongoEntityManager, ObjectId } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
-import { AdminEntity } from '@show-republic/entities';
+import { RpcException } from '@nestjs/microservices';
+import { AdminProfileDto } from '@show-republic/dtos';
+import { AdminEntity, AdminProfileEntity } from '@show-republic/entities';
 
 export class AdminManagementService {
   constructor(
@@ -25,6 +27,10 @@ export class AdminManagementService {
         { lastName: { $regex: query.searchTerm, $options: 'i' } },
         { email: { $regex: query.searchTerm, $options: 'i' } },
       ];
+    }
+
+    if (query.role) {
+      queryFilter.role = query.role;
     }
 
     const [admins, total] = await adminRepo.findAndCount(queryFilter as any, {
@@ -66,5 +72,27 @@ export class AdminManagementService {
     }));
   }
 
-  
+  async createAdminProfile(adminProfileDto: AdminProfileDto) {
+    const forkedEm = this.em.fork();
+    const adminProfileRepo = forkedEm.getRepository(AdminProfileEntity);
+    const adminRepo = forkedEm.getRepository(AdminEntity);
+
+    const isAdminExits = await adminRepo.findOne({ _id: new ObjectId(adminProfileDto.admin) });
+
+    if (!isAdminExits) {
+      throw new RpcException('Admin not found');
+    }
+
+    const adminProfile = adminProfileRepo.create({ ...adminProfileDto, admin: isAdminExits });
+    adminProfile.admin = isAdminExits;
+    await forkedEm.persistAndFlush(adminProfile);
+    return adminProfile;
+  }
+
+  async getAdminProfileByAdminId(adminId: string) {
+    const forkedEm = this.em.fork();
+    const adminProfileRepo = forkedEm.getRepository(AdminProfileEntity);
+    const adminProfile = await adminProfileRepo.findOne({ admin: adminId });
+    return adminProfile;
+  }
 }
