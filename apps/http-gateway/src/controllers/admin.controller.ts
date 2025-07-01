@@ -32,6 +32,12 @@ export class AdminController {
     return res;
   }
 
+  @Get('um/get-user-state/:userId')
+  async getUserProfileState(@Query() query: Record<string, any> = {}) {
+    const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_um_get_u_state' }, query));
+    return res;
+  }
+
   @Get('um/update/change-status')
   async changeUserStatus(@Body() payload: ChangeUserStatusDto) {
     const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_um_change_status' }, payload));
@@ -40,6 +46,11 @@ export class AdminController {
   @Get('am/get-all')
   async getAllAdmins(@Query() query: Record<string, any> = {}) {
     const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_am_get_a' }, query));
+    return res;
+  }
+  @Get('am/count-by-role')
+  async countAdminsByRole(@Query() query: Record<string, any> = {}) {
+    const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_am_count_by_role' }, {}));
     return res;
   }
 }

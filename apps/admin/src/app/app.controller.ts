@@ -23,6 +23,10 @@ export class AppController {
   getAllUser(query: Record<string, any>) {
     return this.userManagementService.getAllUsers(query);
   }
+  @MessagePattern({ cmd: 'admin_um_get_u_state' })
+  getUserProfileState(userId: string) {
+    return this.userManagementService.getUserProfileState(userId);
+  }
 
   @MessagePattern({ cmd: 'admin_um_change_status' })
   changeUserStatus({ userId, status }: { userId: string; status: UserStatus }) {
@@ -31,5 +35,9 @@ export class AppController {
   @MessagePattern({ cmd: 'admin_am_get_a' })
   getAllAdmins(query: Record<string, any>) {
     return this.adminManagementService.getAllAdmins(query);
+  }
+  @MessagePattern({ cmd: 'admin_am_count_by_role' })
+  countAdminsByRole() {
+    return this.adminManagementService.countAdminsByRole();
   }
 }

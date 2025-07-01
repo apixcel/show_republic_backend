@@ -1,4 +1,5 @@
 import { EntityManager } from '@mikro-orm/core';
+import { MongoEntityManager } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { AdminEntity } from '@show-republic/entities';
 
@@ -42,4 +43,28 @@ export class AdminManagementService {
       },
     };
   }
+
+  async countAdminsByRole() {
+    const mongoEm = this.em as MongoEntityManager;
+    const db = mongoEm.getConnection().getClient().db(); // Native MongoDB `Db` object
+    const collection = db.collection('admin-entity');
+
+    const result = await collection
+      .aggregate([
+        {
+          $group: {
+            _id: '$role',
+            count: { $sum: 1 },
+          },
+        },
+      ])
+      .toArray();
+
+    return result.map((item) => ({
+      role: item._id,
+      count: item.count,
+    }));
+  }
+
+  
 }
