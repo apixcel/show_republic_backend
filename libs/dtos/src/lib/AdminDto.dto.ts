@@ -1,12 +1,5 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import { errorConstants } from '@show-republic/utils';
-
-
-export enum AdminStatus {
-  ACTIVE = 'ACTIVE',
-  ON_LEAVE = 'ON_LEAVE',
-  SUSPENDED = 'SUSPENDED',
-}
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class AdminDto {
   @IsNotEmpty({ message: errorConstants.FIELD_REQUIRED })

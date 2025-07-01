@@ -10,7 +10,11 @@ export enum UserStatus {
   ACTIVE = 'active',
   DISABLE = 'disable',
 }
-
+export enum Gender {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
 @Entity()
 export class UserEntity {
   @PrimaryKey({ type: 'uuid' })
@@ -86,6 +90,12 @@ export class UserEntity {
     nullable: true,
   })
   creatorAccount?: UserCreatorEntity;
+
+  @Property({ nullable: true })
+  dateOfBirth?: Date;
+
+  @Property({ nullable: true, default: Gender.MALE })
+  gender: Gender = Gender.MALE;
 
   @Property({ type: 'timestamp', onCreate: () => new Date() })
   createdAt?: Date = new Date();
