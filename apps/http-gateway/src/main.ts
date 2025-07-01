@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@show-republic/config';
 import { CustomValidationPipe, HttpExceptionFilter, TransformInterceptor } from '@show-republic/validators';
 import { AppModule } from './app.module';
+import { GlobalExceptionFilter } from './filters/global-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {});
@@ -18,6 +19,11 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
 
   app.useGlobalPipes(new CustomValidationPipe());
+
+
+  // Add the global exception filter
+  app.useGlobalFilters(new GlobalExceptionFilter());
+
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
 
