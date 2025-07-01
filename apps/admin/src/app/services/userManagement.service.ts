@@ -70,7 +70,7 @@ export class UserManagementService {
   async getUserProfileState(userId: string) {
     const forkedEm = this.pgEm.fork();
     const userRepo = forkedEm.getRepository(UserEntity);
-    const postRepo = forkedEm.getRepository(PostEntity);
+    const postRepo = this.mongoEm.fork().getRepository(PostEntity);
 
     const user = await userRepo.findOne({ id: userId });
     if (!user) {

@@ -1,11 +1,10 @@
-import { Entity, ManyToOne, PrimaryKey, Property, UuidType } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { ObjectId } from '@mikro-orm/mongodb';
+
 @Entity()
 export class AdminEntity {
-
   @PrimaryKey()
   _id!: ObjectId;
-
 
   @Property({ type: 'string' }) // Ensure it's a UUID as a string
   userId!: string; // UUID type for userId
@@ -34,7 +33,7 @@ export class AdminEntity {
   @Property({ nullable: false })
   phone!: string;
 
-  @Property({ nullable: false, type: 'string', })
+  @Property({ nullable: false, type: 'string' })
   status!: string;
 
   @Property({ type: 'timestamp', onCreate: () => new Date() })
