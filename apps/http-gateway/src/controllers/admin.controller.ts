@@ -6,7 +6,7 @@ import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Controller('admin')
 export class AdminController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
 
   @Post('login')
   async login(@Body() payload: LoginDto) {
@@ -35,7 +35,7 @@ export class AdminController {
     return res;
   }
 
-  @Get('um/update/change-status')
+  @Post('um/update/change-status')
   async changeUserStatus(@Body() payload: ChangeUserStatusDto) {
     const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_um_change_status' }, payload));
     return res;
