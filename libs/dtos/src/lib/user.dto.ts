@@ -1,3 +1,4 @@
+import { Gender } from '@show-republic/entities';
 import { errorConstants } from '@show-republic/utils';
 import {
   IsArray,
@@ -23,6 +24,11 @@ export class UserDto {
   @IsNotEmpty({ message: errorConstants.LAST_NAME_FIELD_REQUIRED })
   @Length(2, 30, { message: errorConstants.LAST_NAME_FIELD_LENGTH })
   lastName!: string;
+
+  @IsString({ message: errorConstants.GENDER_FIELD_STRING })
+  @IsNotEmpty({ message: errorConstants.GENDER_FIELD_REQUIRED })
+  @Length(3, 6, { message: errorConstants.GENDER_FIELD_LENGTH })
+  gender!: Gender;
 
   @IsEmail({}, { message: errorConstants.INVALID_EMAIL })
   @IsNotEmpty({ message: errorConstants.EMAIL_REQUIRED })

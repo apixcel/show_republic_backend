@@ -2,7 +2,7 @@ import { EntityManager } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UserEntity, UserStatus } from '@show-republic/entities';
+import { Gender, UserEntity, UserStatus } from '@show-republic/entities';
 import { JwtUtilService } from '@show-republic/utils';
 
 @Injectable()
@@ -37,6 +37,7 @@ export class SocialLoginService {
       firstName: payload.name.split(' ')[0],
       lastName: payload.name.split(' ')[1] || '',
       password: '',
+      gender: Gender.MALE
     });
 
     await em.persistAndFlush(newUser);

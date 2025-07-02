@@ -5,6 +5,9 @@ export const errorConstants = {
   UNAUTHORIZED: 'Authentication failed: Unauthorized access.',
 
   // user DTO messages
+  GENDER_FIELD_STRING: 'Gender must be a string',
+  GENDER_FIELD_REQUIRED: 'Gender field is required',
+  GENDER_FIELD_LENGTH: 'Gender must be between 3 and 6 characters',
   FIRST_NAME_FIELD_REQUIRED: 'firstName field is required',
   FIRST_NAME_FIELD_LENGTH: 'firstName must be between 2 and 30 characters',
   FIRST_NAME_FIELD_STRING: 'firstName must be a string',
