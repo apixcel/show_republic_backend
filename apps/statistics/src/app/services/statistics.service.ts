@@ -140,7 +140,7 @@ export class StatisticsService {
   async accountTypeStatistics() {
     return {
       creatorAccounts: 25,
-      brandAccounts: 100,
+      brandAccounts: 75,
     };
   }
 }
