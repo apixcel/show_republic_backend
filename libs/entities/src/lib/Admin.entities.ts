@@ -1,6 +1,10 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
 import { ObjectId } from '@mikro-orm/mongodb';
-
+export enum AdminStatus {
+  ACTIVE = 'active',
+  ON_LEAVE = 'on_leave',
+  SUSPENDED = 'suspended',
+}
 @Entity()
 export class AdminEntity {
   @PrimaryKey()
@@ -33,8 +37,8 @@ export class AdminEntity {
   @Property({ nullable: false })
   phone!: string;
 
-  @Property({ nullable: false, type: 'string' })
-  status!: string;
+  @Enum(() => AdminStatus)
+  status: AdminStatus = AdminStatus.ACTIVE;
 
   @Property({ type: 'timestamp', onCreate: () => new Date() })
   createdAt?: Date = new Date();
