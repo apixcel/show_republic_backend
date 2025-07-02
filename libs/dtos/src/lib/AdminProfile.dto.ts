@@ -1,6 +1,17 @@
 import { Gender, MaritalStatus } from '@show-republic/entities';
+import { errorConstants } from '@show-republic/utils';
 import { Type } from 'class-transformer';
-import { IsArray, IsDateString, IsEmail, IsEnum, IsObject, IsString, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsObject,
+  isString,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
 class EmergencyContactDto {
   @IsString()
@@ -47,6 +58,9 @@ class DocumentDto {
 export class AdminProfileDto {
   @IsString()
   fullName!: string;
+
+  @IsString()
+  username!: string;
 
   @IsDateString()
   birthDate!: Date;
@@ -97,5 +111,9 @@ export class AdminProfileDto {
   documents!: DocumentDto[];
 
   @IsString()
-  admin!: string; // this should match the related AdminEntity ID
+  @IsNotEmpty({ message: errorConstants.PASSWORD_FIELD_REQUIRED })
+  password!: string;
+
+  // @IsString()
+  // admin!: string; // this should match the related AdminEntity ID
 }

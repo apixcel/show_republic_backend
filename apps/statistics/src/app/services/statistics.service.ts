@@ -1,14 +1,18 @@
 import { EntityManager } from '@mikro-orm/core';
-import { InjectRepository } from '@mikro-orm/nestjs';
+import { InjectEntityManager } from '@mikro-orm/nestjs';
+import { Injectable } from '@nestjs/common';
 import { AdminEntity, AdminStatus, CreatorEntity, UserEntity, UserStatus } from '@show-republic/entities';
 
+@Injectable()
 export class StatisticsService {
   constructor(
-    @InjectRepository('mongo')
-    private readonly em: EntityManager,
+    @InjectEntityManager('mongo')
+    private readonly mongoEm: EntityManager,
+    @InjectEntityManager('postgres')
+    private readonly pgEm: EntityManager,
   ) {}
   async adminStatistics() {
-    const forkedEm = this.em.fork();
+    const forkedEm = this.mongoEm.fork();
     const adminRepo = forkedEm.getRepository(AdminEntity);
     const totalAdmin = await adminRepo.count();
     const suspendedAdmins = await adminRepo.count({ status: AdminStatus.SUSPENDED });
@@ -18,10 +22,10 @@ export class StatisticsService {
   }
 
   async userStatistics() {
-    const forkedEm = this.em.fork();
-    const userRepo = forkedEm.getRepository(UserEntity);
+    const pgEm = this.pgEm.fork();
+    const userRepo = pgEm.getRepository(UserEntity);
 
-    const creatorRepo = forkedEm.getRepository(CreatorEntity);
+    const creatorRepo = pgEm.getRepository(CreatorEntity);
 
     const now = new Date();
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
@@ -71,7 +75,7 @@ export class StatisticsService {
   }
 
   async ageGroupStatistics() {
-    const forkedEm = this.em.fork();
+    const forkedEm = this.pgEm.fork();
 
     const result = await forkedEm.getConnection().execute(`
     SELECT
@@ -86,9 +90,9 @@ export class StatisticsService {
       END AS age_group,
       COUNT(*)::int AS count
     FROM (
-      SELECT DATE_PART('year', AGE("dateOfBirth")) AS age
+      SELECT DATE_PART('year', AGE("date_of_birth")) AS age
       FROM "user_entity"
-      WHERE "dateOfBirth" IS NOT NULL
+      WHERE "date_of_birth" IS NOT NULL
     ) AS ages
     GROUP BY age_group
     ORDER BY age_group;
@@ -107,15 +111,15 @@ export class StatisticsService {
     };
   }
   async genderStatistics() {
-    const forkedEm = this.em.fork();
+    const forkedEm = this.pgEm.fork();
 
     const result = await forkedEm.getConnection().execute(`
     SELECT
       gender,
       COUNT(*)::int AS count,
-      ROUND(AVG(DATE_PART('year', AGE("dateOfBirth"))))::int AS avg_age
+      ROUND(AVG(DATE_PART('year', AGE("date_of_birth"))))::int AS avg_age
     FROM "user_entity"
-    WHERE gender IS NOT NULL AND "dateOfBirth" IS NOT NULL
+    WHERE gender IS NOT NULL AND "date_of_birth" IS NOT NULL
     GROUP BY gender
   `);
 
@@ -130,6 +134,13 @@ export class StatisticsService {
     return {
       totalUsersWithGender: total,
       genderStats,
+    };
+  }
+
+  async accountTypeStatistics() {
+    return {
+      creatorAccounts: 25,
+      brandAccounts: 100,
     };
   }
 }

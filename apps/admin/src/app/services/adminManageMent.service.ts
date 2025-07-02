@@ -2,13 +2,15 @@ import { EntityManager } from '@mikro-orm/core';
 import { MongoEntityManager, ObjectId } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { RpcException } from '@nestjs/microservices';
-import { AdminProfileDto } from '@show-republic/dtos';
-import { AdminEntity, AdminProfileEntity } from '@show-republic/entities';
+import { AdminProfileDto, SendAdminInvitationDto } from '@show-republic/dtos';
+import { AdminEntity, AdminInvitatonEntity, AdminProfileEntity, AdminStatus } from '@show-republic/entities';
+import { hashPassword, SendEmailService } from '@show-republic/utils';
 
 export class AdminManagementService {
   constructor(
     @InjectEntityManager('mongo')
     private readonly em: EntityManager,
+    private readonly sendEmailService: SendEmailService,
   ) {}
 
   async getAllAdmins(query: Record<string, any> = {}) {
@@ -72,27 +74,79 @@ export class AdminManagementService {
     }));
   }
 
-  async createAdminProfile(adminProfileDto: AdminProfileDto) {
-    const forkedEm = this.em.fork();
-    const adminProfileRepo = forkedEm.getRepository(AdminProfileEntity);
-    const adminRepo = forkedEm.getRepository(AdminEntity);
-
-    const isAdminExits = await adminRepo.findOne({ _id: new ObjectId(adminProfileDto.admin) });
-
-    if (!isAdminExits) {
-      throw new RpcException('Admin not found');
-    }
-
-    const adminProfile = adminProfileRepo.create({ ...adminProfileDto, admin: isAdminExits });
-    adminProfile.admin = isAdminExits;
-    await forkedEm.persistAndFlush(adminProfile);
-    return adminProfile;
-  }
-
   async getAdminProfileByAdminId(adminId: string) {
     const forkedEm = this.em.fork();
     const adminProfileRepo = forkedEm.getRepository(AdminProfileEntity);
     const adminProfile = await adminProfileRepo.findOne({ admin: adminId });
+    return adminProfile;
+  }
+
+  async sendInvitationLink(EmtailsDto: SendAdminInvitationDto) {
+    const forkedEm = this.em.fork();
+    const invitationrepo = forkedEm.getRepository(AdminInvitatonEntity);
+    const emails = EmtailsDto.emails;
+    const totday = new Date();
+    const expiresAt = new Date(totday.setDate(totday.getDate() + 3)); // 3 day from now
+
+    for (const email of emails) {
+      let invitation = await invitationrepo.findOne({ email });
+
+      if (invitation) {
+        invitation.expiresAt = expiresAt;
+      } else {
+        invitation = invitationrepo.create({ email, expiresAt });
+        await forkedEm.persistAndFlush(invitation);
+      }
+      await this.sendEmailService.sendMail({
+        html: `<p>You have a invitation to join as admin. this invitation will be valid for 3 days. Click <a href="http://localhost:3000/admin-invite/${invitation._id}">here</a> confirm invitation</p>`,
+        to: email,
+        subject: 'Admin invitation',
+      });
+    }
+
+    return true;
+  }
+  async createAdminProfileByInvitationToken(adminProfileDto: AdminProfileDto, token: string) {
+    const forkedEm = this.em.fork();
+    const adminProfileRepo = forkedEm.getRepository(AdminProfileEntity);
+    const adminRepo = forkedEm.getRepository(AdminEntity);
+    const invitationRepo = forkedEm.getRepository(AdminInvitatonEntity);
+
+    const isInvited = await invitationRepo.findOne({ _id: new ObjectId(token) });
+
+    if (!isInvited) {
+      throw new RpcException('Invitation not found');
+    }
+
+    if (isInvited.expiresAt < new Date()) {
+      throw new RpcException('Invitation expired');
+    }
+
+    const isAdminExist = await adminRepo.findOne({ email: isInvited.email });
+
+    if (isAdminExist) {
+      throw new RpcException('Admin already exists with this email');
+    }
+
+    const hashedPassword = await hashPassword(adminProfileDto.password);
+
+    const admin = adminRepo.create({
+      email: isInvited.email,
+      firstName: adminProfileDto.fullName.split(' ')[0] || '',
+      lastName: adminProfileDto.fullName.split(' ')[1] || '',
+      role: 'admin',
+      image: '',
+      password: hashedPassword,
+      phone: adminProfileDto.phoneNumber,
+      status: AdminStatus.ACTIVE,
+      username: adminProfileDto.username,
+    });
+    await forkedEm.persistAndFlush(admin);
+
+    const adminProfile = adminProfileRepo.create({ ...adminProfileDto, admin });
+    adminProfile.admin = admin;
+    await forkedEm.persistAndFlush(adminProfile);
+    await forkedEm.removeAndFlush(isInvited);
     return adminProfile;
   }
 }

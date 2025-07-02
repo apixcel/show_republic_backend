@@ -1,11 +1,7 @@
 import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { ObjectId } from '@mikro-orm/mongodb';
 import { AdminEntity } from './Admin.entities';
-
-export enum Gender {
-  MALE = 'male',
-  FEMALE = 'female',
-}
+import { Gender } from './user.entities';
 
 export enum MaritalStatus {
   SINGLE = 'single',
