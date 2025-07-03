@@ -1,11 +1,11 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20250630090740 extends Migration {
+export class Migration20250703053540 extends Migration {
 
   override async up(): Promise<void> {
     this.addSql(`create table "category_entity" ("id" uuid not null, "label" varchar(255) not null, "value" varchar(255) not null, constraint "category_entity_pkey" primary key ("id"));`);
 
-    this.addSql(`create table "user_entity" ("id" uuid not null, "first_name" varchar(255) not null, "last_name" varchar(255) not null, "user_name" varchar(255) null, "email" varchar(255) not null, "password" varchar(255) not null, "country" varchar(255) null, "bio" varchar(255) null, "website_url" varchar(255) null, "contact_number" varchar(255) null, "profile_picture" varchar(255) null, "status" varchar(255) not null default 'active', "cover_photo" varchar(255) null, "created_at" timestamptz not null, "updated_at" timestamptz not null, constraint "user_entity_pkey" primary key ("id"));`);
+    this.addSql(`create table "user_entity" ("id" uuid not null, "first_name" varchar(255) not null, "last_name" varchar(255) not null, "user_name" varchar(255) null, "email" varchar(255) not null, "password" varchar(255) not null, "country" varchar(255) null, "bio" varchar(255) null, "website_url" varchar(255) null, "contact_number" varchar(255) null, "profile_picture" varchar(255) null, "status" varchar(255) not null default 'active', "cover_photo" varchar(255) null, "date_of_birth" timestamptz null, "gender" varchar(255) null default 'male', "created_at" timestamptz not null, "updated_at" timestamptz not null, constraint "user_entity_pkey" primary key ("id"));`);
     this.addSql(`alter table "user_entity" add constraint "user_entity_email_unique" unique ("email");`);
 
     this.addSql(`create table "user_creator_entity" ("id" uuid not null, "user_id" uuid not null, "account_type" varchar(255) not null default 'FREE', "billing_period" varchar(255) null, "payment_method" varchar(255) null, "bank_account_number" varchar(255) null, "bank_name" varchar(255) null, "bank_account_holder_name" varchar(255) null, "created_at" timestamptz not null, "updated_at" timestamptz not null, constraint "user_creator_entity_pkey" primary key ("id"));`);

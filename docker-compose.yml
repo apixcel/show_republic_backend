@@ -187,7 +187,7 @@ services:
     env_file:
       - .env
     ports:
-      - '2000:3000'
+      - '2200:3000'
     environment:
       NODE_ENV: development
     depends_on:
