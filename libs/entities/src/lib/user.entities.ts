@@ -92,7 +92,7 @@ export class UserEntity {
   creatorAccount?: UserCreatorEntity;
 
   @Property({ nullable: true })
-  dateOfBirth?: Date;
+  date_of_birth?: Date;
 
   @Property({ nullable: true, default: Gender.MALE })
   gender: Gender = Gender.MALE;

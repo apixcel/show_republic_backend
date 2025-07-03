@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { AdminProfileDto, ChangeUserStatusDto, LoginDto } from '@show-republic/dtos';
+import { AdminProfileDto, ChangeUserStatusDto, LoginDto, SendAdminInvitationDto } from '@show-republic/dtos';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Controller('admin')
@@ -55,9 +55,17 @@ export class AdminController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('am/create-profile')
-  async createAdminProfile(@Body() adminProfileDto: AdminProfileDto) {
-    const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_am_create_profile' }, adminProfileDto));
+  @Post('am/send-invitation')
+  async sendInvitationLink(@Body() sendAdminInvitationDto: SendAdminInvitationDto) {
+    const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_am_send_invitation' }, sendAdminInvitationDto));
+    return res;
+  }
+  @UseGuards(AuthGuard('jwt'))
+  @Post('am/create-profile/:token')
+  async createAdminProfile(@Body() adminProfileDto: AdminProfileDto, @Param('token') token: string) {
+    const res = await firstValueFrom(
+      this.natsClient.send({ cmd: 'admin_am_create_profile' }, { adminProfileDto, token }),
+    );
     return res;
   }
   @UseGuards(AuthGuard('jwt'))

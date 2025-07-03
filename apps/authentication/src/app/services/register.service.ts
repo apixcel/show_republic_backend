@@ -26,6 +26,7 @@ export class RegisterService {
       ...userData,
       status: UserStatus.ACTIVE,
       password: hashedPassword,
+      
     }); // Create user preferences entity
     const userPreferences = forkedEm.create(UserPreferencesEntity, {
       ...userPreferencesDto,

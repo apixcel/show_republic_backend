@@ -1,5 +1,5 @@
 import { errorConstants } from '@show-republic/utils';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class AdminDto {
   @IsNotEmpty({ message: errorConstants.FIELD_REQUIRED })
@@ -28,4 +28,10 @@ export class AdminDto {
   @IsString()
   @IsNotEmpty({ message: errorConstants.PASSWORD_FIELD_REQUIRED })
   password!: string;
+}
+
+export class SendAdminInvitationDto {
+  @IsArray()
+  @IsEmail({}, { each: true })
+  emails!: string[];
 }

@@ -3,8 +3,6 @@ import { ObjectId } from '@mikro-orm/mongodb';
 import { AdminEntity } from './Admin.entities';
 import { Gender } from './user.entities';
 
-
-
 export enum MaritalStatus {
   SINGLE = 'single',
   MARRIED = 'married',

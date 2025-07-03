@@ -2,6 +2,7 @@ import { Options } from '@mikro-orm/core';
 import { MongoDriver } from '@mikro-orm/mongodb';
 import {
   AdminEntity,
+  AdminInvitatonEntity,
   AdminProfileEntity,
   ChallengeEntity,
   LikeEntity,
@@ -23,6 +24,7 @@ const MongodbConfig: Options<MongoDriver> = {
     AdminEntity,
     AdminProfileEntity,
     PlaylistEntity,
+    AdminInvitatonEntity,
   ],
   dbName: 'show_republic',
   driver: MongoDriver,

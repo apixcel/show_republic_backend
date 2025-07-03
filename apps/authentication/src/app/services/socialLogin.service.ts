@@ -37,7 +37,7 @@ export class SocialLoginService {
       firstName: payload.name.split(' ')[0],
       lastName: payload.name.split(' ')[1] || '',
       password: '',
-      gender: Gender.MALE
+      gender: Gender.MALE,
     });
 
     await em.persistAndFlush(newUser);

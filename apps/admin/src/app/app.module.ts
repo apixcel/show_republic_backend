@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { DatabaseModule } from '@show-republic/config';
 import { AdminEntity } from '@show-republic/entities';
-import { JwtUtilService } from '@show-republic/utils';
+import { JwtUtilService, SendEmailService } from '@show-republic/utils';
 import { AppController } from './app.controller';
 import { AdminAuthService } from './services/adminAuth.service';
 import { AdminManagementService } from './services/adminManageMent.service';
@@ -23,6 +23,13 @@ import { UserManagementService } from './services/userManagement.service';
     }),
   ],
   controllers: [AppController],
-  providers: [AdminAuthService, UserManagementService, AdminManagementService, JwtUtilService, JwtService],
+  providers: [
+    AdminAuthService,
+    UserManagementService,
+    AdminManagementService,
+    JwtUtilService,
+    JwtService,
+    SendEmailService,
+  ],
 })
 export class AppModule {}

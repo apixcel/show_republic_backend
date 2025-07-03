@@ -17,3 +17,4 @@ export * from './lib/Creator.entities';
 export * from './lib/LikeToogle.entities';
 export * from './lib/PostComment.etnities';
 export * from './lib/PostCommentReaction.entities';
+export * from './lib/AdminInvitation.entities'

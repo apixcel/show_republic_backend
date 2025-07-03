@@ -34,6 +34,9 @@ export class UserDto {
   @IsNotEmpty({ message: errorConstants.EMAIL_REQUIRED })
   email!: string;
 
+  @IsNotEmpty({ message: 'Gender is required' })
+  gender!: Gender;
+
   @IsString({ message: errorConstants.PASSWORD_FIELD_STRING })
   @IsNotEmpty({ message: errorConstants.PASSWORD_FIELD_REQUIRED })
   @MinLength(6, { message: errorConstants.PASSWORD_MIN_LENGTH })

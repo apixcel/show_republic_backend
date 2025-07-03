@@ -10,9 +10,6 @@ export class AdminEntity {
   @PrimaryKey()
   _id!: ObjectId;
 
-  @Property({ type: 'string' }) // Ensure it's a UUID as a string
-  userId!: string; // UUID type for userId
-
   @Property({ nullable: false })
   firstName!: string; // Product name
 

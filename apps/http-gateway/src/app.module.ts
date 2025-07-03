@@ -15,7 +15,7 @@ import { PostController } from './controllers/post.controller';
 import { PostCommentController } from './controllers/postComment.controller';
 import { PostLikeToggleController } from './controllers/postLikeToggle.controller';
 import { NatsClientModule } from './nats-client.module';
-import { AdminsController } from './controllers/admins.controller';
+import { StatisticsController } from './controllers/statistics.controller';
 
 @Module({
   imports: [
@@ -34,6 +34,7 @@ import { AdminsController } from './controllers/admins.controller';
     GameficationController,
     CreatorController,
     AdminController,
+    StatisticsController
   ],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],
