@@ -26,4 +26,12 @@ export class AppController {
   accountTypeStatistics() {
     return this.statisticsService.accountTypeStatistics();
   }
+  @MessagePattern({ cmd: 'statistics_gamificatoin' })
+  gameficatoinStatistics() {
+    return this.statisticsService.gameficatoinStatistics();
+  }
+  @MessagePattern({ cmd: 'analytics_country_based' })
+  countryBasedAnalytics() {
+    return this.statisticsService.countryBasedAnalytics();
+  }
 }

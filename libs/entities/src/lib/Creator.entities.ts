@@ -41,6 +41,9 @@ export class CreatorEntity {
   @OneToOne(() => UserEntity, { nullable: false })
   user!: UserEntity;
 
+  @Property({ type: 'string', nullable: true })
+  country?: string;
+
   @Property({ type: 'string', nullable: false })
   bankName!: string;
 

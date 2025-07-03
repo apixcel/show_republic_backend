@@ -1,7 +1,10 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class ChallengeDto {
-  @IsNotEmpty({ message: 'set coins is required' })
+  @IsNotEmpty({ message: 'label is required' })
+  label!: string;
+
+  @IsNotEmpty({ message: 'coin is required' })
   coin!: number;
 
   @IsNotEmpty({ message: 'status must be added' })

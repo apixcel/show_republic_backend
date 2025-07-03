@@ -31,4 +31,14 @@ export class StatisticsController {
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'statistics_user_account_group' }, {}));
     return order;
   }
+  @Get('/gamefication')
+  async gameficatoinStatistics() {
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'statistics_gamificatoin' }, {}));
+    return order;
+  }
+  @Get('/analytics/country-based')
+  async countryBasedAnalytics() {
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'analytics_country_based' }, {}));
+    return order;
+  }
 }

@@ -102,12 +102,11 @@ services:
     env_file:
       - .env
     ports:
-      - '8500:3000'
+      - '8350:3000'
     environment:
       NODE_ENV: development
     depends_on:
       - nats
-      - postgresdb
     networks:
       - app-network
     restart: unless-stopped
@@ -186,7 +185,7 @@ services:
     env_file:
       - .env
     ports:
-      - '2000:3000'
+      - '8500:3000'
     environment:
       NODE_ENV: development
     depends_on:

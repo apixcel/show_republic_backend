@@ -518,6 +518,16 @@
           "nullable": false,
           "mappedType": "uuid"
         },
+        "country": {
+          "name": "country",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "bank_name": {
           "name": "bank_name",
           "type": "varchar(255)",
@@ -601,6 +611,78 @@
             "user_id"
           ],
           "localTableName": "public.creator_entity",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user_entity",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "country": {
+          "name": "country",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        }
+      },
+      "name": "brand_entity",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "user_id"
+          ],
+          "composite": false,
+          "keyName": "brand_entity_user_id_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "brand_entity_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "brand_entity_user_id_foreign": {
+          "constraintName": "brand_entity_user_id_foreign",
+          "columnNames": [
+            "user_id"
+          ],
+          "localTableName": "public.brand_entity",
           "referencedColumnNames": [
             "id"
           ],
