@@ -34,4 +34,8 @@ export class AppController {
   countryBasedAnalytics() {
     return this.statisticsService.countryBasedAnalytics();
   }
+  @MessagePattern({ cmd: 'analytics_country_based_user' })
+  getUsersByCountry(countryName: string) {
+    return this.statisticsService.getUsersByCountry(countryName);
+  }
 }

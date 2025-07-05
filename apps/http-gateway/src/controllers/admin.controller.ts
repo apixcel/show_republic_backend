@@ -1,7 +1,13 @@
-import { Body, Controller, Get, Inject, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { AdminProfileDto, ChangeUserStatusDto, LoginDto, SendAdminInvitationDto } from '@show-republic/dtos';
+import {
+  AdminProfileDto,
+  ChangePasswordDto,
+  ChangeUserStatusDto,
+  LoginDto,
+  SendAdminInvitationDto,
+} from '@show-republic/dtos';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Controller('admin')
@@ -11,6 +17,25 @@ export class AdminController {
   @Post('login')
   async login(@Body() payload: LoginDto) {
     const res = await lastValueFrom(this.natsClient.send({ cmd: 'admin_login' }, payload));
+    return res;
+  }
+
+  // user management
+  @UseGuards(AuthGuard('jwt'))
+  @Patch('change-password')
+  async changePassword(@Req() req: any, @Body() changePasswordDto: ChangePasswordDto) {
+    const userId = req.user.userId;
+    const res = await lastValueFrom(
+      this.natsClient.send({ cmd: 'admin_change_password' }, { adminId: userId, changePasswordDto }),
+    );
+    return res;
+  }
+  // user management
+  @UseGuards(AuthGuard('jwt'))
+  @Get('profile')
+  async getAdminProfile(@Req() req: any) {
+    const userId = req.user.userId;
+    const res = await lastValueFrom(this.natsClient.send({ cmd: 'admin_profile' }, userId));
     return res;
   }
 
@@ -72,6 +97,14 @@ export class AdminController {
   @Get('am/get-profile/:adminId')
   async getAdminProfileByAdminId(@Param('adminId') adminId: string) {
     const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_am_get_profile' }, adminId));
+    return res;
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('notification/my')
+  async getAdminNotification(@Query() query: Record<string, any>, @Req() req: any) {
+    const adminId = req.user.userId;
+    const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_notification_my' }, { adminId, query }));
     return res;
   }
 }

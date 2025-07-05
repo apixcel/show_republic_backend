@@ -8,12 +8,20 @@ export class JwtUtilService {
     private readonly jwtService: JwtService,
   ) {}
 
-  public generateAccessToken({ email, userId }: { email: string; userId: string }): string {
+  public generateAccessToken({
+    email,
+    userId,
+    role = 'user',
+  }: {
+    email: string;
+    userId: string;
+    role?: string;
+  }): string {
     const JWT_SECRET_KEY = this.configService.get<string>('JWT_SECRET_KEY');
     const JWT_EXPIRE_KEY = this.configService.get<string>('JWT_EXPIRE_KEY');
 
     const token = this.jwtService.sign(
-      { email, userId },
+      { email, userId, role },
       {
         expiresIn: JWT_EXPIRE_KEY,
         secret: JWT_SECRET_KEY,
@@ -22,12 +30,20 @@ export class JwtUtilService {
 
     return token;
   }
-  public generateRefreshToken({ email, userId }: { email: string; userId: string }): string {
+  public generateRefreshToken({
+    email,
+    userId,
+    role = 'user',
+  }: {
+    email: string;
+    userId: string;
+    role?: string;
+  }): string {
     const JWT_SECRET_KEY = this.configService.get<string>('JWT_SECRET_KEY');
     const JWT_EXPIRE_KEY = this.configService.get<string>('JWT_EXPIRE_KEY');
 
     const token = this.jwtService.sign(
-      { email, userId },
+      { email, userId, role },
       {
         expiresIn: JWT_EXPIRE_KEY,
         secret: JWT_SECRET_KEY,

@@ -1,5 +1,6 @@
 import { EntityManager } from '@mikro-orm/core';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
+import { SqlEntityManager } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 import {
   AdminEntity,
@@ -246,5 +247,25 @@ export class StatisticsService {
     }
 
     return Array.from(statsMap.values()).sort((a, b) => b.userCount - a.userCount);
+  }
+
+  async getUsersByCountry(countryName: string) {
+    const forkedEm = this.pgEm.fork() as SqlEntityManager;
+
+    const users = await forkedEm
+      .createQueryBuilder(UserEntity, 'u')
+      .select(['u.firstName', 'u.lastName', 'u.email', 'u.country', 'u.coverPhoto', 'u.id'])
+      .where('LOWER(u.country) = LOWER(?)', [countryName])
+      .orderBy({ 'u.lastName': 'asc' })
+      .getResult();
+
+    return users.map((user) => ({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      country: user.country!,
+      coverPhoto: user.coverPhoto || null,
+    }));
   }
 }
