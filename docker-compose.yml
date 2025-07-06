@@ -228,6 +228,32 @@ services:
       retries: 5
       start_period: 30s
       timeout: 10s
+  role-permission:
+    build:
+      context: .
+      dockerfile: ./apps/role-permission/Dockerfile
+    container_name: role-permission
+    volumes:
+      - ./apps/role-permission:/var/www/apps/role-permission
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2135:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://role-permission:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
   # postComment
   post-comment:

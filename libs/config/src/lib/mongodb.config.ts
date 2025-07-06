@@ -8,11 +8,13 @@ import {
   LikeEntity,
   NotificationEntity,
   NotificationPreferencesEntity,
+  PermissionEntity,
   PlaylistEntity,
   PostCommentEntity,
   PostCommentReactionEntity,
   PostEntity,
   ProductEntity,
+  RoleEntity,
 } from '@show-republic/entities';
 
 const MongodbConfig: Options<MongoDriver> = {
@@ -29,6 +31,8 @@ const MongodbConfig: Options<MongoDriver> = {
     AdminInvitatonEntity,
     NotificationEntity,
     NotificationPreferencesEntity,
+    RoleEntity,
+    PermissionEntity,
   ],
   dbName: 'show_republic',
   driver: MongoDriver,

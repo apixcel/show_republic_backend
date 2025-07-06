@@ -21,3 +21,4 @@ export * from './lib/PostComment.etnities';
 export * from './lib/PostCommentReaction.entities';
 
 export * from './lib/Notification.entities';
+export * from './lib/RolePermission.entities';
