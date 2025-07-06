@@ -7,6 +7,7 @@ import {
   ChangeUserStatusDto,
   LoginDto,
   SendAdminInvitationDto,
+  UpdateNotificationPreferencesDto,
 } from '@show-republic/dtos';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 
@@ -105,6 +106,22 @@ export class AdminController {
   async getAdminNotification(@Query() query: Record<string, any>, @Req() req: any) {
     const adminId = req.user.userId;
     const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_notification_my' }, { adminId, query }));
+    return res;
+  }
+  @UseGuards(AuthGuard('jwt'))
+  @Get('notification/my/preference')
+  async getAdminNotificationPreference(@Req() req: any) {
+    const adminId = req.user.userId;
+    const res = await firstValueFrom(this.natsClient.send({ cmd: 'admin_notification_my_preference' }, adminId));
+    return res;
+  }
+  @UseGuards(AuthGuard('jwt'))
+  @Patch('notification/update-preference')
+  async updateAdminNotificationPreference(@Req() req: any, @Body() payload: UpdateNotificationPreferencesDto) {
+    const adminId = req.user.userId;
+    const res = await firstValueFrom(
+      this.natsClient.send({ cmd: 'admin_notification_update_preference' }, { adminId, payload }),
+    );
     return res;
   }
 }

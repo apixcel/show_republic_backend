@@ -20,3 +20,24 @@ export class NotificationEntity {
   @Property({ type: 'timestamp', onCreate: () => new Date() })
   createdAt?: Date = new Date();
 }
+
+@Entity()
+export class NotificationPreferencesEntity {
+  @PrimaryKey()
+  _id!: ObjectId;
+
+  @Property({ nullable: false })
+  user!: string;
+
+  @Property({ type: 'json', nullable: false })
+  preferences!: {
+    loginActivities: {
+      push: boolean;
+      email: boolean;
+    };
+    reminders: {
+      push: boolean;
+      email: boolean;
+    };
+  };
+}

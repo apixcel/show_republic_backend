@@ -1,6 +1,12 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { AdminProfileDto, ChangePasswordDto, LoginDto, SendAdminInvitationDto } from '@show-republic/dtos';
+import {
+  AdminProfileDto,
+  ChangePasswordDto,
+  LoginDto,
+  SendAdminInvitationDto,
+  UpdateNotificationPreferencesDto,
+} from '@show-republic/dtos';
 import { UserStatus } from '@show-republic/entities';
 import { AdminAuthService } from './services/adminAuth.service';
 import { AdminManagementService } from './services/adminManageMent.service';
@@ -70,5 +76,19 @@ export class AppController {
   @MessagePattern({ cmd: 'admin_notification_my' })
   getAdminNotification({ adminId, query }: { adminId: string; query: Record<string, any> }) {
     return this.adminNotificationService.getAdminNotification(adminId, query);
+  }
+  @MessagePattern({ cmd: 'admin_notification_my_preference' })
+  getAdminNotificationPreference(adminId: string) {
+    return this.adminNotificationService.getAdminNotificationPreference(adminId);
+  }
+  @MessagePattern({ cmd: 'admin_notification_update_preference' })
+  updateAdminNotificationPreference({
+    adminId,
+    payload,
+  }: {
+    adminId: string;
+    payload: UpdateNotificationPreferencesDto;
+  }) {
+    return this.adminNotificationService.updateAdminNotificationPreference(adminId, payload);
   }
 }
