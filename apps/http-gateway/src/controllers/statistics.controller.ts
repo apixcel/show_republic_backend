@@ -1,4 +1,4 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 
@@ -29,6 +29,21 @@ export class StatisticsController {
   @Get('/user-account-group')
   async accountTypeStatistics() {
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'statistics_user_account_group' }, {}));
+    return order;
+  }
+  @Get('/gamefication')
+  async gameficatoinStatistics() {
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'statistics_gamificatoin' }, {}));
+    return order;
+  }
+  @Get('/analytics/country-based')
+  async countryBasedAnalytics() {
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'analytics_country_based' }, {}));
+    return order;
+  }
+  @Get('/analytics/country-based/:country')
+  async getUsersByCountry(@Param('country') countryName: string) {
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'analytics_country_based_user' }, countryName));
     return order;
   }
 }

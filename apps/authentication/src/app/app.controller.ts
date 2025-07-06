@@ -33,10 +33,7 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'auth_register' })
-  register({
-    preferences,
-    ...userDto
-  }: UserDto & { preferences: UserPreferencesDto }): Promise<null> {
+  register({ preferences, ...userDto }: UserDto & { preferences: UserPreferencesDto }): Promise<null> {
     return this.registerService.register(userDto, preferences);
   }
   @MessagePattern({ cmd: 'auth_otp_resend' })
@@ -56,12 +53,7 @@ export class AppController {
     return this.forgotPasswordService.resetPassword(payload);
   }
   @MessagePattern({ cmd: 'auth_oauth_google_callback' })
-  googleOauthCallBack(user:{ email: string; name: string }) {
+  googleOauthCallBack(user: { email: string; name: string }) {
     return this.socialLoginService.googleAuthCallBack(user);
-  }
-
-  @MessagePattern({ cmd: 'auth_test' })
-  test(): string {
-    return 'Hello World!';
   }
 }

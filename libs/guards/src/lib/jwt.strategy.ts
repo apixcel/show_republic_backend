@@ -1,14 +1,9 @@
-import { EntityManager, EntityRepository } from '@mikro-orm/core';
-import { InjectEntityManager, InjectRepository } from '@mikro-orm/nestjs';
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { EntityManager } from '@mikro-orm/core';
+import { InjectEntityManager } from '@mikro-orm/nestjs';
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { UserEntity } from '@show-republic/entities';
+import { AdminEntity, UserEntity } from '@show-republic/entities';
 import { errorConstants } from '@show-republic/utils';
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
@@ -18,11 +13,10 @@ export class JWTSTRATEGY extends PassportStrategy(JwtStrategy) {
   constructor(
     private readonly configService: ConfigService,
 
-    @InjectRepository(UserEntity, 'postgres')
-    private readonly userRepository: EntityRepository<UserEntity>,
-
     @InjectEntityManager('postgres') // Inject the 'postgres' EntityManager
-    private readonly em: EntityManager,
+    private readonly pgEm: EntityManager,
+    @InjectEntityManager('mongo')
+    private readonly mongoEm: EntityManager,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Extract JWT from Authorization header
@@ -35,18 +29,27 @@ export class JWTSTRATEGY extends PassportStrategy(JwtStrategy) {
    * Validate the JWT payload and ensure the associated user exists.
    */
   async validate(payload: any) {
-    const forkedEm = this.em.fork(); // Use a scoped EntityManager for the current request
-
     // console.log(payload,'payloaddddddddddd')
     try {
-      // Validate that the user exists
-      const user = await forkedEm.findOne(UserEntity, { id: payload.userId });
-      if (!user) {
-        throw new NotFoundException(errorConstants.USER_NOT_FOUND);
-      }
+      if (payload.role == 'user') {
+        const forkedEm = this.pgEm.fork(); // Use a scoped EntityManager for the current request
+        // Validate that the user exists
+        const user = await forkedEm.findOne(UserEntity, { id: payload.userId });
+        if (!user) {
+          throw new NotFoundException(errorConstants.USER_NOT_FOUND);
+        }
 
-      // Return relevant user information for downstream use
-      return { userId: payload.userId };
+        return { userId: payload.userId };
+      } else {
+        const forkedEm = this.mongoEm.fork(); // Use a scoped EntityManager for the current request
+        // Validate that the user exists
+        const user = await forkedEm.findOne(AdminEntity, { _id: payload.userId });
+        if (!user) {
+          throw new NotFoundException(errorConstants.USER_NOT_FOUND);
+        }
+
+        return { userId: user._id };
+      }
     } catch (error) {
       if (error instanceof TokenExpiredError) {
         throw new UnauthorizedException(errorConstants.TOKEN_EXPIRED);

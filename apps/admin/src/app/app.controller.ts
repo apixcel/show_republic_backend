@@ -1,9 +1,16 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { AdminProfileDto, LoginDto, SendAdminInvitationDto } from '@show-republic/dtos';
+import {
+  AdminProfileDto,
+  ChangePasswordDto,
+  LoginDto,
+  SendAdminInvitationDto,
+  UpdateNotificationPreferencesDto,
+} from '@show-republic/dtos';
 import { UserStatus } from '@show-republic/entities';
 import { AdminAuthService } from './services/adminAuth.service';
 import { AdminManagementService } from './services/adminManageMent.service';
+import { AdminNotificatonService } from './services/adminNotification.service';
 import { UserManagementService } from './services/userManagement.service';
 
 @Controller()
@@ -12,11 +19,21 @@ export class AppController {
     private readonly adminService: AdminAuthService,
     private readonly userManagementService: UserManagementService,
     private readonly adminManagementService: AdminManagementService,
+    private readonly adminNotificationService: AdminNotificatonService,
   ) {}
 
   @MessagePattern({ cmd: 'admin_login' })
   login(loginDto: LoginDto) {
     return this.adminService.login(loginDto);
+  }
+
+  @MessagePattern({ cmd: 'admin_change_password' })
+  changePassword({ adminId, changePasswordDto }: { adminId: string; changePasswordDto: ChangePasswordDto }) {
+    return this.adminService.changePassword(adminId, changePasswordDto);
+  }
+  @MessagePattern({ cmd: 'admin_profile' })
+  getAdminProfile(adminId: string) {
+    return this.adminService.getAdminProfile(adminId);
   }
 
   @MessagePattern({ cmd: 'admin_um_get_u' })
@@ -41,7 +58,7 @@ export class AppController {
     return this.adminManagementService.countAdminsByRole();
   }
   @MessagePattern({ cmd: 'admin_am_create_profile' })
-  createAdminProfile({adminProfileDto,token}:{adminProfileDto:AdminProfileDto,token:string}) {
+  createAdminProfile({ adminProfileDto, token }: { adminProfileDto: AdminProfileDto; token: string }) {
     return this.adminManagementService.createAdminProfileByInvitationToken(adminProfileDto, token);
   }
 
@@ -53,5 +70,25 @@ export class AppController {
   @MessagePattern({ cmd: 'admin_am_get_profile' })
   getAdminProfileByAdminId(adminId: string) {
     return this.adminManagementService.getAdminProfileByAdminId(adminId);
+  }
+
+  // notification
+  @MessagePattern({ cmd: 'admin_notification_my' })
+  getAdminNotification({ adminId, query }: { adminId: string; query: Record<string, any> }) {
+    return this.adminNotificationService.getAdminNotification(adminId, query);
+  }
+  @MessagePattern({ cmd: 'admin_notification_my_preference' })
+  getAdminNotificationPreference(adminId: string) {
+    return this.adminNotificationService.getAdminNotificationPreference(adminId);
+  }
+  @MessagePattern({ cmd: 'admin_notification_update_preference' })
+  updateAdminNotificationPreference({
+    adminId,
+    payload,
+  }: {
+    adminId: string;
+    payload: UpdateNotificationPreferencesDto;
+  }) {
+    return this.adminNotificationService.updateAdminNotificationPreference(adminId, payload);
   }
 }

@@ -9,6 +9,9 @@ export class ChallengeEntity {
   @Property({ type: 'int', nullable: false })
   coin!: number;
 
+  @Property({ type: 'string', nullable: false })
+  label!: string;
+
   @Property({ type: 'string', length: 20, nullable: false })
   status!: 'live' | 'scheduled';
 

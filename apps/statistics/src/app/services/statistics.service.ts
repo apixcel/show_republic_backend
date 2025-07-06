@@ -1,7 +1,16 @@
 import { EntityManager } from '@mikro-orm/core';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
+import { SqlEntityManager } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
-import { AdminEntity, AdminStatus, CreatorEntity, UserEntity, UserStatus } from '@show-republic/entities';
+import {
+  AdminEntity,
+  AdminStatus,
+  BrandEntity,
+  ChallengeEntity,
+  CreatorEntity,
+  UserEntity,
+  UserStatus,
+} from '@show-republic/entities';
 
 @Injectable()
 export class StatisticsService {
@@ -142,5 +151,121 @@ export class StatisticsService {
       creatorAccounts: 25,
       brandAccounts: 75,
     };
+  }
+
+  async gameficatoinStatistics() {
+    const forkedEm = this.mongoEm.fork();
+    const challengeRepo = forkedEm.getRepository(ChallengeEntity);
+    const totalChallenges = await challengeRepo.count();
+
+    const now = new Date();
+    const activeChallenges = await challengeRepo.count({
+      endTime: { $gt: now },
+      $or: [{ startTime: null }, { startTime: { $lte: now } }],
+    });
+    const completedChallenges = await challengeRepo.count({ endTime: { $lt: now } });
+    return {
+      totalChallenges,
+      activeChallenges,
+      completedChallenges,
+    };
+  }
+
+  async countryBasedAnalytics() {
+    const forkedEm = this.pgEm.fork();
+
+    // Get actual table names dynamically from MikroORM
+    const userTable = this.pgEm.getMetadata().get(UserEntity.name).tableName;
+    const creatorTable = this.pgEm.getMetadata().get(CreatorEntity.name).tableName;
+    const brandTable = this.pgEm.getMetadata().get(BrandEntity.name).tableName;
+
+    // Get user counts by country
+    const usersByCountry = await forkedEm.getConnection().execute(`
+    SELECT country, COUNT(*)::int as "userCount"
+    FROM ${userTable}
+    WHERE country IS NOT NULL
+    GROUP BY country
+  `);
+
+    // Get creator counts by country
+    const creatorsByCountry = await forkedEm.getConnection().execute(`
+    SELECT country, COUNT(*)::int as "creatorCount"
+    FROM ${creatorTable}
+    WHERE country IS NOT NULL
+    GROUP BY country
+  `);
+
+    // Get brand counts by country
+    const brandsByCountry = await forkedEm.getConnection().execute(`
+    SELECT country, COUNT(*)::int as "brandCount"
+    FROM ${brandTable}
+    WHERE country IS NOT NULL
+    GROUP BY country
+  `);
+
+    // Merge the results
+    const statsMap = new Map<
+      string,
+      { country: string; userCount: number; creatorCount: number; brandCount: number }
+    >();
+
+    for (const row of usersByCountry) {
+      statsMap.set(row.country, {
+        country: row.country,
+        userCount: row.userCount,
+        creatorCount: 0,
+        brandCount: 0,
+      });
+    }
+
+    for (const row of creatorsByCountry) {
+      const existing = statsMap.get(row.country);
+      if (existing) {
+        existing.creatorCount = row.creatorCount;
+      } else {
+        statsMap.set(row.country, {
+          country: row.country,
+          userCount: 0,
+          creatorCount: row.creatorCount,
+          brandCount: 0,
+        });
+      }
+    }
+
+    for (const row of brandsByCountry) {
+      const existing = statsMap.get(row.country);
+      if (existing) {
+        existing.brandCount = row.brandCount;
+      } else {
+        statsMap.set(row.country, {
+          country: row.country,
+          userCount: 0,
+          creatorCount: 0,
+          brandCount: row.brandCount,
+        });
+      }
+    }
+
+    return Array.from(statsMap.values()).sort((a, b) => b.userCount - a.userCount);
+  }
+
+  async getUsersByCountry(countryName: string) {
+    const forkedEm = this.pgEm.fork() as SqlEntityManager;
+
+    const users = await forkedEm
+      .createQueryBuilder(UserEntity, 'u')
+      .select(['u.firstName', 'u.lastName', 'u.email', 'u.country', 'u.coverPhoto', 'u.id'])
+      .where('LOWER(u.country) = LOWER(?)', [countryName])
+      .orderBy({ 'u.lastName': 'asc' })
+      .getResult();
+
+    return users.map((user) => ({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      country: user.country!,
+      coverPhoto: user.coverPhoto || null,
+    }));
   }
 }
