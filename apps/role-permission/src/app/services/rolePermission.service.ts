@@ -73,8 +73,16 @@ export class RolePermissionService {
   async deleteRole(id: string): Promise<void> {
     const forkedEm = this.em.fork();
     const roleRepo = forkedEm.getRepository(RoleEntity);
+    const permissionRepo = forkedEm.getRepository(PermissionEntity);
+
     const role = await roleRepo.findOne({ _id: new ObjectId(id) });
     if (!role) throw new RpcException('Role not found');
-    await forkedEm.removeAndFlush(role);
+
+    // Delete all permissions with role ID
+    await permissionRepo.nativeDelete({ role: new ObjectId(id) });
+
+    // Remove the role
+    forkedEm.remove(role);
+    await forkedEm.flush();
   }
 }
