@@ -28,17 +28,18 @@ export class GetPostCommentService {
 
     let result = [];
     for (const comment of postComment) {
+      console.log({ asf: comment.userId });
+
       const user = await userRepo.findOne({ id: comment.userId });
       const isLiked = await commentReactionRepo.findOne({ comment: comment._id, userId: currentUserId });
-      if (!user) throw new RpcException('User not found');
       result.push({
         ...comment,
         isLiked: isLiked ? true : false,
         user: {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          username: user.userName,
-          profilePicture: user.profilePicture,
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          username: user?.userName,
+          profilePicture: user?.profilePicture,
         },
       });
     }

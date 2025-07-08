@@ -29,12 +29,16 @@ export class JWTSTRATEGY extends PassportStrategy(JwtStrategy) {
    * Validate the JWT payload and ensure the associated user exists.
    */
   async validate(payload: any) {
-    // console.log(payload,'payloaddddddddddd')
     try {
       if (payload.role == 'user') {
         const forkedEm = this.pgEm.fork(); // Use a scoped EntityManager for the current request
         // Validate that the user exists
-        const user = await forkedEm.findOne(UserEntity, { id: payload.userId });
+        console.log({
+          das: payload.userId,
+        });
+
+        const user = await forkedEm.getRepository(UserEntity).findOne({ id: payload.userId });
+
         if (!user) {
           throw new NotFoundException(errorConstants.USER_NOT_FOUND);
         }
