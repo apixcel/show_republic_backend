@@ -54,9 +54,28 @@ export class ViewAllPostService {
     const userMap = Object.fromEntries(safeUsers.map((user) => [user.id, user]));
     const postsWithUser = posts.map((post) => ({
       ...post,
+      _id: undefined,
+      id: post._id,
       user: userMap[post.userId] || null,
     }));
 
     return { posts: postsWithUser };
+  }
+
+  async viewPostByPostId(postId: string, userId): Promise<PostEntity> {
+    // Fork the EntityManager to isolate the transaction
+    const forkedEm = this.pgEm.fork();
+console.log(userId);
+
+    // Query MongoDB for products by userId
+    const post = await forkedEm.getRepository(PostEntity).findOne(postId);
+
+    // If no products are found, throw a RpcException
+    if (!post) {
+      throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND));
+    }
+
+    // Return the products found
+    return post;
   }
 }

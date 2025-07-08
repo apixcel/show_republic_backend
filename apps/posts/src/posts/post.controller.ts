@@ -1,16 +1,17 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreatePostDto } from '@show-republic/dtos';
-import { ViewPostService } from './services/ViewPost.service';
 import { CreatePostService } from './services/createpost.service';
 import { ViewAllPostService } from './services/ViewAllPost.service';
+import { ViewPostService } from './services/ViewPost.service';
 
 @Controller()
 export class PostController {
-  constructor(private readonly createPostService: CreatePostService,
+  constructor(
+    private readonly createPostService: CreatePostService,
     private readonly viewPostService: ViewPostService,
-    private readonly viewAllPostService: ViewAllPostService
-  ) { }
+    private readonly viewAllPostService: ViewAllPostService,
+  ) {}
 
   // ****** Create Post *******
   @MessagePattern({ cmd: 'createPost' })
@@ -30,4 +31,8 @@ export class PostController {
     return await this.viewAllPostService.viewAll(page, limit);
   }
 
+  @MessagePattern({ cmd: 'viewPostByPostId' })
+  async viewPostByPostId(postId: string): Promise<any> {
+    return await this.viewAllPostService.viewPostByPostId(postId, '');
+  }
 }
