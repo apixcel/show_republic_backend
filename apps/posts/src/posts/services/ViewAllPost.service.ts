@@ -3,7 +3,7 @@ import { MongoEntityRepository } from '@mikro-orm/mongodb';
 import { InjectEntityManager, InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
-import { PostEntity, UserEntity } from '@show-republic/entities';
+import { LikeEntity, PostEntity, UserEntity } from '@show-republic/entities';
 import { errorConstants } from '@show-republic/utils';
 
 @Injectable()
@@ -19,11 +19,12 @@ export class ViewAllPostService {
     private readonly pgEm: PostgresEntityManager, // ======== Inject Postgres EntityManager ======>
   ) { }
 
-  async viewAll(page = 1, limit = 30): Promise<{ posts: any[]; users?: any[] }> {
+  async viewAll(page = 1, limit = 30, currentUserId?: string): Promise<{ posts: any[]; users?: any[] }> {
     const forkedMongoEm = this.mongoEm.fork();
     const skip = (page - 1) * limit;
 
     // ============= Fetching a page of posts ============>
+    const likedRepo = forkedMongoEm.getRepository(LikeEntity);
     const posts = await forkedMongoEm.getRepository(PostEntity).find({}, { limit, offset: skip });
     if (!posts || posts.length === 0) {
       throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND));
@@ -41,16 +42,16 @@ export class ViewAllPostService {
     try {
       const forkedPgEm = this.pgEm.fork();
       const userRepo = forkedPgEm.getRepository(UserEntity);
-
       users = await userRepo.find({ id: { $in: userIds } });
     } catch {
       throw new RpcException(new InternalServerErrorException('Something went wrong while fetching users'));
     }
 
+
     //=========== Remove password from each user object ==========>
     const safeUsers = users.map(({ password, ...user }) => user);
 
-    //  ========== Map users to posts ===============>
+
     const userMap = Object.fromEntries(safeUsers.map((user) => [user.id, user]));
     const postsWithUser = posts.map((post) => ({
       ...post,
@@ -59,13 +60,23 @@ export class ViewAllPostService {
       user: userMap[post.userId] || null,
     }));
 
-    return { posts: postsWithUser };
+    const result = [];
+
+    for (let post of postsWithUser) {
+      const isLiked = await likedRepo.findOne({ post: post.id, userId: currentUserId });
+      result.push({ ...post, isReacted: isLiked });
+    }
+
+    return { posts: result };
   }
 
+
+
+
+  //@ts-ignore
   async viewPostByPostId(postId: string, userId): Promise<PostEntity> {
     // Fork the EntityManager to isolate the transaction
-    const forkedEm = this.pgEm.fork();
-console.log(userId);
+    const forkedEm = this.mongoEm.fork();
 
     // Query MongoDB for products by userId
     const post = await forkedEm.getRepository(PostEntity).findOne(postId);

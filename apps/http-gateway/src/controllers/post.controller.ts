@@ -7,7 +7,7 @@ import { lastValueFrom } from 'rxjs';
 @UseGuards(AuthGuard('jwt')) // Use the built-in JwtAuthGuard directly
 @Controller('post')
 export class PostController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
 
   // ***** Create Post*******
 
@@ -33,9 +33,12 @@ export class PostController {
   async getAllPosts(@Request() req: any) {
     const page = req.query?.page ? Number(req.query.page) : 1;
     const limit = req.query?.limit ? Number(req.query.limit) : 30;
-    const postData = await lastValueFrom(this.natsClient.send({ cmd: 'viewAllPosts' }, { page, limit }));
+    const currentUserId = req.user.userId;
+    console.log(currentUserId, "userId 🐞🐞🐞🐞🐞🐞🐞🐞")
+    const postData = await lastValueFrom(this.natsClient.send({ cmd: 'viewAllPosts' }, { page, limit, currentUserId }));
     return postData;
   }
+
   @Get('view_post/:postId')
   async viewPostByPostId(@Param('postId') postId: string) {
     const postData = await lastValueFrom(this.natsClient.send({ cmd: 'viewPostByPostId' }, postId));

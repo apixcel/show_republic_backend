@@ -14,11 +14,12 @@ export class ViewPostService {
 
     @InjectEntityManager('mongo') // Inject EntityManager for MongoDB context
     private readonly em: EntityManager,
-  ) {}
+  ) { }
 
   async view(userId: string): Promise<PostEntity[]> {
     // Fork the EntityManager to isolate the transaction
     const forkedEm = this.em.fork();
+
 
     // Query MongoDB for products by userId
     const posts = await forkedEm.getRepository(PostEntity).find({ userId });

@@ -11,7 +11,7 @@ export class GetPostCommentService {
 
     @InjectEntityManager('postgres')
     private readonly pgEm: EntityManager,
-  ) {}
+  ) { }
 
   async getCommentByPostId(postId: string, currentUserId: string) {
     const postCommentRepo = this.mongoEm.fork().getRepository(PostCommentEntity);
@@ -28,7 +28,7 @@ export class GetPostCommentService {
 
     let result = [];
     for (const comment of postComment) {
-      console.log({ asf: comment.userId });
+      // console.log({ asf: comment.userId });
 
       const user = await userRepo.findOne({ id: comment.userId });
       const isLiked = await commentReactionRepo.findOne({ comment: comment._id, userId: currentUserId });
