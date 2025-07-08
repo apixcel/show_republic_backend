@@ -1,28 +1,23 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
-import { ObjectId } from '@mikro-orm/mongodb';
-import { DeliveryType } from '@show-republic/types';
 @Entity()
 export class ProductEntity {
   @PrimaryKey()
-  _id!: ObjectId;
+  _id!: number;
+
+  @Property()
+  title!: string;
+
+  @Property()
+  price!: number;
+
+  @Property()
+  description!: string;
+
+  @Property({ type: 'text[]', nullable: true })
+  deliveryLocation?: string[]; // Optional; undefined = worldwide
 
   @Property({ type: 'string' }) // Ensure it's a UUID as a string
   userId!: string; // UUID type for userId
-
-  @Property({ nullable: false })
-  image!: string; // URL for product image
-
-  @Property({ nullable: false })
-  productName!: string; // Product name
-
-  @Property({ nullable: false })
-  deliveryType!: DeliveryType; // Delivery type (dropdown options)
-
-  @Property({ nullable: false })
-  storeName!: string; // Store name
-
-  @Property({ nullable: false })
-  storeLink!: string; // URL link to the store
 
   @Property({ type: 'timestamp', onCreate: () => new Date() })
   createdAt?: Date = new Date();

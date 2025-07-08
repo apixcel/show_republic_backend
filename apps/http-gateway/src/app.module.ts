@@ -14,6 +14,7 @@ import { GameficationController } from './controllers/gamefication.controller';
 import { PostController } from './controllers/post.controller';
 import { PostCommentController } from './controllers/postComment.controller';
 import { PostLikeToggleController } from './controllers/postLikeToggle.controller';
+import { ProductController } from './controllers/product.controller';
 import { RolePermissionController } from './controllers/rolePermission.controller';
 import { StatisticsController } from './controllers/statistics.controller';
 import { NatsClientModule } from './nats-client.module';
@@ -30,6 +31,7 @@ import { NatsClientModule } from './nats-client.module';
     AuthenticationController,
     PostController,
     CategoryController,
+    ProductController,
     PostLikeToggleController,
     PostCommentController,
     GameficationController,
