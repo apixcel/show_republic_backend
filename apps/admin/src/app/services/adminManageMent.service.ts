@@ -11,7 +11,7 @@ export class AdminManagementService {
     @InjectEntityManager('mongo')
     private readonly em: EntityManager,
     private readonly sendEmailService: SendEmailService,
-  ) {}
+  ) { }
 
   async getAllAdmins(query: Record<string, any> = {}) {
     const page = Number(query?.page || 0) > 0 ? Number(query.page) : 1;
@@ -98,7 +98,7 @@ export class AdminManagementService {
         await forkedEm.persistAndFlush(invitation);
       }
       await this.sendEmailService.sendMail({
-        html: `<p>You have a invitation to join as admin. this invitation will be valid for 3 days. Click <a href="http://localhost:3000/admin-invite/${invitation._id}">here</a> confirm invitation</p>`,
+        html: `<p>You have a invitation to join as admin. this invitation will be valid for 3 days. Click <a href="http://localhost:3003/signup/${invitation._id}">here</a> confirm invitation</p>`,
         to: email,
         subject: 'Admin invitation',
       });

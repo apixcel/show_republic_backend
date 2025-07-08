@@ -14,8 +14,9 @@ import { GameficationController } from './controllers/gamefication.controller';
 import { PostController } from './controllers/post.controller';
 import { PostCommentController } from './controllers/postComment.controller';
 import { PostLikeToggleController } from './controllers/postLikeToggle.controller';
-import { NatsClientModule } from './nats-client.module';
+import { RolePermissionController } from './controllers/rolePermission.controller';
 import { StatisticsController } from './controllers/statistics.controller';
+import { NatsClientModule } from './nats-client.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { StatisticsController } from './controllers/statistics.controller';
     GameficationController,
     CreatorController,
     AdminController,
-    StatisticsController
+    StatisticsController,
+    RolePermissionController,
   ],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],

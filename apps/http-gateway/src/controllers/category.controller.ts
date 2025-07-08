@@ -15,7 +15,7 @@ import { lastValueFrom } from 'rxjs';
 @UseGuards(AuthGuard('jwt'))
 @Controller('category')
 export class CategoryController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
 
   @Post('create')
   async createCategory(@Body() createCategoryData: CategoryDto) {

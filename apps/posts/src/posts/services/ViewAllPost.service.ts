@@ -17,7 +17,7 @@ export class ViewAllPostService {
 
     @InjectEntityManager('postgres')
     private readonly pgEm: PostgresEntityManager, // ======== Inject Postgres EntityManager ======>
-  ) {}
+  ) { }
 
   async viewAll(page = 1, limit = 30): Promise<{ posts: any[]; users?: any[] }> {
     const forkedMongoEm = this.mongoEm.fork();

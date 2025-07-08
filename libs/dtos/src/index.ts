@@ -16,4 +16,5 @@ export * from './lib/AdminProfile.dto';
 export * from './lib/Challenge.dto';
 export * from './lib/Creator.dto';
 export * from './lib/NotificationPreference.dto';
+export * from './lib/RolePermission.dto';
 export * from './lib/UserManagement.dto';
