@@ -15,6 +15,7 @@ import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
 import { SocialLoginService } from './services/socialLogin.service';
 import { VerifyOtpService } from './services/verifyOtp.service';
+import { GetProfileService } from './services/profile.service';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { VerifyOtpService } from './services/verifyOtp.service';
     ResendOtpService,
     VerifyOtpService,
     SetCookieUtilService,
+    GetProfileService,
     ForgotPasswordService,
   ],
 })
-export class AppModule {}
+export class AppModule { }

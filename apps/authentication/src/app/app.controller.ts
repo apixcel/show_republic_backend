@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import {
   ForogotPasswordRequestDto,
   LoginDto,
@@ -15,6 +15,7 @@ import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
 import { SocialLoginService } from './services/socialLogin.service';
 import { VerifyOtpService } from './services/verifyOtp.service';
+import { GetProfileService } from './services/profile.service';
 
 @Controller()
 export class AppController {
@@ -25,7 +26,8 @@ export class AppController {
     private readonly verifyOtpService: VerifyOtpService,
     private readonly forgotPasswordService: ForgotPasswordService,
     private readonly socialLoginService: SocialLoginService,
-  ) {}
+    private readonly getProfileService: GetProfileService,
+  ) { }
 
   @MessagePattern({ cmd: 'auth_login' })
   login(loginDto: LoginDto): Promise<{ accessToken: string }> {
@@ -55,5 +57,18 @@ export class AppController {
   @MessagePattern({ cmd: 'auth_oauth_google_callback' })
   googleOauthCallBack(user: { email: string; name: string }) {
     return this.socialLoginService.googleAuthCallBack(user);
+  }
+
+  @MessagePattern({ cmd: 'user_profile' })
+  async profile(@Payload() data: { currentUserId: string }): Promise<any> {
+    const userId = data?.currentUserId;
+
+    if (!userId) {
+      throw new RpcException('User ID is required');
+    }
+
+    const user = await this.getProfileService.profile(userId);
+
+    return user;
   }
 }

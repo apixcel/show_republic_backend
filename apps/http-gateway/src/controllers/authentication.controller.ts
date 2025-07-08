@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, Put, Request, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Inject, Post, Put, Request, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -17,7 +17,7 @@ export class AuthenticationController {
   constructor(
     @Inject('NATS_SERVICE') private natsClient: ClientProxy,
     private setCookieUtilService: SetCookieUtilService,
-  ) {}
+  ) { }
 
   // *****login*******
   @Post('login')
@@ -49,6 +49,19 @@ export class AuthenticationController {
   async resetPassword(@Body() resetPasswordData: ResetPasswordDto) {
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'auth_req_reset_password' }, resetPasswordData));
     return order;
+  }
+
+
+  @Get('profile')
+  @UseGuards(AuthGuard('jwt'))
+  async getProfile(@Request() req: any) {
+    const currentUserId = req.user?.userId;
+    if (!currentUserId) {
+      throw new UnauthorizedException('User not authenticated');
+    }
+    const user = await lastValueFrom(this.natsClient.send({ cmd: 'user_profile' }, { currentUserId }));
+    return user;
+
   }
 
   @Get('google')
