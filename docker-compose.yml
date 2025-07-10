@@ -256,6 +256,60 @@ services:
       start_period: 30s
       timeout: 10s
 
+  your-channel:
+    build:
+      context: .
+      dockerfile: ./apps/your-channel/Dockerfile
+    container_name: your-channel
+    volumes:
+      - ./apps/your-channel:/var/www/apps/your-channel
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2137:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://your-channel:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  profile:
+    build:
+      context: .
+      dockerfile: ./apps/profile/Dockerfile
+    container_name: profile
+    volumes:
+      - ./apps/profile:/var/www/apps/profile
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2138:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://profile:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   # postComment
   post-comment:
     build:
