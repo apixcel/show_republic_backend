@@ -1,7 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { ConfigModule, DatabaseModule } from '@show-republic/config';
+import { ConfigModule, DatabaseModule, S3ClientProvider } from '@show-republic/config';
 import { UserEntity } from '@show-republic/entities';
 import { JWTSTRATEGY } from '@show-republic/guards';
 import { GoogleStrategy } from '@show-republic/oauthStrategy';
@@ -17,7 +17,9 @@ import { PostLikeToggleController } from './controllers/postLikeToggle.controlle
 import { ProductController } from './controllers/product.controller';
 import { RolePermissionController } from './controllers/rolePermission.controller';
 import { StatisticsController } from './controllers/statistics.controller';
+import { UploadController } from './controllers/upload.controller';
 import { NatsClientModule } from './nats-client.module';
+import { UploadfileService } from './service/upload.service';
 
 @Module({
   imports: [
@@ -39,8 +41,9 @@ import { NatsClientModule } from './nats-client.module';
     AdminController,
     StatisticsController,
     RolePermissionController,
+    UploadController,
   ],
-  providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
+  providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService, UploadfileService, S3ClientProvider],
   // providers: [],
 })
 export class AppModule {}

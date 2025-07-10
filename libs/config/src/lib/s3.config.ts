@@ -1,10 +1,16 @@
 import { S3Client } from '@aws-sdk/client-s3';
+import { ConfigService } from '@nestjs/config';
 
-// S3 configuration
-export const s3Client = new S3Client({
-  region:  'eu-north-1',
-  credentials: {
-    accessKeyId: 'AKIAQSOI4OYG63DXX5OR', // Replace with env vars
-    secretAccessKey:  'KPHHLz6q78jvTNWqsKrv+dS3E7vZnNM0yCtSK2Wg', // Replace with env vars
+export const S3ClientProvider = {
+  provide: 'S3_CLIENT',
+  useFactory: (configService: ConfigService) => {
+    return new S3Client({
+      region: configService.get('AWS_REGION') || 'us-east-1',
+      credentials: {
+        accessKeyId: configService.get('AWS_ACCESS_KEY_ID') || 'AKIAQSOI4OYG63DXX5OR',
+        secretAccessKey: configService.get('AWS_SECRET_ACCESS_KEY') || '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',
+      },
+    });
   },
-});
+  inject: [ConfigService],
+};
