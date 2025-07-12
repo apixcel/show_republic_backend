@@ -30,7 +30,6 @@ export class PostEntity {
   @Property({ default: 0 })
   dislikes: number = 0;
 
-
   @Property({ length: 5000, nullable: true })
   description?: string;
 

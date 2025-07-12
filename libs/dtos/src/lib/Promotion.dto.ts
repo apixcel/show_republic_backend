@@ -11,7 +11,7 @@ import {
 
 import { errorConstants } from '@show-republic/utils';
 
-export class CreatePostDto {
+export class CreatePromotionDto {
     @IsString()
     @IsOptional()
     userId!: string;
