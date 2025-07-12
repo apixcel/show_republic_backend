@@ -12,7 +12,7 @@ export class AdminAuthService {
     @InjectEntityManager('mongo')
     private readonly em: EntityManager,
     private readonly jwtUtilService: JwtUtilService,
-  ) {}
+  ) { }
   async login(loginData: LoginDto) {
     const forkedEm = this.em.fork();
     const adminRepo = forkedEm.getRepository(AdminEntity);

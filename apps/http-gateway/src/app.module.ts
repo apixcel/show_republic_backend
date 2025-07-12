@@ -20,6 +20,15 @@ import { StatisticsController } from './controllers/statistics.controller';
 import { UploadController } from './controllers/upload.controller';
 import { NatsClientModule } from './nats-client.module';
 import { UploadfileService } from './service/upload.service';
+import { YourChannelController } from './controllers/yourChannel.controller';
+import { SubscriptionController } from './controllers/subscription.controller';
+import { SettingsController } from './controllers/settings.controller';
+import { LiveController } from './controllers/live.controller';
+import { WalletController } from './controllers/wallet.controller';
+import { BrandController } from './controllers/brand.controller';
+import { PromotionController } from './controllers/promotion.controller';
+import { ProfileController } from './controllers/profile.controller';
+import { NotificationController } from './controllers/notification.controller';
 
 @Module({
   imports: [
@@ -42,6 +51,15 @@ import { UploadfileService } from './service/upload.service';
     StatisticsController,
     RolePermissionController,
     UploadController,
+    YourChannelController,
+    SubscriptionController,
+    SettingsController,
+    LiveController,
+    WalletController,
+    BrandController,
+    PromotionController,
+    ProfileController,
+    NotificationController
   ],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService, UploadfileService, S3ClientProvider],
   // providers: [],

@@ -552,6 +552,33 @@ services:
       start_period: 30s
       timeout: 10s
 
+  notification:
+    build:
+      context: .
+      dockerfile: ./apps/notification/Dockerfile
+    container_name: notification
+    volumes:
+      - ./apps/notification:/var/www/apps/notification
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '4400:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://notification:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   # postLikeToggle
   post-like-toggle:
     build:

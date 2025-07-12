@@ -8,7 +8,7 @@ export class CategoryService {
   constructor(
     @InjectEntityManager('postgres') // Inject the 'postgres' EntityManager
     private readonly em: EntityManager,
-  ) {}
+  ) { }
 
   async createCategory(categoryDto: CategoryDto): Promise<CategoryEntity> {
     const em = this.em.fork();
