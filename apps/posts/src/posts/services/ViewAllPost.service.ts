@@ -43,7 +43,9 @@ export class ViewAllPostService {
       const forkedPgEm = this.pgEm.fork();
       const userRepo = forkedPgEm.getRepository(UserEntity);
       users = await userRepo.find({ id: { $in: userIds } });
-    } catch {
+    } catch (error) {
+      console.log(error);
+
       throw new RpcException(new InternalServerErrorException('Something went wrong while fetching users'));
     }
 
@@ -70,13 +72,10 @@ export class ViewAllPostService {
     return { posts: result };
   }
 
-
-
-
-  //@ts-ignore
-  async viewPostByPostId(postId: string, userId): Promise<PostEntity> {
+  async viewPostByPostId(postId: string, userId: string): Promise<PostEntity> {
     // Fork the EntityManager to isolate the transaction
-    const forkedEm = this.mongoEm.fork();
+    const forkedEm = this.pgEm.fork();
+    console.log(userId);
 
     // Query MongoDB for products by userId
     const post = await forkedEm.getRepository(PostEntity).findOne(postId);

@@ -75,7 +75,7 @@ services:
     env_file:
       - .env
     ports:
-      - '7000:3000'
+      - '7001:3000'
     environment:
       NODE_ENV: development
     depends_on:
@@ -169,6 +169,58 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://category:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+  product:
+    build:
+      context: .
+      dockerfile: ./apps/product/Dockerfile
+    container_name: product
+    volumes:
+      - ./apps/product:/var/www/apps/product
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2258:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://product:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+  uploadfile:
+    build:
+      context: .
+      dockerfile: ./apps/uploadfile/Dockerfile
+    container_name: uploadfile
+    volumes:
+      - ./apps/uploadfile:/var/www/apps/uploadfile
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2269:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://uploadfile:3000/health']
       interval: 30s
       retries: 5
       start_period: 30s
