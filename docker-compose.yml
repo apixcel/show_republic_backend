@@ -418,6 +418,33 @@ services:
       start_period: 30s
       timeout: 10s
 
+  promotion:
+    build:
+      context: .
+      dockerfile: ./apps/promotion/Dockerfile
+    container_name: promotion
+    volumes:
+      - ./apps/promotion:/var/www/apps/promotion
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2145:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://promotion:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   profile:
     build:
       context: .
