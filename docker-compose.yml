@@ -283,6 +283,141 @@ services:
       start_period: 30s
       timeout: 10s
 
+  subscription:
+    build:
+      context: .
+      dockerfile: ./apps/subscription/Dockerfile
+    container_name: subscription
+    volumes:
+      - ./apps/subscription:/var/www/apps/subscription
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2139:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://subscription:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  settings:
+    build:
+      context: .
+      dockerfile: ./apps/settings/Dockerfile
+    container_name: settings
+    volumes:
+      - ./apps/settings:/var/www/apps/settings
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2141:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://settings:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  live:
+    build:
+      context: .
+      dockerfile: ./apps/live/Dockerfile
+    container_name: live
+    volumes:
+      - ./apps/live:/var/www/apps/live
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2142:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://live:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  wallet:
+    build:
+      context: .
+      dockerfile: ./apps/wallet/Dockerfile
+    container_name: wallet
+    volumes:
+      - ./apps/wallet:/var/www/apps/wallet
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2143:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://wallet:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  brand:
+    build:
+      context: .
+      dockerfile: ./apps/brand/Dockerfile
+    container_name: brand
+    volumes:
+      - ./apps/brand:/var/www/apps/brand
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '2144:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://brand:3000/health']
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
   profile:
     build:
       context: .

@@ -1,0 +1,18 @@
+{
+  "watch": [
+    "apps/brand/src",
+    "libs/dtos/src",
+    "libs/entities/src",
+    "libs/utils/src",
+    "libs/validators/src",
+    "libs/guards/src",
+    "libs/types/src",
+    "libs/config/src"
+  ],
+  "ext": "ts,json",
+  "exec": "ts-node -r tsconfig-paths/register apps/brand/src/main.ts",
+  "legacyWatch": true,
+  "ignore": ["dist/*", "node_modules/*", "logs/*", "*.log"],
+  "polling": true,
+  "verbose": true
+}
