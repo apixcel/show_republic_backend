@@ -17,7 +17,7 @@ export class ViewAllPostService {
 
     @InjectEntityManager('postgres')
     private readonly pgEm: PostgresEntityManager, // ======== Inject Postgres EntityManager ======>
-  ) { }
+  ) {}
 
   async viewAll(page = 1, limit = 30, currentUserId?: string): Promise<{ posts: any[]; users?: any[] }> {
     const forkedMongoEm = this.mongoEm.fork();
@@ -49,10 +49,8 @@ export class ViewAllPostService {
       throw new RpcException(new InternalServerErrorException('Something went wrong while fetching users'));
     }
 
-
     //=========== Remove password from each user object ==========>
     const safeUsers = users.map(({ password, ...user }) => user);
-
 
     const userMap = Object.fromEntries(safeUsers.map((user) => [user.id, user]));
     const postsWithUser = posts.map((post) => ({
@@ -74,7 +72,7 @@ export class ViewAllPostService {
 
   async viewPostByPostId(postId: string, userId: string): Promise<PostEntity> {
     // Fork the EntityManager to isolate the transaction
-    const forkedEm = this.pgEm.fork();
+    const forkedEm = this.mongoEm.fork();
     console.log(userId);
 
     // Query MongoDB for products by userId
