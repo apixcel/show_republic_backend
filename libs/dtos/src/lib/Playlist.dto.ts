@@ -1,19 +1,20 @@
-import { errorConstants } from '@show-republic/utils';
-import {
-  IsString,
+import { Property } from '@mikro-orm/core';
+import { IsNotEmpty, IsString } from 'class-validator';
 
-  IsNotEmpty,
-  IsOptional,
-} from 'class-validator';
-
-export class CreatePlaylistDto {
-
+export class PlaylistDto {
   @IsString()
-  @IsOptional()
-  userId!: string;
-
-  @IsString({message: errorConstants.PLAYLIST_NAME})
-  @IsNotEmpty({message: errorConstants.PLAYLIST_NAME_REQUIRED} )
   name!: string;
 
+  @Property({ default: 'public' })
+  privacy!: 'public' | 'private';
+}
+
+export class AddPostToPlaylistDto {
+  @IsString()
+  @IsNotEmpty()
+  postId!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  playlistId!: string;
 }

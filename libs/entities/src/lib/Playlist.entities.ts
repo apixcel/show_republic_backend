@@ -10,7 +10,11 @@ export class PlaylistEntity {
   @Property({ nullable: false })
   name!: string;
 
+  @Property({ nullable: false })
   userId!: string;
+
+  @Property({ nullable: false })
+  privacy: 'public' | 'private' = 'public';
 
   @ManyToMany(() => PostEntity)
   posts = new Collection<PostEntity>(this); // acts like an array

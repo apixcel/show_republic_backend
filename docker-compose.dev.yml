@@ -465,6 +465,26 @@ services:
     networks:
       - app-network
     restart: always
+  playlist:
+    build:
+      context: .
+      dockerfile: ./apps/playlist/Dockerfile
+    container_name: playlist
+    volumes:
+      - ./apps/playlist:/var/www/apps/playlist
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '4500:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: always
 
 networks:
   app-network:

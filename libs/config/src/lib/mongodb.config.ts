@@ -25,6 +25,7 @@ const MongodbConfig: Options<MongoDriver> = {
     LikeEntity,
     PostCommentReactionEntity,
     ChallengeEntity,
+
     AdminEntity,
     AdminProfileEntity,
     PlaylistEntity,

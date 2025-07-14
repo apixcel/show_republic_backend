@@ -10,6 +10,5 @@
     "noPropertyAccessFromIndexSignature": true
   },
   "files": [],
-  "include": ["src/**/*.ts"],
- 
+  "include": ["src/**/*.ts", "../dtos/src/lib/Playlist.dto.ts"]
 }
