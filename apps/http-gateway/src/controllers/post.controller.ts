@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import { CreatePostDto } from '@show-republic/dtos';
@@ -40,8 +40,9 @@ export class PostController {
   }
 
   @Get('view_post/:postId')
-  async viewPostByPostId(@Param('postId') postId: string) {
-    const postData = await lastValueFrom(this.natsClient.send({ cmd: 'viewPostByPostId' }, postId));
+  async viewPostByPostId(@Param('postId') postId: string, @Req() req: any) {
+    const userId = req.user.userId;
+    const postData = await lastValueFrom(this.natsClient.send({ cmd: 'viewPostByPostId' }, { postId, userId }));
     return postData;
   }
 }

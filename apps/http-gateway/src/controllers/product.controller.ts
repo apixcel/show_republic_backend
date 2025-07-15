@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateProductDto } from '@show-republic/dtos';
@@ -15,5 +15,10 @@ export class ProductController {
     return await lastValueFrom(
       this.natsClient.send({ cmd: 'product_create' }, { ceateProductDto, userId: user.userId }),
     );
+  }
+  @Get('get/my')
+  async getUsersProducts(@Req() req: any) {
+    const user = req.user || {};
+    return await lastValueFrom(this.natsClient.send({ cmd: 'my_products' }, user.userId));
   }
 }

@@ -5,6 +5,10 @@ export class CreateProductDto {
   @IsNotEmpty()
   title!: string;
 
+  @IsString()
+  @IsNotEmpty()
+  image!: string;
+
   @IsNumber()
   price!: number;
 

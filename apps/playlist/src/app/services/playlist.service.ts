@@ -80,8 +80,11 @@ export class PlaylistService {
       throw new RpcException('Post does not exist');
     }
     if (playlist.posts.contains(post)) {
+      console.log('already exist');
+
       playlist.posts.remove(post);
     } else {
+      console.log('not exist');
       playlist.posts.add(post);
     }
 

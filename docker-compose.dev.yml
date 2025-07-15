@@ -485,6 +485,26 @@ services:
     networks:
       - app-network
     restart: always
+  statistics:
+    build:
+      context: .
+      dockerfile: ./apps/statistics/Dockerfile
+    container_name: statistics
+    volumes:
+      - ./apps/statistics:/var/www/apps/statistics
+      - ./libs:/var/www/libs/
+    env_file:
+      - .env
+    ports:
+      - '4545:3000'
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - nats
+      - postgresdb
+    networks:
+      - app-network
+    restart: always
 
 networks:
   app-network:

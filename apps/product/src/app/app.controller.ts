@@ -11,4 +11,8 @@ export class AppController {
   createProduct({ ceateProductDto, userId }: { ceateProductDto: CreateProductDto; userId: string }) {
     return this.prdouctService.createProduct(ceateProductDto, userId);
   }
+  @MessagePattern({ cmd: 'my_products' })
+  getUsersProducts(userId: string) {
+    return this.prdouctService.getUsersProducts(userId);
+  }
 }

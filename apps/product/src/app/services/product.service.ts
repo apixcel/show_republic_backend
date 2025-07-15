@@ -18,4 +18,12 @@ export class ProductService {
     await forkedEm.persistAndFlush(product);
     return product;
   }
+
+  async getUsersProducts(userId: string) {
+    const forkedEm = this.em.fork();
+    const productRepo = forkedEm.getRepository(ProductEntity);
+
+    const products = await productRepo.find({ userId });
+    return products;
+  }
 }

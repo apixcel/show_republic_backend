@@ -11,7 +11,7 @@ export class PostController {
     private readonly createPostService: CreatePostService,
     private readonly viewPostService: ViewPostService,
     private readonly viewAllPostService: ViewAllPostService,
-  ) { }
+  ) {}
 
   // ****** Create Post *******
   @MessagePattern({ cmd: 'createPost' })
@@ -27,12 +27,16 @@ export class PostController {
 
   // ****** View All Post *******
   @MessagePattern({ cmd: 'viewAllPosts' })
-  async viewAllPosts({ page = 1, limit = 30, currentUserId }: { page?: number; limit?: number, currentUserId?: string } = {}): Promise<any> {
+  async viewAllPosts({
+    page = 1,
+    limit = 30,
+    currentUserId,
+  }: { page?: number; limit?: number; currentUserId?: string } = {}): Promise<any> {
     return await this.viewAllPostService.viewAll(page, limit, currentUserId);
   }
 
   @MessagePattern({ cmd: 'viewPostByPostId' })
-  async viewPostByPostId(postId: string): Promise<any> {
-    return await this.viewAllPostService.viewPostByPostId(postId, '');
+  async viewPostByPostId({ postId, userId }: { postId: string; userId: string }): Promise<any> {
+    return await this.viewAllPostService.viewPostByPostId(postId, userId);
   }
 }

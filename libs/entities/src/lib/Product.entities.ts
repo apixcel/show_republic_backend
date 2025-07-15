@@ -11,6 +11,9 @@ export class ProductEntity {
   price!: number;
 
   @Property()
+  image!: string;
+
+  @Property()
   description!: string;
 
   @Property({ type: 'text[]', nullable: true })
