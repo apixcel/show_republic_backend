@@ -25,7 +25,9 @@ export class ViewAllPostService {
 
     // ============= Fetching a page of posts ============>
     const likedRepo = forkedMongoEm.getRepository(LikeEntity);
-    const posts = await forkedMongoEm.getRepository(PostEntity).find({}, { limit, offset: skip });
+    const posts = await forkedMongoEm
+      .getRepository(PostEntity)
+      .find({}, { limit, offset: skip, orderBy: { createdAt: 'DESC' } });
     if (!posts || posts.length === 0) {
       throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND));
     }

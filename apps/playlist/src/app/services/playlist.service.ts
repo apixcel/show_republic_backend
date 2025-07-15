@@ -28,13 +28,14 @@ export class PlaylistService {
   async getUserPlaylist(userId: string) {
     const forkedEm = this.em.fork();
     const PlaylistRepo = forkedEm.getRepository(PlaylistEntity);
-    const playlist = await PlaylistRepo.find({ userId });
+    const playlist = await PlaylistRepo.find({ userId }, { populate: ['posts'] });
 
     const result = [];
     if (playlist.length) {
       for (const list of playlist) {
         const firstPostId = list.posts[0]?._id;
         const firstPost = await forkedEm.findOne(PostEntity, { _id: firstPostId });
+
         result.push({ ...list, playlistThumbnail: firstPost?.thumbnail });
       }
       return result;
@@ -45,7 +46,6 @@ export class PlaylistService {
   async getPlaylistDetailsByPlaylistId(playlistId: string, userId: string) {
     const forkedEm = this.em.fork();
     const PlaylistRepo = forkedEm.getRepository(PlaylistEntity);
-    console.log(playlistId);
 
     const playlist = await PlaylistRepo.findOne({ _id: new ObjectId(playlistId) }, { populate: ['posts'] });
 
@@ -79,9 +79,10 @@ export class PlaylistService {
     if (!post) {
       throw new RpcException('Post does not exist');
     }
-
     if (playlist.posts.contains(post)) {
-      throw new RpcException('Post already exists in playlist');
+      playlist.posts.remove(post);
+    } else {
+      playlist.posts.add(post);
     }
 
     playlist.posts.add(post);

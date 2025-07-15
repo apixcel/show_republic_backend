@@ -11,7 +11,7 @@ export class GetPostCommentService {
 
     @InjectEntityManager('postgres')
     private readonly pgEm: EntityManager,
-  ) { }
+  ) {}
 
   async getCommentByPostId(postId: string, currentUserId: string) {
     const postCommentRepo = this.mongoEm.fork().getRepository(PostCommentEntity);

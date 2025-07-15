@@ -46,7 +46,10 @@ export class CreatePostCommentService {
       await forkedEm.persistAndFlush(repliedOfComment);
     }
 
+    post.commentCount = (post.commentCount || 0) + 1;
+
     await forkedEm.persistAndFlush(postComment);
+    await forkedEm.persistAndFlush(post);
     return postComment;
   }
 }

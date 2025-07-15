@@ -28,6 +28,9 @@ export class PostEntity {
   likes?: number = 0;
 
   @Property({ default: 0 })
+  commentCount?: number = 0;
+
+  @Property({ default: 0 })
   dislikes: number = 0;
 
   @Property({ length: 5000, nullable: true })
