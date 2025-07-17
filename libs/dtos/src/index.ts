@@ -18,3 +18,5 @@ export * from './lib/NotificationPreference.dto';
 export * from './lib/Playlist.dto';
 export * from './lib/RolePermission.dto';
 export * from './lib/UserManagement.dto';
+
+export * from './lib/Brand.dto';

@@ -10,4 +10,4 @@ import { BrandService } from './services/brandService';
   controllers: [AppController],
   providers: [BrandService],
 })
-export class AppModule { }
+export class AppModule {}

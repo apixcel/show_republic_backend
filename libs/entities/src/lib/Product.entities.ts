@@ -8,16 +8,17 @@ export class ProductEntity {
   title!: string;
 
   @Property()
-  price!: number;
-
-  @Property()
   image!: string;
 
-  @Property()
-  description!: string;
 
-  @Property({ type: 'text[]', nullable: true })
-  deliveryLocation?: string[]; // Optional; undefined = worldwide
+  @Property({ type: 'string', nullable: false })
+  deliveryLocation!: string;
+
+  @Property({ type: 'string', nullable: false })
+  store_name!: string;
+
+  @Property({ type: 'string', nullable: false })
+  store_link!: string;
 
   @Property({ type: 'string' }) // Ensure it's a UUID as a string
   userId!: string; // UUID type for userId

@@ -6,10 +6,9 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUrl,
   Length,
   MaxLength,
-  MinLength,
+  MinLength
 } from 'class-validator';
 
 export class UserDto {
@@ -47,28 +46,30 @@ export class UserDto {
 }
 
 export class UpdateUserDto {
-  @IsString()
+  @IsString({ message: errorConstants.FIRST_NAME_FIELD_STRING })
   @IsOptional()
-  userId?: string;
+  @Length(2, 30, { message: errorConstants.FIRST_NAME_FIELD_LENGTH })
+  firstName!: string;
+
+  @IsString({ message: errorConstants.LAST_NAME_FIELD_STRING })
+  @IsOptional()
+  @Length(2, 30, { message: errorConstants.LAST_NAME_FIELD_LENGTH })
+  lastName!: string;
 
   @IsString({ message: errorConstants.USERNAME_FIELD_STRING })
   @IsOptional()
-  @Length(3, 30, { message: errorConstants.USERNAME_FIELD_LENGTH })
   userName?: string;
 
   @IsString({ message: errorConstants.COUNTRY_FIELD_STRING })
   @IsOptional()
-  @Length(2, 50, { message: errorConstants.COUNTRY_FIELD_LENGTH })
   country?: string;
 
   @IsString({ message: errorConstants.BIO_FIELD_STRING })
   @IsOptional()
-  @Length(0, 160, { message: errorConstants.BIO_FIELD_LENGTH })
   bio?: string;
 
   @IsString({ message: errorConstants.WEBSITE_URL_FIELD_STRING })
   @IsOptional()
-  @IsUrl({}, { message: errorConstants.INVALID_URL })
   websiteUrl?: string;
 
   @IsString({ message: errorConstants.CONTACT_NUMBER_FIELD_STRING })

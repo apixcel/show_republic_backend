@@ -9,13 +9,13 @@ import { JWTSTRATEGY } from '@show-republic/guards';
 import { GoogleStrategy } from '@show-republic/oauthStrategy';
 import { JwtUtilService, OtpService, SendEmailService, SetCookieUtilService } from '@show-republic/utils';
 import { AppController } from './app.controller';
-import { ForgotPasswordService } from './services/forgotPassword.service';
+import { PasswordService } from './services/Password.service';
 import { LoginService } from './services/login.service';
+import { GetProfileService } from './services/profile.service';
 import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
 import { SocialLoginService } from './services/socialLogin.service';
 import { VerifyOtpService } from './services/verifyOtp.service';
-import { GetProfileService } from './services/profile.service';
 
 @Module({
   imports: [
@@ -39,7 +39,7 @@ import { GetProfileService } from './services/profile.service';
     VerifyOtpService,
     SetCookieUtilService,
     GetProfileService,
-    ForgotPasswordService,
+    PasswordService,
   ],
 })
-export class AppModule { }
+export class AppModule {}

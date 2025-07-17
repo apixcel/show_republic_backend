@@ -1,7 +1,20 @@
-import { Body, Controller, Get, HttpException, Inject, Post, Put, Request, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Put,
+  Req,
+  Request,
+  Res,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import {
+  ChangePasswordDto,
   ForogotPasswordRequestDto,
   LoginDto,
   resendOtpDto,
@@ -17,7 +30,7 @@ export class AuthenticationController {
   constructor(
     @Inject('NATS_SERVICE') private natsClient: ClientProxy,
     private setCookieUtilService: SetCookieUtilService,
-  ) { }
+  ) {}
 
   // *****login*******
   @Post('login')
@@ -40,6 +53,13 @@ export class AuthenticationController {
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'auth_otp_verify' }, verifyOtpData));
     return order;
   }
+  @Put('change-password')
+  @UseGuards(AuthGuard('jwt'))
+  async changePassword(@Body() payload: ChangePasswordDto, @Req() req: any) {
+    const userId = req.user?.userId;
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'auth_change_password' }, { userId, payload }));
+    return order;
+  }
   @Post('forgot-password')
   async forgotPasswordRequest(@Body() forgotPasswordData: ForogotPasswordRequestDto) {
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'auth_req_forgot_password' }, forgotPasswordData));
@@ -51,7 +71,6 @@ export class AuthenticationController {
     return order;
   }
 
-
   @Get('profile')
   @UseGuards(AuthGuard('jwt'))
   async getProfile(@Request() req: any) {
@@ -61,7 +80,6 @@ export class AuthenticationController {
     }
     const user = await lastValueFrom(this.natsClient.send({ cmd: 'user_profile' }, { currentUserId }));
     return user;
-
   }
 
   @Get('google')

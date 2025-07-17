@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import {
+  ChangePasswordDto,
   ForogotPasswordRequestDto,
   LoginDto,
   resendOtpDto,
@@ -9,13 +10,13 @@ import {
   UserPreferencesDto,
   VerifyOtpDto,
 } from '@show-republic/dtos';
-import { ForgotPasswordService } from './services/forgotPassword.service';
+import { PasswordService } from './services/Password.service';
 import { LoginService } from './services/login.service';
+import { GetProfileService } from './services/profile.service';
 import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
 import { SocialLoginService } from './services/socialLogin.service';
 import { VerifyOtpService } from './services/verifyOtp.service';
-import { GetProfileService } from './services/profile.service';
 
 @Controller()
 export class AppController {
@@ -24,10 +25,10 @@ export class AppController {
     private readonly registerService: RegisterService,
     private readonly resendOtpService: ResendOtpService,
     private readonly verifyOtpService: VerifyOtpService,
-    private readonly forgotPasswordService: ForgotPasswordService,
+    private readonly forgotPasswordService: PasswordService,
     private readonly socialLoginService: SocialLoginService,
     private readonly getProfileService: GetProfileService,
-  ) { }
+  ) {}
 
   @MessagePattern({ cmd: 'auth_login' })
   login(loginDto: LoginDto): Promise<{ accessToken: string }> {
@@ -53,6 +54,10 @@ export class AppController {
   @MessagePattern({ cmd: 'auth_req_reset_password' })
   resetPassword(payload: ResetPasswordDto) {
     return this.forgotPasswordService.resetPassword(payload);
+  }
+  @MessagePattern({ cmd: 'auth_change_password' })
+  changePassword({ userId, payload }: { userId: string; payload: ChangePasswordDto }) {
+    return this.forgotPasswordService.changePassword(userId, payload);
   }
   @MessagePattern({ cmd: 'auth_oauth_google_callback' })
   googleOauthCallBack(user: { email: string; name: string }) {

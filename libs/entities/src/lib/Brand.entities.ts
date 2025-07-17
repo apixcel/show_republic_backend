@@ -9,6 +9,16 @@ export class BrandEntity {
 
   @OneToOne(() => UserEntity, { nullable: false })
   user!: UserEntity;
+
+  @Property({ type: 'string', nullable: false })
+  businessName!: string;
+
+  @Property({ type: 'string', nullable: true })
+  companyRC?: string;
+
+  @Property({ type: 'string', nullable: false })
+  businessType!: string;
+
   @Property({ type: 'string', nullable: true })
   country?: string;
 }

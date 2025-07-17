@@ -23,7 +23,7 @@ export class ProductService {
     const forkedEm = this.em.fork();
     const productRepo = forkedEm.getRepository(ProductEntity);
 
-    const products = await productRepo.find({ userId });
+    const products = await productRepo.find({ userId }, { orderBy: { createdAt: 'DESC' } });
     return products;
   }
 }

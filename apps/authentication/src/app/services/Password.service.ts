@@ -1,19 +1,15 @@
 import { EntityManager } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { RpcException } from '@nestjs/microservices';
-import { ResetPasswordDto } from '@show-republic/dtos';
+import { ChangePasswordDto, ResetPasswordDto } from '@show-republic/dtos';
 import { UserEntity } from '@show-republic/entities';
-import {
-  errorConstants,
-  hashPassword,
-  SendEmailService,
-} from '@show-republic/utils';
+import { comparePassword, errorConstants, hashPassword, SendEmailService } from '@show-republic/utils';
 
 @Injectable()
-export class ForgotPasswordService {
+export class PasswordService {
   constructor(
     @InjectEntityManager('postgres') // Inject the 'postgres' EntityManager
     private readonly em: EntityManager,
@@ -26,9 +22,7 @@ export class ForgotPasswordService {
     const userRepo = forkedEm.getRepository(UserEntity);
     const user = await userRepo.findOne({ email: userEmail });
     if (!user) {
-      throw new RpcException(
-        new NotFoundException(errorConstants.USER_NOT_FOUND),
-      );
+      throw new RpcException(new NotFoundException(errorConstants.USER_NOT_FOUND));
     }
     const payload = { email: user.email, userId: user.id };
 
@@ -67,9 +61,7 @@ export class ForgotPasswordService {
     try {
       payload = await this.jwtService.verifyAsync(token, { secret });
     } catch (error) {
-      throw new RpcException(
-        new NotFoundException('Token verification failed or expired'),
-      );
+      throw new RpcException(new NotFoundException('Token verification failed or expired'));
     }
 
     const forkedEm = this.em.fork();
@@ -77,9 +69,7 @@ export class ForgotPasswordService {
     const user = await userRepo.findOne({ id: payload.userId });
 
     if (!user) {
-      throw new RpcException(
-        new NotFoundException(errorConstants.USER_NOT_FOUND),
-      );
+      throw new RpcException(new NotFoundException(errorConstants.USER_NOT_FOUND));
     }
 
     const hashedPassword = await hashPassword(password);
@@ -89,5 +79,25 @@ export class ForgotPasswordService {
     return {
       message: 'Password has been reset successfully',
     };
+  }
+
+  async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
+    const forkedEm = this.em.fork();
+    const adminRepo = forkedEm.getRepository(UserEntity);
+
+    const user = await adminRepo.findOne({ id: userId });
+
+    if (!user) {
+      throw new RpcException(new NotFoundException(errorConstants.USER_NOT_FOUND));
+    }
+
+    const isPasswordValid = await comparePassword(changePasswordDto.oldPassword, user.password);
+    if (!isPasswordValid) {
+      throw new RpcException(new UnauthorizedException(errorConstants.INVALID_CREDENTIALS));
+    }
+
+    user.password = await hashPassword(changePasswordDto.newPassword);
+    await forkedEm.persistAndFlush(user);
+    return true;
   }
 }
