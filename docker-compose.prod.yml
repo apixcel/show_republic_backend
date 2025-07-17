@@ -617,7 +617,7 @@ services:
       - app-network
     restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://nats-server:8222/']
+      test: ['CMD', 'curl', '-f', 'http://localhost-server:8222/']
       interval: 30s
       retries: 5
       start_period: 30s
