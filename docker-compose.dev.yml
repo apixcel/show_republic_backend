@@ -50,461 +50,461 @@ services:
       start_period: 30s
       timeout: 10s
 
-  authentication:
-    build:
-      context: .
-      dockerfile: ./apps/authentication/Dockerfile
-    container_name: authentication
-    volumes:
-      - ./apps/authentication:/var/www/apps/authentication
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '4000:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # authentication:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/authentication/Dockerfile
+  #   container_name: authentication
+  #   volumes:
+  #     - ./apps/authentication:/var/www/apps/authentication
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '4000:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  http-gateway:
-    build:
-      context: .
-      dockerfile: ./apps/http-gateway/Dockerfile
-    container_name: http-gateway
-    volumes:
-      - ./apps/http-gateway:/var/www/apps/http-gateway
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '3000:3000'
-    depends_on:
-      - authentication
-      - nats
-    networks:
-      - app-network
-    restart: always
+  # http-gateway:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/http-gateway/Dockerfile
+  #   container_name: http-gateway
+  #   volumes:
+  #     - ./apps/http-gateway:/var/www/apps/http-gateway
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - authentication
+  #     - nats
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  posts:
-    build:
-      context: .
-      dockerfile: ./apps/posts/Dockerfile
-    container_name: posts
-    volumes:
-      - ./apps/posts:/var/www/apps/posts
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '7001:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # posts:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/posts/Dockerfile
+  #   container_name: posts
+  #   volumes:
+  #     - ./apps/posts:/var/www/apps/posts
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '7001:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  category:
-    build:
-      context: .
-      dockerfile: ./apps/category/Dockerfile
-    container_name: category
-    volumes:
-      - ./apps/category:/var/www/apps/category
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '2000:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # category:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/category/Dockerfile
+  #   container_name: category
+  #   volumes:
+  #     - ./apps/category:/var/www/apps/category
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2000:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  creator:
-    build:
-      context: .
-      dockerfile: ./apps/creator/Dockerfile
-    container_name: creator
-    volumes:
-      - ./apps/creator:/var/www/apps/creator
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '6900:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # creator:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/creator/Dockerfile
+  #   container_name: creator
+  #   volumes:
+  #     - ./apps/creator:/var/www/apps/creator
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '6900:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  gamefication:
-    build:
-      context: .
-      dockerfile: ./apps/gamefication/Dockerfile
-    container_name: gamefication
-    volumes:
-      - ./apps/gamefication:/var/www/apps/gamefication
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '8350:3000'
-    depends_on:
-      - nats
-    networks:
-      - app-network
-    restart: always
+  # gamefication:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/gamefication/Dockerfile
+  #   container_name: gamefication
+  #   volumes:
+  #     - ./apps/gamefication:/var/www/apps/gamefication
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '8350:3000'
+  #   depends_on:
+  #     - nats
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  admin:
-    build:
-      context: .
-      dockerfile: ./apps/admin/Dockerfile
-    container_name: admin
-    volumes:
-      - ./apps/admin:/var/www/apps/admin
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '2025:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # admin:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/admin/Dockerfile
+  #   container_name: admin
+  #   volumes:
+  #     - ./apps/admin:/var/www/apps/admin
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2025:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  product:
-    build:
-      context: .
-      dockerfile: ./apps/product/Dockerfile
-    container_name: product
-    volumes:
-      - ./apps/product:/var/www/apps/product
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '2258:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # product:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/product/Dockerfile
+  #   container_name: product
+  #   volumes:
+  #     - ./apps/product:/var/www/apps/product
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2258:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  role-permission:
-    build:
-      context: .
-      dockerfile: ./apps/role-permission/Dockerfile
-    container_name: role-permission
-    volumes:
-      - ./apps/role-permission:/var/www/apps/role-permission
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '2135:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # role-permission:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/role-permission/Dockerfile
+  #   container_name: role-permission
+  #   volumes:
+  #     - ./apps/role-permission:/var/www/apps/role-permission
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2135:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  post-comment:
-    build:
-      context: .
-      dockerfile: ./apps/post-comment/Dockerfile
-    container_name: post-comment
-    volumes:
-      - ./apps/post-comment:/var/www/apps/post-comment
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '4200:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # post-comment:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/post-comment/Dockerfile
+  #   container_name: post-comment
+  #   volumes:
+  #     - ./apps/post-comment:/var/www/apps/post-comment
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '4200:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  post-like-toggle:
-    build:
-      context: .
-      dockerfile: ./apps/post-like-toggle/Dockerfile
-    container_name: post-like-toggle
-    volumes:
-      - ./apps/post-like-toggle:/var/www/apps/post-like-toggle
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '4300:3000'
-    depends_on:
-      - nats
-      - mongo
-    networks:
-      - app-network
-    restart: always
+  # post-like-toggle:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/post-like-toggle/Dockerfile
+  #   container_name: post-like-toggle
+  #   volumes:
+  #     - ./apps/post-like-toggle:/var/www/apps/post-like-toggle
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '4300:3000'
+  #   depends_on:
+  #     - nats
+  #     - mongo
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  uploadfile:
-    build:
-      context: .
-      dockerfile: ./apps/uploadfile/Dockerfile
-    container_name: uploadfile
-    volumes:
-      - ./apps/uploadfile:/var/www/apps/uploadfile
-      - ./libs:/var/www/libs
-    env_file:
-      - .env
-    ports:
-      - '2269:3000'
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # uploadfile:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/uploadfile/Dockerfile
+  #   container_name: uploadfile
+  #   volumes:
+  #     - ./apps/uploadfile:/var/www/apps/uploadfile
+  #     - ./libs:/var/www/libs
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2269:3000'
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  your-channel:
-    build:
-      context: .
-      dockerfile: ./apps/your-channel/Dockerfile
-    container_name: your-channel
-    volumes:
-      - ./apps/your-channel:/var/www/apps/your-channel
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2137:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # your-channel:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/your-channel/Dockerfile
+  #   container_name: your-channel
+  #   volumes:
+  #     - ./apps/your-channel:/var/www/apps/your-channel
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2137:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  subscription:
-    build:
-      context: .
-      dockerfile: ./apps/subscription/Dockerfile
-    container_name: subscription
-    volumes:
-      - ./apps/subscription:/var/www/apps/subscription
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2139:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # subscription:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/subscription/Dockerfile
+  #   container_name: subscription
+  #   volumes:
+  #     - ./apps/subscription:/var/www/apps/subscription
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2139:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  settings:
-    build:
-      context: .
-      dockerfile: ./apps/settings/Dockerfile
-    container_name: settings
-    volumes:
-      - ./apps/settings:/var/www/apps/settings
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2141:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # settings:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/settings/Dockerfile
+  #   container_name: settings
+  #   volumes:
+  #     - ./apps/settings:/var/www/apps/settings
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2141:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  live:
-    build:
-      context: .
-      dockerfile: ./apps/live/Dockerfile
-    container_name: live
-    volumes:
-      - ./apps/live:/var/www/apps/live
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2142:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # live:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/live/Dockerfile
+  #   container_name: live
+  #   volumes:
+  #     - ./apps/live:/var/www/apps/live
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2142:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  wallet:
-    build:
-      context: .
-      dockerfile: ./apps/wallet/Dockerfile
-    container_name: wallet
-    volumes:
-      - ./apps/wallet:/var/www/apps/wallet
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2143:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # wallet:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/wallet/Dockerfile
+  #   container_name: wallet
+  #   volumes:
+  #     - ./apps/wallet:/var/www/apps/wallet
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2143:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  brand:
-    build:
-      context: .
-      dockerfile: ./apps/brand/Dockerfile
-    container_name: brand
-    volumes:
-      - ./apps/brand:/var/www/apps/brand
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2144:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # brand:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/brand/Dockerfile
+  #   container_name: brand
+  #   volumes:
+  #     - ./apps/brand:/var/www/apps/brand
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2144:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  promotion:
-    build:
-      context: .
-      dockerfile: ./apps/promotion/Dockerfile
-    container_name: promotion
-    volumes:
-      - ./apps/promotion:/var/www/apps/promotion
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2145:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # promotion:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/promotion/Dockerfile
+  #   container_name: promotion
+  #   volumes:
+  #     - ./apps/promotion:/var/www/apps/promotion
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2145:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  profile:
-    build:
-      context: .
-      dockerfile: ./apps/profile/Dockerfile
-    container_name: profile
-    volumes:
-      - ./apps/profile:/var/www/apps/profile
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2138:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # profile:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/profile/Dockerfile
+  #   container_name: profile
+  #   volumes:
+  #     - ./apps/profile:/var/www/apps/profile
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '2138:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
-  notification:
-    build:
-      context: .
-      dockerfile: ./apps/notification/Dockerfile
-    container_name: notification
-    volumes:
-      - ./apps/notification:/var/www/apps/notification
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '4400:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
-  playlist:
-    build:
-      context: .
-      dockerfile: ./apps/playlist/Dockerfile
-    container_name: playlist
-    volumes:
-      - ./apps/playlist:/var/www/apps/playlist
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '4500:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
-  statistics:
-    build:
-      context: .
-      dockerfile: ./apps/statistics/Dockerfile
-    container_name: statistics
-    volumes:
-      - ./apps/statistics:/var/www/apps/statistics
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '4545:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
+  # notification:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/notification/Dockerfile
+  #   container_name: notification
+  #   volumes:
+  #     - ./apps/notification:/var/www/apps/notification
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '4400:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
+  # playlist:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/playlist/Dockerfile
+  #   container_name: playlist
+  #   volumes:
+  #     - ./apps/playlist:/var/www/apps/playlist
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '4500:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
+  # statistics:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/statistics/Dockerfile
+  #   container_name: statistics
+  #   volumes:
+  #     - ./apps/statistics:/var/www/apps/statistics
+  #     - ./libs:/var/www/libs/
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '4545:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #   depends_on:
+  #     - nats
+  #     - postgresdb
+  #   networks:
+  #     - app-network
+  #   restart: always
 
 networks:
   app-network:
