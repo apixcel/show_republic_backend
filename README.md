@@ -6,3 +6,8 @@
 docker-compose -f docker-compose.dev.yml exec http-gateway npx mikro-orm migration:create --config=libs/config/src/lib/postgresdb.config.ts
 
 docker-compose -f docker-compose.dev.yml exec http-gateway npx mikro-orm migration:up --config=libs/config/src/lib/postgresdb.config.ts
+
+<!-- dev  -->
+
+npm run migration:create
+npm run migration:up
