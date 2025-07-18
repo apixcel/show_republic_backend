@@ -13,7 +13,7 @@ import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Controller('admin')
 export class AdminController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
 
   @Post('login')
   async login(@Body() payload: LoginDto) {
@@ -26,8 +26,9 @@ export class AdminController {
   @Patch('change-password')
   async changePassword(@Req() req: any, @Body() changePasswordDto: ChangePasswordDto) {
     const userId = req.user.userId;
+
     const res = await lastValueFrom(
-      this.natsClient.send({ cmd: 'admin_change_password' }, { adminId: userId, changePasswordDto }),
+      this.natsClient.send({ cmd: 'admin_change_password' }, { adminId: userId.toString(), changePasswordDto }),
     );
     return res;
   }

@@ -72,10 +72,10 @@ export class ViewAllPostService {
     return { posts: result };
   }
 
-  async viewPostByPostId(postId: string, userId: string): Promise<PostEntity> {
+  async viewPostByPostId(postId: string, userId: string) {
     // Fork the EntityManager to isolate the transaction
     const forkedEm = this.mongoEm.fork();
-    console.log(userId);
+    const forkedPgEm = this.pgEm.fork();
 
     // Query MongoDB for products by userId
     const post = await forkedEm.getRepository(PostEntity).findOne(postId);
@@ -84,8 +84,9 @@ export class ViewAllPostService {
     if (!post) {
       throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND));
     }
+    const user = await forkedPgEm.getRepository(UserEntity).findOne({ id: post.userId });
 
     // Return the products found
-    return post;
+    return { ...post, user: user };
   }
 }
