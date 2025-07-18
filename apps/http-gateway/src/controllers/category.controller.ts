@@ -3,10 +3,10 @@ import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import { CategoryDto, UserDto } from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGuard('jwt'))
 @Controller('category')
 export class CategoryController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
 
   @Post('create')
   async createCategory(@Body() createCategoryData: CategoryDto) {

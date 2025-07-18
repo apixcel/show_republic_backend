@@ -14,8 +14,8 @@ import {
 import path from 'path';
 
 const PostgresdbConfig = defineConfig({
-  host: 'postgresdb',
-  port: 5432,
+  host: 'localhost',
+  port: 5433,
   user: 'postgres',
   password: 'qubitars',
   dbName: 'demo',
