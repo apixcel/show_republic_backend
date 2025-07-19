@@ -8,10 +8,10 @@ import { PlaylistEntity, PostEntity } from '@show-republic/entities';
 export class PlaylistService {
   constructor(
     @InjectEntityManager('mongo')
-    private readonly em: EntityManager,
+    private readonly mongoEm: EntityManager,
   ) {}
   async createPlaylist(playlistDto: PlaylistDto, userId: string) {
-    const forkedEm = this.em.fork();
+    const forkedEm = this.mongoEm.fork();
     const PlaylistRepo = forkedEm.getRepository(PlaylistEntity);
 
     const result = PlaylistRepo.create({
@@ -26,7 +26,7 @@ export class PlaylistService {
   }
 
   async getUserPlaylist(userId: string) {
-    const forkedEm = this.em.fork();
+    const forkedEm = this.mongoEm.fork();
     const PlaylistRepo = forkedEm.getRepository(PlaylistEntity);
     const playlist = await PlaylistRepo.find({ userId }, { populate: ['posts'] });
 
@@ -44,7 +44,7 @@ export class PlaylistService {
     }
   }
   async getPlaylistDetailsByPlaylistId(playlistId: string, userId: string) {
-    const forkedEm = this.em.fork();
+    const forkedEm = this.mongoEm.fork();
     const PlaylistRepo = forkedEm.getRepository(PlaylistEntity);
 
     const playlist = await PlaylistRepo.findOne({ _id: new ObjectId(playlistId) }, { populate: ['posts'] });
@@ -59,7 +59,7 @@ export class PlaylistService {
     return playlist;
   }
   async addPostToPlaylist(payload: AddPostToPlaylistDto, userId: string) {
-    const forkedEm = this.em.fork();
+    const forkedEm = this.mongoEm.fork();
     const PlaylistRepo = forkedEm.getRepository(PlaylistEntity);
 
     const playlist = await PlaylistRepo.findOne({ _id: new ObjectId(payload.playlistId) }, { populate: ['posts'] });

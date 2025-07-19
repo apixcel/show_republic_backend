@@ -13,18 +13,12 @@ import { CreatorController } from './controllers/creator.controller';
 import { GameficationController } from './controllers/gamefication.controller';
 import { LiveController } from './controllers/live.controller';
 import { NotificationController } from './controllers/notification.controller';
-import { PlaylistController } from './controllers/playlist.controller';
 import { PostController } from './controllers/post.controller';
 import { ProductController } from './controllers/product.controller';
 import { ProfileController } from './controllers/profile.controller';
-import { PromotionController } from './controllers/promotion.controller';
 import { RolePermissionController } from './controllers/rolePermission.controller';
-import { SettingsController } from './controllers/settings.controller';
 import { StatisticsController } from './controllers/statistics.controller';
 import { SubscriptionController } from './controllers/subscription.controller';
-import { UploadController } from './controllers/upload.controller';
-import { WalletController } from './controllers/wallet.controller';
-import { YourChannelController } from './controllers/yourChannel.controller';
 import { NatsClientModule } from './nats-client.module';
 import { UploadfileService } from './service/upload.service';
 
@@ -45,17 +39,11 @@ import { UploadfileService } from './service/upload.service';
     AdminController,
     StatisticsController,
     RolePermissionController,
-    UploadController,
-    YourChannelController,
     SubscriptionController,
-    SettingsController,
     LiveController,
-    WalletController,
     BrandController,
-    PromotionController,
     ProfileController,
     NotificationController,
-    PlaylistController,
   ],
   providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService, UploadfileService, S3ClientProvider],
   // providers: [],

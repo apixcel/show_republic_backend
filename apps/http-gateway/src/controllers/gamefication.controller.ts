@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Inject, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { AuthGuard } from '@nestjs/passport';
 import { ChallengeDto } from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
 
@@ -22,5 +23,12 @@ export class GameficationController {
   @Get('completed-challenge')
   async getCompletedChallenges(@Query() query: Record<string, any>) {
     return await lastValueFrom(this.natsClient.send({ cmd: 'get_completed_challenge' }, query));
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('my-wallet')
+  async getMyWallet(@Req() req: any) {
+    const userId = req?.user?.userId;
+    return await lastValueFrom(this.natsClient.send({ cmd: 'game_wallet' }, userId));
   }
 }

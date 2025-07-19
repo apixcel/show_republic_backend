@@ -9,11 +9,11 @@ import { UserEntity } from '@show-republic/entities';
 export class ProfileService {
   constructor(
     @InjectEntityManager('postgres')
-    private readonly em: EntityManager,
+    private readonly pgEm: EntityManager,
   ) {}
 
   async getUserProfile(userId: string) {
-    const user = await this.em.fork().getRepository(UserEntity).findOne({ id: userId });
+    const user = await this.pgEm.fork().getRepository(UserEntity).findOne({ id: userId });
     return {
       ...user,
       password: undefined,
@@ -21,7 +21,7 @@ export class ProfileService {
   }
 
   async updateUserProfile(userProfileDto: UpdateUserDto, userId: string) {
-    const forkedEm = this.em.fork();
+    const forkedEm = this.pgEm.fork();
     const userRepo = forkedEm.getRepository(UserEntity);
 
     const user = await userRepo.findOne({ id: userId });

@@ -201,46 +201,6 @@ services:
   #     - app-network
   #   restart: always
 
-  # uploadfile:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/uploadfile/Dockerfile
-  #   container_name: uploadfile
-  #   volumes:
-  #     - ./apps/uploadfile:/var/www/apps/uploadfile
-  #     - ./libs:/var/www/libs
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '2269:3000'
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
-
-  # your-channel:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/your-channel/Dockerfile
-  #   container_name: your-channel
-  #   volumes:
-  #     - ./apps/your-channel:/var/www/apps/your-channel
-  #     - ./libs:/var/www/libs/
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '2137:3000'
-  #   environment:
-  #     NODE_ENV: development
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
-
   # subscription:
   #   build:
   #     context: .
@@ -262,27 +222,6 @@ services:
   #     - app-network
   #   restart: always
 
-  # settings:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/settings/Dockerfile
-  #   container_name: settings
-  #   volumes:
-  #     - ./apps/settings:/var/www/apps/settings
-  #     - ./libs:/var/www/libs/
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '2141:3000'
-  #   environment:
-  #     NODE_ENV: development
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
-
   # live:
   #   build:
   #     context: .
@@ -295,27 +234,6 @@ services:
   #     - .env
   #   ports:
   #     - '2142:3000'
-  #   environment:
-  #     NODE_ENV: development
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
-
-  # wallet:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/wallet/Dockerfile
-  #   container_name: wallet
-  #   volumes:
-  #     - ./apps/wallet:/var/www/apps/wallet
-  #     - ./libs:/var/www/libs/
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '2143:3000'
   #   environment:
   #     NODE_ENV: development
   #   depends_on:
