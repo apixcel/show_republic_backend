@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Inject, Param, Post, Req, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Put, Req, Request, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { CreatePostDto } from '@show-republic/dtos';
+import { CreatePostCommentDto, CreatePostDto, ToggleLikeDto } from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
 
 @UseGuards(AuthGuard('jwt')) // Use the built-in JwtAuthGuard directly
@@ -44,5 +44,48 @@ export class PostController {
     const userId = req.user.userId;
     const postData = await lastValueFrom(this.natsClient.send({ cmd: 'viewPostByPostId' }, { postId, userId }));
     return postData;
+  }
+
+  // ----post reaction api start ----
+  @Post('reaction/toggle')
+  async toggleLike(@Body() likeToggleDto: ToggleLikeDto, @Request() req: any) {
+    const userId = req.user.userId;
+    const data = { ...likeToggleDto, userId };
+
+    return await lastValueFrom(this.natsClient.send({ cmd: 'post_like_toggle' }, data));
+  }
+  //------ post comment api start ------
+  @Post('/comment/create/:postId')
+  async createPostComment(
+    @Body() createPostCommentDto: CreatePostCommentDto,
+    @Req() req: any,
+    @Param('postId') postId: string,
+  ) {
+    const userId = req.user.userId;
+
+    const order = await lastValueFrom(
+      this.natsClient.send({ cmd: 'create_post_comment' }, { postId, userId, payload: createPostCommentDto }),
+    );
+    return order;
+  }
+  @Get('/comment/get/:postId')
+  async getPostComment(@Param('postId') postId: string, @Req() req: any) {
+    const userId = req.user?.userId;
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_post_comment' }, { userId, postId }));
+    return order;
+  }
+  @Get('/comment/get/replies-of/:commentId')
+  async getAllCommentReplyByCommentId(@Param('commentId') commentId: string, @Req() req: any) {
+    const userId = req.user?.userId;
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_post_comment_replies' }, { commentId, userId }));
+    return order;
+  }
+  @Put('/comment/react/t/:commentId')
+  async togglePostCommentReaction(@Param('commentId') commentId: string, @Req() req: any) {
+    const userId = req.user?.userId;
+    const order = await lastValueFrom(
+      this.natsClient.send({ cmd: 'toggle_post_comment_reaction' }, { commentId, userId }),
+    );
+    return order;
   }
 }

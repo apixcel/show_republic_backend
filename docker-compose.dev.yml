@@ -220,44 +220,6 @@ services:
   #     - app-network
   #   restart: always
 
-  # post-comment:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/post-comment/Dockerfile
-  #   container_name: post-comment
-  #   volumes:
-  #     - ./apps/post-comment:/var/www/apps/post-comment
-  #     - ./libs:/var/www/libs
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '4200:3000'
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
-
-  # post-like-toggle:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/post-like-toggle/Dockerfile
-  #   container_name: post-like-toggle
-  #   volumes:
-  #     - ./apps/post-like-toggle:/var/www/apps/post-like-toggle
-  #     - ./libs:/var/www/libs
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '4300:3000'
-  #   depends_on:
-  #     - nats
-  #     - mongo
-  #   networks:
-  #     - app-network
-  #   restart: always
-
   # uploadfile:
   #   build:
   #     context: .

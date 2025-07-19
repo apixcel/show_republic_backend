@@ -1,10 +1,12 @@
-import { EntityManager } from '@mikro-orm/core';
-import { ObjectId } from '@mikro-orm/mongodb';
+import { EntityManager, ObjectId } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
+import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
+import { CreatePostCommentDto } from '@show-republic/dtos';
 import { PostCommentEntity, PostCommentReactionEntity, PostEntity, UserEntity } from '@show-republic/entities';
 
-export class GetPostCommentService {
+@Injectable()
+export class PostCommentService {
   constructor(
     @InjectEntityManager('mongo')
     private readonly mongoEm: EntityManager,
@@ -12,6 +14,47 @@ export class GetPostCommentService {
     @InjectEntityManager('postgres')
     private readonly pgEm: EntityManager,
   ) {}
+  async createCommentByPostId(postId: string, createPostCommentDto: CreatePostCommentDto, userId: string) {
+    const forkedEm = this.mongoEm.fork();
+    const postCommentRepo = forkedEm.getRepository(PostCommentEntity);
+    const postRepo = forkedEm.getRepository(PostEntity);
+
+    const postObjectId = new ObjectId(postId);
+    const post = await postRepo.findOne({ _id: postObjectId });
+    if (!post) throw new RpcException('Post not found');
+
+    let repliedOfComment: PostCommentEntity | undefined;
+
+    if (createPostCommentDto.repliedOf) {
+      const repliedOfObjectId = new ObjectId(createPostCommentDto.repliedOf);
+      // @ts-ignore
+      const comment = await postCommentRepo.findOne({ _id: repliedOfObjectId });
+      if (!comment) throw new RpcException('Comment not found');
+
+      repliedOfComment = comment;
+    }
+
+    const postComment = postCommentRepo.create({
+      userId,
+      post,
+      replyCount: 0,
+      likes: 0,
+      images: createPostCommentDto.images || [],
+      repliedOf: repliedOfComment,
+      content: createPostCommentDto.content,
+    });
+
+    if (repliedOfComment) {
+      repliedOfComment.replyCount = (repliedOfComment.replyCount || 0) + 1;
+      await forkedEm.persistAndFlush(repliedOfComment);
+    }
+
+    post.commentCount = (post.commentCount || 0) + 1;
+
+    await forkedEm.persistAndFlush(postComment);
+    await forkedEm.persistAndFlush(post);
+    return postComment;
+  }
 
   async getCommentByPostId(postId: string, currentUserId: string) {
     const postCommentRepo = this.mongoEm.fork().getRepository(PostCommentEntity);
@@ -72,5 +115,30 @@ export class GetPostCommentService {
     }
 
     return result;
+  }
+
+  async togglePostCommentReaction(commentId: string, currentUserId: string) {
+    const forkedEm = this.mongoEm.fork();
+
+    const postCommentRepo = forkedEm.getRepository(PostCommentEntity);
+    const postCommentReactionRepo = forkedEm.getRepository(PostCommentReactionEntity);
+
+    const isCommentExist = await postCommentRepo.findOne({ _id: new ObjectId(commentId) });
+    if (!isCommentExist) throw new RpcException('Comment not found');
+
+    const isLiked = await postCommentReactionRepo.findOne({ comment: isCommentExist, userId: currentUserId });
+
+    if (isLiked) {
+      forkedEm.remove(isLiked);
+      isCommentExist.likes = (isCommentExist.likes || 0) - 1;
+      await forkedEm.flush();
+      return null;
+    } else {
+      const reaction = postCommentReactionRepo.create({ comment: isCommentExist, userId: currentUserId });
+      isCommentExist.likes = (isCommentExist.likes || 0) + 1;
+      await forkedEm.persistAndFlush(reaction);
+
+      return reaction;
+    }
   }
 }

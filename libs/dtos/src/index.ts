@@ -19,4 +19,5 @@ export * from './lib/Playlist.dto';
 export * from './lib/RolePermission.dto';
 export * from './lib/UserManagement.dto';
 
+export * from './lib/LikeToggle.dto';
 export * from './lib/Brand.dto';

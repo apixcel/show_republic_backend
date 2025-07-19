@@ -16,8 +16,6 @@ import { LiveController } from './controllers/live.controller';
 import { NotificationController } from './controllers/notification.controller';
 import { PlaylistController } from './controllers/playlist.controller';
 import { PostController } from './controllers/post.controller';
-import { PostCommentController } from './controllers/postComment.controller';
-import { PostLikeToggleController } from './controllers/postLikeToggle.controller';
 import { ProductController } from './controllers/product.controller';
 import { ProfileController } from './controllers/profile.controller';
 import { PromotionController } from './controllers/promotion.controller';
@@ -44,8 +42,6 @@ import { UploadfileService } from './service/upload.service';
     PostController,
     CategoryController,
     ProductController,
-    PostLikeToggleController,
-    PostCommentController,
     GameficationController,
     CreatorController,
     AdminController,

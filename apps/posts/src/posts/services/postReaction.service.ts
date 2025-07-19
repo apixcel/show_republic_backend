@@ -1,27 +1,27 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { EntityManager } from '@mikro-orm/mongodb';
+import { InjectEntityManager } from '@mikro-orm/nestjs';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PostEntity } from '@show-republic/entities';
 import { LikeEntity } from 'libs/entities/src/lib/LikeToogle.entities';
 
 @Injectable()
-export class LikeService {
+export class PostReactionService {
   constructor(
     @InjectEntityManager('mongo')
     private readonly mongoEm: EntityManager,
-  ) { }
+  ) {}
 
   async toggleLikeOrDislike(
     userId: string,
     postId: string,
-    action: 'like' | 'dislike'
+    action: 'like' | 'dislike',
   ): Promise<{ message: string; likes: number; dislikes: number; userReaction: 'like' | 'dislike' | null }> {
     const forkedMongoEm = this.mongoEm.fork();
 
     //  Find post and existing reaction in single transaction
     const [post, existing] = await Promise.all([
       forkedMongoEm.findOneOrFail(PostEntity, postId),
-      forkedMongoEm.findOne(LikeEntity, { userId, post: postId })
+      forkedMongoEm.findOne(LikeEntity, { userId, post: postId }),
     ]);
 
     let message: string;
@@ -35,7 +35,7 @@ export class LikeService {
         post,
         type: action,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       });
 
       await forkedMongoEm.persistAndFlush(newReaction);
@@ -44,8 +44,7 @@ export class LikeService {
       post[action + 's']++; // Increment like/dislike count
       message = `You have ${action}d this post.`;
       userReaction = action;
-    }
-    else if (existing.type === action) {
+    } else if (existing.type === action) {
       // Remove existing reaction
       await forkedMongoEm.removeAndFlush(existing);
       // @ts-ignore
@@ -53,8 +52,7 @@ export class LikeService {
       post[action + 's']--; // Decrement count
       message = `You have removed your ${action}.`;
       userReaction = null;
-    }
-    else {
+    } else {
       //  Switch reaction (like ↔ dislike)
       const oldAction = existing.type;
       existing.type = action;
@@ -62,7 +60,7 @@ export class LikeService {
       // @ts-ignore
       post[oldAction + 's']--; // Decrement old reaction
       // @ts-ignore
-      post[action + 's']++;    // Increment new reaction
+      post[action + 's']++; // Increment new reaction
 
       await forkedMongoEm.persistAndFlush(existing);
       message = `You changed to ${action}.`;
@@ -78,20 +76,9 @@ export class LikeService {
       likes: post.likes,
       // @ts-ignore
       dislikes: post.dislikes,
-      userReaction
+      userReaction,
     };
   }
 
-
-
-  async getAllReactions(): Promise<LikeEntity[]> {
-    const forkedMongoEm = this.mongoEm.fork();
-    const reactions = await forkedMongoEm.find(LikeEntity, {});
-    if (!reactions || reactions.length === 0) {
-      throw new NotFoundException('No reaction found');
-    }
-
-    return reactions;
-  }
 
 }

@@ -1,23 +1,33 @@
-import { EntityManager as MongoEntityManager, EntityManager as PostgresEntityManager } from '@mikro-orm/core';
-import { MongoEntityRepository } from '@mikro-orm/mongodb';
-import { InjectEntityManager, InjectRepository } from '@mikro-orm/nestjs';
+import { EntityManager } from '@mikro-orm/mongodb';
+import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
+import { CreatePostDto } from '@show-republic/dtos';
 import { LikeEntity, PostEntity, UserEntity } from '@show-republic/entities';
 import { errorConstants } from '@show-republic/utils';
 
 @Injectable()
-export class ViewAllPostService {
+export class PostService {
   constructor(
-    @InjectRepository(PostEntity, 'mongo')
-    private readonly postRepository: MongoEntityRepository<PostEntity>,
-
     @InjectEntityManager('mongo')
-    private readonly mongoEm: MongoEntityManager,
+    private readonly mongoEm: EntityManager,
 
     @InjectEntityManager('postgres')
-    private readonly pgEm: PostgresEntityManager, // ======== Inject Postgres EntityManager ======>
+    private readonly pgEm: EntityManager,
   ) {}
+
+  async create(data: CreatePostDto) {
+    const forkedEm = this.mongoEm.fork();
+
+    const { userId, ...productData } = data;
+    const post = forkedEm.getRepository(PostEntity).create({
+      ...productData,
+      userId,
+    });
+
+    await forkedEm.persistAndFlush(post);
+    return post;
+  }
 
   async viewAll(page = 1, limit = 30, currentUserId?: string): Promise<{ posts: any[]; users?: any[] }> {
     const forkedMongoEm = this.mongoEm.fork();
@@ -88,5 +98,22 @@ export class ViewAllPostService {
 
     // Return the products found
     return { ...post, user: user };
+  }
+
+  //   view loggedin user posts
+  async viewMyPost(userId: string): Promise<PostEntity[]> {
+    // Fork the EntityManager to isolate the transaction
+    const forkedEm = this.mongoEm.fork();
+
+    // Query MongoDB for products by userId
+    const posts = await forkedEm.getRepository(PostEntity).find({ userId });
+
+    // If no products are found, throw a RpcException
+    if (!posts || posts.length === 0) {
+      throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND));
+    }
+
+    // Return the products found
+    return posts;
   }
 }
