@@ -3,14 +3,17 @@ import { MessagePattern } from '@nestjs/microservices';
 import {
   AdminProfileDto,
   ChangePasswordDto,
+  CreateRoleDto,
   LoginDto,
   SendAdminInvitationDto,
   UpdateNotificationPreferencesDto,
+  UpdateRolePermissionsDto,
 } from '@show-republic/dtos';
 import { UserStatus } from '@show-republic/entities';
 import { AdminAuthService } from './services/adminAuth.service';
 import { AdminManagementService } from './services/adminManageMent.service';
 import { AdminNotificatonService } from './services/adminNotification.service';
+import { RolePermissionService } from './services/rolePermission.service';
 import { UserManagementService } from './services/userManagement.service';
 
 @Controller()
@@ -20,6 +23,7 @@ export class AppController {
     private readonly userManagementService: UserManagementService,
     private readonly adminManagementService: AdminManagementService,
     private readonly adminNotificationService: AdminNotificatonService,
+    private readonly rolePermissionService: RolePermissionService,
   ) {}
 
   @MessagePattern({ cmd: 'admin_login' })
@@ -90,5 +94,32 @@ export class AppController {
     payload: UpdateNotificationPreferencesDto;
   }) {
     return this.adminNotificationService.updateAdminNotificationPreference(adminId, payload);
+  }
+
+  // admin role permission api start
+
+  @MessagePattern({ cmd: 'create_role' })
+  async createRole(createRoleDto: CreateRoleDto) {
+    return await this.rolePermissionService.createRole(createRoleDto);
+  }
+
+  @MessagePattern({ cmd: 'get_all_roles' })
+  async getAllRoles() {
+    return await this.rolePermissionService.getAllRoles();
+  }
+
+  @MessagePattern({ cmd: 'get_role_by_id' })
+  async getRoleById(id: string) {
+    return await this.rolePermissionService.getRoleById(id);
+  }
+
+  @MessagePattern({ cmd: 'update_role_permissions' })
+  async updatePermissions({ dto, roleId }: { dto: UpdateRolePermissionsDto; roleId: string }) {
+    return await this.rolePermissionService.updateRolePermissions(dto, roleId);
+  }
+
+  @MessagePattern({ cmd: 'delete_role' })
+  async deleteRole(id: string) {
+    return await this.rolePermissionService.deleteRole(id);
   }
 }

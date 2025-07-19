@@ -182,25 +182,6 @@ services:
   #     - app-network
   #   restart: always
 
-  # role-permission:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/role-permission/Dockerfile
-  #   container_name: role-permission
-  #   volumes:
-  #     - ./apps/role-permission:/var/www/apps/role-permission
-  #     - ./libs:/var/www/libs
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '2135:3000'
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
-
   # subscription:
   #   build:
   #     context: .

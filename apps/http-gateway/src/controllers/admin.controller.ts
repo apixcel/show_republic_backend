@@ -1,13 +1,15 @@
-import { Body, Controller, Get, Inject, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import {
   AdminProfileDto,
   ChangePasswordDto,
   ChangeUserStatusDto,
+  CreateRoleDto,
   LoginDto,
   SendAdminInvitationDto,
   UpdateNotificationPreferencesDto,
+  UpdateRolePermissionsDto,
 } from '@show-republic/dtos';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 
@@ -124,5 +126,34 @@ export class AdminController {
       this.natsClient.send({ cmd: 'admin_notification_update_preference' }, { adminId, payload }),
     );
     return res;
+  }
+
+  // role permission api start
+  @UseGuards(AuthGuard('jwt'))
+  @Post('role-permission/create')
+  async createRole(@Body() dto: CreateRoleDto, @Req() req: any) {
+    // Optionally use user info for auditing
+    const userId = req.user.userId;
+    return await lastValueFrom(this.natsClient.send({ cmd: 'create_role' }, dto));
+  }
+  @UseGuards(AuthGuard('jwt'))
+  @Get('role-permission/get')
+  async getAllRoles() {
+    return await lastValueFrom(this.natsClient.send({ cmd: 'get_all_roles' }, {}));
+  }
+  @UseGuards(AuthGuard('jwt'))
+  @Get('role-permission/get/:id')
+  async getRoleById(@Param('id') id: string) {
+    return await lastValueFrom(this.natsClient.send({ cmd: 'get_role_by_id' }, id));
+  }
+  @UseGuards(AuthGuard('jwt'))
+  @Patch('role-permission/permissions/:roleId')
+  async updatePermissions(@Body() dto: UpdateRolePermissionsDto, @Param('roleId') roleId: string) {
+    return await lastValueFrom(this.natsClient.send({ cmd: 'update_role_permissions' }, { dto, roleId }));
+  }
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('role-permission/delete/:id')
+  async deleteRole(@Param('id') id: string) {
+    return await lastValueFrom(this.natsClient.send({ cmd: 'delete_role' }, id));
   }
 }

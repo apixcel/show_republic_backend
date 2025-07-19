@@ -11,6 +11,7 @@ import { AppController } from './app.controller';
 import { AdminAuthService } from './services/adminAuth.service';
 import { AdminManagementService } from './services/adminManageMent.service';
 import { AdminNotificatonService } from './services/adminNotification.service';
+import { RolePermissionService } from './services/rolePermission.service';
 import { UserManagementService } from './services/userManagement.service';
 
 @Module({
@@ -29,6 +30,7 @@ import { UserManagementService } from './services/userManagement.service';
     AdminAuthService,
     UserManagementService,
     AdminManagementService,
+    RolePermissionService,
     AdminNotificatonService,
     JwtUtilService,
     JwtService,
