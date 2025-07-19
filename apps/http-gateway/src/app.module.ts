@@ -14,7 +14,6 @@ import { GameficationController } from './controllers/gamefication.controller';
 import { LiveController } from './controllers/live.controller';
 import { NotificationController } from './controllers/notification.controller';
 import { PostController } from './controllers/post.controller';
-import { ProductController } from './controllers/product.controller';
 import { ProfileController } from './controllers/profile.controller';
 import { StatisticsController } from './controllers/statistics.controller';
 import { SubscriptionController } from './controllers/subscription.controller';
@@ -32,7 +31,6 @@ import { UploadfileService } from './service/upload.service';
   controllers: [
     AuthenticationController,
     PostController,
-    ProductController,
     GameficationController,
     CreatorController,
     AdminController,

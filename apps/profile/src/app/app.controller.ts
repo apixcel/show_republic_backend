@@ -1,7 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { AddPostToPlaylistDto, PlaylistDto, UpdateUserDto } from '@show-republic/dtos';
+import { AddPostToPlaylistDto, CreateProductDto, PlaylistDto, UpdateUserDto } from '@show-republic/dtos';
 import { PlaylistService } from './services/playlist.service';
+import { ProductService } from './services/product.service';
 import { ProfileService } from './services/profile.service';
 
 @Controller()
@@ -9,6 +10,7 @@ export class AppController {
   constructor(
     private readonly profileService: ProfileService,
     private readonly playlistService: PlaylistService,
+    private readonly productService: ProductService,
   ) {}
   @MessagePattern({ cmd: 'my_profile' })
   async getUserProfile(userId: string) {
@@ -35,5 +37,16 @@ export class AppController {
   @MessagePattern({ cmd: 'get_playlist_details' })
   getPlaylistDetailsByPlaylistId({ playlistId, userId }: { playlistId: string; userId: string }) {
     return this.playlistService.getPlaylistDetailsByPlaylistId(playlistId, userId);
+  }
+
+  // ---- product api start ------
+
+  @MessagePattern({ cmd: 'product_create' })
+  createProduct({ ceateProductDto, userId }: { ceateProductDto: CreateProductDto; userId: string }) {
+    return this.productService.createProduct(ceateProductDto, userId);
+  }
+  @MessagePattern({ cmd: 'my_products' })
+  getUsersProducts(userId: string) {
+    return this.productService.getUsersProducts(userId);
   }
 }

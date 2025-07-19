@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { AddPostToPlaylistDto, PlaylistDto, UpdateUserDto } from '@show-republic/dtos';
+import { AddPostToPlaylistDto, CreateProductDto, PlaylistDto, UpdateUserDto } from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
 
 @UseGuards(AuthGuard('jwt'))
@@ -10,7 +10,7 @@ export class ProfileController {
   constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
 
   @Get('my')
-  async createProduct(@Req() req: any) {
+  async getUserProfile(@Req() req: any) {
     const user = req.user || {};
 
     return await lastValueFrom(this.natsClient.send({ cmd: 'my_profile' }, user?.userId));
@@ -54,5 +54,20 @@ export class ProfileController {
       this.natsClient.send({ cmd: 'add_post_to_playlist' }, { payload, userId: user.userId }),
     );
     return order;
+  }
+
+  // ------- product api start ------
+
+  @Post('product/create')
+  async createProduct(@Body() ceateProductDto: CreateProductDto, @Req() req: any) {
+    const user = req.user || {};
+    return await lastValueFrom(
+      this.natsClient.send({ cmd: 'product_create' }, { ceateProductDto, userId: user.userId }),
+    );
+  }
+  @Get('product/get/my')
+  async getUsersProducts(@Req() req: any) {
+    const user = req.user || {};
+    return await lastValueFrom(this.natsClient.send({ cmd: 'my_products' }, user.userId));
   }
 }

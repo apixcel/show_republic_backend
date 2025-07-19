@@ -4,11 +4,12 @@ import { DatabaseModule } from '@show-republic/config';
 import { UserEntity } from '@show-republic/entities';
 import { AppController } from './app.controller';
 import { PlaylistService } from './services/playlist.service';
+import { ProductService } from './services/product.service';
 import { ProfileService } from './services/profile.service';
 
 @Module({
   imports: [DatabaseModule, MikroOrmModule.forFeature([UserEntity], 'postgres')],
   controllers: [AppController],
-  providers: [ProfileService, PlaylistService],
+  providers: [ProfileService, PlaylistService, ProductService],
 })
 export class AppModule {}

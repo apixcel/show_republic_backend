@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -17,6 +17,7 @@ export class CreateProductDto {
   @IsNotEmpty()
   store_link!: string;
 
-  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
   deliveryLocation!: string;
 }
