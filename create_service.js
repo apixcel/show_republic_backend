@@ -9,8 +9,7 @@ if (!projectName) {
   process.exit(1);
 }
 
-const baseDir = path.join(__dirname, "apps",projectName);
-
+const baseDir = path.join(__dirname, 'apps', projectName);
 
 const firstLetterUpperCase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -27,7 +26,8 @@ async function bootstrap() {
     {
       transport: Transport.NATS,
       options: {
-        servers: ['nats://nats:4222'],
+        servers: ['nats://nats:4222']
+,
       },
     },
   );
@@ -81,7 +81,7 @@ Dockerfile
 .dockerignore
 
 `,
-  'Dockerfile': `
+  Dockerfile: `
 # Use Node.js base image
 FROM node:20
 

@@ -44,11 +44,11 @@ services:
       - app-network
     restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://nats-server:8222/']
-      interval: 30s
+      test: ['CMD', 'curl', '-f', 'http://localhost:8222/healthz']
+      interval: 10s
       retries: 5
-      start_period: 30s
-      timeout: 10s
+      start_period: 5s
+      timeout: 3s
 
   # authentication:
   #   build:
@@ -100,25 +100,6 @@ services:
   #     - .env
   #   ports:
   #     - '7001:3000'
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
-
-  # category:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/category/Dockerfile
-  #   container_name: category
-  #   volumes:
-  #     - ./apps/category:/var/www/apps/category
-  #     - ./libs:/var/www/libs
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '2000:3000'
   #   depends_on:
   #     - nats
   #     - postgresdb

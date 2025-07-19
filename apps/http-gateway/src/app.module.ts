@@ -9,7 +9,6 @@ import { SetCookieUtilService } from '@show-republic/utils';
 import { AdminController } from './controllers/admin.controller';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { BrandController } from './controllers/brand.controller';
-import { CategoryController } from './controllers/category.controller';
 import { CreatorController } from './controllers/creator.controller';
 import { GameficationController } from './controllers/gamefication.controller';
 import { LiveController } from './controllers/live.controller';
@@ -40,7 +39,6 @@ import { UploadfileService } from './service/upload.service';
   controllers: [
     AuthenticationController,
     PostController,
-    CategoryController,
     ProductController,
     GameficationController,
     CreatorController,

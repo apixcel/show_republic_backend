@@ -1,7 +1,9 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { CreatePostCommentDto, CreatePostDto, ToggleLikeDto } from '@show-republic/dtos';
+import { CategoryDto, CreatePostCommentDto, CreatePostDto, ToggleLikeDto } from '@show-republic/dtos';
+import { CategoryEntity } from '@show-republic/entities';
 import { PostService } from './services/post.service';
+import { PostCategoryService } from './services/postCataegory.service';
 import { PostCommentService } from './services/postComment.service';
 import { PostReactionService } from './services/postReaction.service';
 
@@ -11,6 +13,7 @@ export class PostController {
     private readonly postService: PostService,
     private readonly postReactionService: PostReactionService,
     private readonly postCommentService: PostCommentService,
+    private readonly postCategoryService: PostCategoryService,
   ) {}
 
   // ****** Create Post *******
@@ -73,5 +76,22 @@ export class PostController {
   @MessagePattern({ cmd: 'toggle_post_comment_reaction' })
   togglePostCommentReaction({ commentId, userId }: { commentId: string; userId: string }) {
     return this.postCommentService.togglePostCommentReaction(commentId, userId);
+  }
+
+  // ------ post category type api start ------
+  @MessagePattern({ cmd: 'category_create' })
+  createCategory(categoryDto: CategoryDto): Promise<CategoryEntity> {
+    return this.postCategoryService.createCategory(categoryDto);
+  }
+  @MessagePattern({ cmd: 'category_getall' })
+  getAllCategory(): Promise<CategoryEntity[]> {
+    return this.postCategoryService.getAllCategory();
+  }
+  @MessagePattern({ cmd: 'category_user_interest_update' })
+  updateUserCategoryInterest({ categoryIds, userId }: { categoryIds: string[]; userId: string }) {
+    return this.postCategoryService.updateUserCategoryInterest({
+      categoryIds,
+      userId,
+    });
   }
 }

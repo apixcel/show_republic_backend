@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Req, Request, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { CreatePostCommentDto, CreatePostDto, ToggleLikeDto } from '@show-republic/dtos';
+import { CategoryDto, CreatePostCommentDto, CreatePostDto, ToggleLikeDto, UserDto } from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
 
 @UseGuards(AuthGuard('jwt')) // Use the built-in JwtAuthGuard directly
@@ -87,5 +87,28 @@ export class PostController {
       this.natsClient.send({ cmd: 'toggle_post_comment_reaction' }, { commentId, userId }),
     );
     return order;
+  }
+
+  // ----- post category type api startr ----
+
+  @Post('/category/create')
+  async createCategory(@Body() createCategoryData: CategoryDto) {
+    return await lastValueFrom(this.natsClient.send({ cmd: 'category_create' }, createCategoryData));
+  }
+
+  @Get('/category/get')
+  async getAllCategory() {
+    return await lastValueFrom(this.natsClient.send({ cmd: 'category_getall' }, {}));
+  }
+
+  @Put('/category/update/user-interests')
+  async updateCategory(@Body() categoryIds: Pick<UserDto, 'interests'>, @Request() req: any) {
+    const user = req.user || {};
+    return await lastValueFrom(
+      this.natsClient.send(
+        { cmd: 'category_user_interest_update' },
+        { categoryIds: categoryIds.interests, userId: user.userId },
+      ),
+    );
   }
 }
