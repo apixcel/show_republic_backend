@@ -205,6 +205,16 @@
           "length": 6,
           "mappedType": "datetime"
         },
+        "banner": {
+          "name": "banner",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "gender": {
           "name": "gender",
           "type": "varchar(255)",

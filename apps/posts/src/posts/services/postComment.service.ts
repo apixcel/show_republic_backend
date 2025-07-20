@@ -81,7 +81,7 @@ export class PostCommentService {
         user: {
           firstName: user?.firstName,
           lastName: user?.lastName,
-          username: user?.userName,
+          userName: user?.userName,
           profilePicture: user?.profilePicture,
         },
       });
@@ -108,7 +108,7 @@ export class PostCommentService {
         user: {
           firstName: user.firstName,
           lastName: user.lastName,
-          username: user.userName,
+          userName: user.userName,
           profilePicture: user.profilePicture,
         },
       });

@@ -2,7 +2,7 @@ import { EntityManager } from '@mikro-orm/core';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { RpcException } from '@nestjs/microservices';
 import { CreatorDto } from '@show-republic/dtos';
-import { CreatorEntity, UserEntity } from '@show-republic/entities';
+import { CreatorEntity, UserEntity, UserRole } from '@show-republic/entities';
 
 export class CreatorService {
   constructor(
@@ -12,6 +12,11 @@ export class CreatorService {
 
   async createCreatorAccount(payload: CreatorDto, userId: string) {
     const forkedEm = this.em.fork();
+    const user = await forkedEm.findOne(UserEntity, { id: userId });
+
+    if (!user) {
+      throw new RpcException('User not found.');
+    }
 
     const existing = await forkedEm.findOne(CreatorEntity, {
       user: userId,
@@ -22,13 +27,13 @@ export class CreatorService {
     }
     const creatorRepo = forkedEm.getRepository(CreatorEntity);
 
-    const user = forkedEm.getReference(UserEntity, userId);
-
     const creator = creatorRepo.create({
       ...payload,
       user,
     });
 
+    user.roles.push(UserRole.CREATOR);
+    await forkedEm.persistAndFlush(user);
     await forkedEm.persistAndFlush(creator);
     return creator;
   }

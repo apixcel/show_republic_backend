@@ -2,9 +2,9 @@ import { Collection, Entity, ManyToMany, OneToMany, OneToOne, PrimaryKey, Proper
 import { Exclude, Expose } from 'class-transformer';
 import { v4 as uuidv4 } from 'uuid';
 import { CategoryEntity } from './Category.entities';
+import { CreatorEntity } from './Creator.entities';
 import { SubscriptionEntity } from './Subscription.entities';
 import { UserPreferencesEntity } from './UserPreferences.entities';
-import { CreatorEntity } from './Creator.entities';
 // import { PaymentEntity } from './SubscriptionsPayment.entities';
 export enum UserStatus {
   ACTIVE = 'active',
@@ -101,6 +101,8 @@ export class UserEntity {
 
   @Property({ nullable: true })
   date_of_birth?: Date;
+  @Property({ nullable: true })
+  banner?: string;
 
   @Property({ nullable: true, default: Gender.MALE })
   gender: Gender = Gender.MALE;
