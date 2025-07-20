@@ -35,3 +35,18 @@ export class CreatorDto {
   @IsNotEmpty()
   accountHolderName!: string;
 }
+
+export class SubscribeToCreatorDto {
+  @IsString()
+  @IsNotEmpty()
+  creatorId!: string;
+
+  // @IsOptional()
+  // @IsEnum(BillingPeriod, {
+  //   message: 'billingType must be one of 1, 3, 6, or -1',
+  // })
+  // billingType?: BillingPeriod;
+
+  // @IsOptional()
+  // paymentMethodId?: string;
+}

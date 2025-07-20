@@ -2,9 +2,9 @@ import { Collection, Entity, ManyToMany, OneToMany, OneToOne, PrimaryKey, Proper
 import { Exclude, Expose } from 'class-transformer';
 import { v4 as uuidv4 } from 'uuid';
 import { CategoryEntity } from './Category.entities';
-import { UserCreatorEntity } from './UserCreator.entities';
+import { SubscriptionEntity } from './Subscription.entities';
 import { UserPreferencesEntity } from './UserPreferences.entities';
-import { UserSubscriptionEntity } from './UserSubscriptions.entities';
+import { CreatorEntity } from './Creator.entities';
 // import { PaymentEntity } from './SubscriptionsPayment.entities';
 export enum UserStatus {
   ACTIVE = 'active',
@@ -15,10 +15,22 @@ export enum Gender {
   FEMALE = 'female',
   OTHER = 'other',
 }
+
+export enum UserRole {
+  ADMIN = 'admin',
+  CREATOR = 'creator',
+  BRAND = 'brand',
+  USER = 'user',
+}
+
 @Entity()
 export class UserEntity {
   @PrimaryKey({ type: 'uuid' })
   id: string = uuidv4();
+
+  @Property({ type: 'array', nullable: false })
+  @Expose()
+  roles: UserRole[] = [UserRole.USER];
 
   @Property({ nullable: false })
   @Expose()
@@ -76,20 +88,16 @@ export class UserEntity {
   })
   preferences?: UserPreferencesEntity;
 
-  @OneToMany(() => UserSubscriptionEntity, (subscription) => subscription.subscriber)
-  subscriptions = new Collection<UserSubscriptionEntity>(this);
-
-  @OneToMany(() => UserSubscriptionEntity, (subscription) => subscription.creator)
-  @Expose()
-  subscribers = new Collection<UserSubscriptionEntity>(this);
-
   // @OneToMany(() => PaymentEntity, payment => payment.user)
   // payments = new Collection<PaymentEntity>(this);
 
-  @OneToOne(() => UserCreatorEntity, (account) => account.user, {
+  @OneToOne(() => CreatorEntity, (account) => account.user, {
     nullable: true,
   })
-  creatorAccount?: UserCreatorEntity;
+  creatorAccount?: CreatorEntity;
+
+  @OneToMany(() => SubscriptionEntity, (sub) => sub.subscriber)
+  subscriptions = new Collection<SubscriptionEntity>(this);
 
   @Property({ nullable: true })
   date_of_birth?: Date;

@@ -7,9 +7,9 @@ import {
   BrandEntity,
   CategoryEntity,
   CreatorEntity,
+  SubscriptionEntity,
   UserEntity,
   UserPreferencesEntity,
-  UserSubscriptionEntity,
 } from '@show-republic/entities';
 import path from 'path';
 
@@ -20,7 +20,7 @@ const PostgresdbConfig = defineConfig({
   password: 'qubitars',
   dbName: 'demo',
   driver: PostgreSqlDriver,
-  entities: [UserEntity, UserPreferencesEntity, CategoryEntity, CreatorEntity, UserSubscriptionEntity, BrandEntity], // Ensure compiled JS files are referenced
+  entities: [UserEntity, UserPreferencesEntity, CategoryEntity, CreatorEntity, SubscriptionEntity, BrandEntity], // Ensure compiled JS files are referenced
   debug: true,
   highlighter: new SqlHighlighter(),
   metadataProvider: ReflectMetadataProvider,

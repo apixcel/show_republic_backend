@@ -163,29 +163,6 @@ services:
       - app-network
     restart: always
 
- 
-
-  subscription:
-    build:
-      context: .
-      dockerfile: ./apps/subscription/Dockerfile
-    container_name: subscription
-    volumes:
-      - ./apps/subscription:/var/www/apps/subscription
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '2139:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
-
   live:
     build:
       context: .

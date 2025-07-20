@@ -3,7 +3,7 @@ import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { CreatePostDto } from '@show-republic/dtos';
-import { LikeEntity, PostEntity, UserEntity } from '@show-republic/entities';
+import { CreatorEntity, LikeEntity, PostEntity, UserEntity } from '@show-republic/entities';
 import { errorConstants } from '@show-republic/utils';
 
 @Injectable()
@@ -20,9 +20,15 @@ export class PostService {
     const forkedEm = this.mongoEm.fork();
 
     const { userId, ...productData } = data;
+
+    const creator = await this.pgEm.fork().getRepository(CreatorEntity).findOne({ user: userId });
+    if (!creator) {
+      throw new RpcException('Create a creator account to post');
+    }
     const post = forkedEm.getRepository(PostEntity).create({
       ...productData,
       userId,
+      creatorId: creator.id,
     });
 
     await forkedEm.persistAndFlush(post);

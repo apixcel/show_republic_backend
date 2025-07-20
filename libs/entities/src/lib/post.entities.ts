@@ -9,6 +9,9 @@ export class PostEntity {
   @Property({ type: 'string' }) // Ensure it's a UUID as a string
   userId!: string; // UUID type for userId
 
+  @Property({ type: 'string' }) // Ensure it's a UUID as a string
+  creatorId!: string; // UUID type for creatorAccount
+
   @Property({ type: 'string' })
   postType!: PostType;
 

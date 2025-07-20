@@ -1,5 +1,6 @@
-import { Entity, Enum, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, Enum, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 as uuidv4 } from 'uuid';
+import { SubscriptionEntity } from './Subscription.entities';
 import { UserEntity } from './user.entities';
 
 export enum AccountType {
@@ -58,4 +59,7 @@ export class CreatorEntity {
 
   @Property({ type: 'date', onUpdate: () => new Date(), nullable: true })
   updatedAt?: Date;
+
+  @OneToMany(() => SubscriptionEntity, (sub) => sub.creator)
+  subscriptions = new Collection<SubscriptionEntity>(this);
 }
