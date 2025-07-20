@@ -84,3 +84,20 @@ export class UpdateUserDto {
   @IsOptional()
   coverPhoto?: string;
 }
+
+
+export class ChangePasswordDto {
+  @IsString()
+  @IsNotEmpty()
+  oldPassword!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  newPassword!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  confirmPassword!: string;
+}

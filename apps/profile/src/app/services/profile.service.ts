@@ -1,16 +1,17 @@
 import { EntityManager } from '@mikro-orm/core';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
-import { UpdateUserDto } from '@show-republic/dtos';
+import { ChangePasswordDto, UpdateUserDto } from '@show-republic/dtos';
 import { UserEntity } from '@show-republic/entities';
+import { comparePassword, errorConstants, hashPassword } from '@show-republic/utils';
 
 @Injectable()
 export class ProfileService {
   constructor(
     @InjectEntityManager('postgres')
     private readonly pgEm: EntityManager,
-  ) {}
+  ) { }
 
   async getUserProfile(userId: string) {
     const user = await this.pgEm.fork().getRepository(UserEntity).findOne({ id: userId });
@@ -52,4 +53,34 @@ export class ProfileService {
       password: undefined,
     };
   }
+
+  async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
+    const forkedEm = this.pgEm.fork();
+    const userRepo = forkedEm.getRepository(UserEntity);
+    const user = await userRepo.findOne({ id: userId });
+
+    if (!user) {
+      throw new RpcException(new NotFoundException(errorConstants.USER_NOT_FOUND));
+    }
+
+    // Verify new passwords match
+    //@ts-ignore
+    if (changePasswordDto.newPassword !== changePasswordDto.confirmPassword) {
+      throw new RpcException(new BadRequestException('New passwords do not match'));
+    }
+
+    const isPasswordValid = await comparePassword(changePasswordDto.oldPassword, user.password);
+    if (!isPasswordValid) {
+      throw new RpcException(new UnauthorizedException(errorConstants.INVALID_CREDENTIALS));
+    }
+
+    user.password = await hashPassword(changePasswordDto.newPassword);
+    await forkedEm.persistAndFlush(user);
+
+    return {
+      success: true,
+      message: 'Password changed successfully'
+    };
+  }
+
 }

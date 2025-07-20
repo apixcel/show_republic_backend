@@ -1,13 +1,13 @@
-import { Body, Controller, Get, Inject, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Patch, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { AddPostToPlaylistDto, CreateProductDto, PlaylistDto, UpdateUserDto } from '@show-republic/dtos';
+import { AddPostToPlaylistDto, ChangePasswordDto, CreateProductDto, PlaylistDto, UpdateUserDto } from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('profile')
 export class ProfileController {
-  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
+  constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) { }
 
   @Get('my')
   async getUserProfile(@Req() req: any) {
@@ -22,6 +22,20 @@ export class ProfileController {
       this.natsClient.send({ cmd: 'update_profile' }, { userId: user?.userId, userProfileDto }),
     );
   }
+
+
+  @Patch('change-password')
+  async changePassword(@Body() changePasswordDto: ChangePasswordDto, @Req() req: any) {
+    const userId = req.user.userId;
+    console.log(userId, "userId 🧩🧩")
+    return await lastValueFrom(
+      this.natsClient.send(
+        { cmd: 'change_password' },
+        { userId, changePasswordDto }
+      )
+    );
+  }
+
 
   // ----- playlist api start --------
   @Post('/playlist/create')

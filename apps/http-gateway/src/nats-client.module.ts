@@ -8,7 +8,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'NATS_SERVICE',
         transport: Transport.NATS,
         options: {
-          servers: ['nats://nats'],
+          servers: ['nats://nats', "nats://localhost"],
         },
       },
     ]),
@@ -19,10 +19,10 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'NATS_SERVICE',
         transport: Transport.NATS,
         options: {
-          servers: ['nats://nats'],
+          servers: ['nats://nats', "nats://localhost"],
         },
       },
     ]),
   ],
 })
-export class NatsClientModule {}
+export class NatsClientModule { }

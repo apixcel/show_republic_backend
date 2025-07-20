@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { AddPostToPlaylistDto, CreateProductDto, PlaylistDto, UpdateUserDto } from '@show-republic/dtos';
+import { AddPostToPlaylistDto, ChangePasswordDto, CreateProductDto, PlaylistDto, UpdateUserDto } from '@show-republic/dtos';
 import { PlaylistService } from './services/playlist.service';
 import { ProductService } from './services/product.service';
 import { ProfileService } from './services/profile.service';
@@ -11,7 +11,7 @@ export class AppController {
     private readonly profileService: ProfileService,
     private readonly playlistService: PlaylistService,
     private readonly productService: ProductService,
-  ) {}
+  ) { }
   @MessagePattern({ cmd: 'my_profile' })
   async getUserProfile(userId: string) {
     return await this.profileService.getUserProfile(userId);
@@ -19,6 +19,14 @@ export class AppController {
   @MessagePattern({ cmd: 'update_profile' })
   async updateUserProfile({ userId, userProfileDto }: { userId: string; userProfileDto: UpdateUserDto }) {
     return await this.profileService.updateUserProfile(userProfileDto, userId);
+  }
+
+  @MessagePattern({ cmd: 'change_password' })
+  async changePassword({ userId, changePasswordDto }: {
+    userId: string;
+    changePasswordDto: ChangePasswordDto;
+  }) {
+    return await this.profileService.changePassword(userId, changePasswordDto);
   }
 
   @MessagePattern({ cmd: 'create_playlist' })
