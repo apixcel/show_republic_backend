@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Param, Post, Put, Req, Request, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { CategoryDto, CreatePostCommentDto, CreatePostDto, ToggleLikeDto, UserDto } from '@show-republic/dtos';
+import { CategoryDto, CreatePostCommentDto, CreatePostDto, ToggleLikeDto, UpdatePostDto, UserDto } from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
 
 @UseGuards(AuthGuard('jwt')) // Use the built-in JwtAuthGuard directly
@@ -16,6 +16,14 @@ export class PostController {
     const userId = req.user.userId;
     const data = { ...createPostDto, userId: userId };
     const postData = await lastValueFrom(this.natsClient.send({ cmd: 'createPost' }, data));
+    return postData;
+  }
+  @Put('update/:postId')
+  async updatePost(@Body() payload: UpdatePostDto, @Request() req: any) {
+    const userId = req.user.userId;
+    const postData = await lastValueFrom(
+      this.natsClient.send({ cmd: 'updatePost' }, { payload: payload, userId, postId: req.params.postId }),
+    );
     return postData;
   }
 

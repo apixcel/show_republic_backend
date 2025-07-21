@@ -1,8 +1,8 @@
-import { EntityManager } from '@mikro-orm/mongodb';
+import { EntityManager, ObjectId } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
-import { CreatePostDto } from '@show-republic/dtos';
+import { CreatePostDto, UpdatePostDto } from '@show-republic/dtos';
 import { CreatorEntity, LikeEntity, PostEntity, UserEntity } from '@show-republic/entities';
 import { errorConstants } from '@show-republic/utils';
 
@@ -28,8 +28,46 @@ export class PostService {
     const post = forkedEm.getRepository(PostEntity).create({
       ...productData,
       userId,
+      dislikes: 0,
       creatorId: creator.id,
     });
+
+    await forkedEm.persistAndFlush(post);
+    return post;
+  }
+
+  async updatePost(userId: string, payload: UpdatePostDto, postId: string) {
+    const forkedEm = this.mongoEm.fork();
+
+    const postRepo = forkedEm.getRepository(PostEntity);
+
+    const post = await postRepo.findOne({ _id: new ObjectId(postId) });
+
+    if (!post) {
+      throw new RpcException('Post not found');
+    }
+
+    if (post.userId !== userId) {
+      throw new RpcException('You are not allowed to update this post');
+    }
+    const updatableFields: (keyof PostEntity)[] = [
+      'title',
+      'description',
+      'audience',
+      'ageRestriction',
+      'tags',
+      'category',
+      'postType',
+      'thumbnail',
+      'videoUrl',
+    ] as const;
+
+    for (const field of updatableFields) {
+      // @ts-ignore
+      if (typeof payload[field] !== 'undefined') {
+        (post as any)[field] = (payload as any)[field];
+      }
+    }
 
     await forkedEm.persistAndFlush(post);
     return post;

@@ -45,6 +45,15 @@ export class PostEntity {
   @Property()
   thumbnail!: string;
 
+  @Property({ nullable: true, type: 'string' })
+  playlist?: string;
+
+  @Property()
+  audience!: string;
+
+  @Property()
+  ageRestriction!: string;
+
   @Property({ type: 'timestamp', onCreate: () => new Date() })
   createdAt?: Date = new Date();
 

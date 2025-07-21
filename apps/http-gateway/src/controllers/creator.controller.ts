@@ -20,4 +20,16 @@ export class CreatorController {
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_creator_profile' }, userId));
     return order;
   }
+  @Get('channel/shows')
+  async get_user_channel_shows(@Req() req: any) {
+    const page = req.query?.page ? Number(req.query.page) : 1;
+    const limit = req.query?.limit ? Number(req.query.limit) : 30;
+    const userId = req.user.userId;
+    const sort = req.query?.sort;
+    const sortBy = req.query?.sortBy;
+    const order = await lastValueFrom(
+      this.natsClient.send({ cmd: 'get_creator_channel_shows' }, { userId, page, limit, sort,sortBy }),
+    );
+    return order;
+  }
 }

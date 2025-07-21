@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { CategoryDto, CreatePostCommentDto, CreatePostDto, ToggleLikeDto } from '@show-republic/dtos';
+import { CategoryDto, CreatePostCommentDto, CreatePostDto, ToggleLikeDto, UpdatePostDto } from '@show-republic/dtos';
 import { CategoryEntity } from '@show-republic/entities';
 import { PostService } from './services/post.service';
 import { PostCategoryService } from './services/postCataegory.service';
@@ -19,7 +19,11 @@ export class PostController {
   // ****** Create Post *******
   @MessagePattern({ cmd: 'createPost' })
   async createPost(createPostDto: CreatePostDto) {
-    return await this.postService.create(createPostDto); // Handle login and return the access token
+    return await this.postService.create(createPostDto); 
+  }
+  @MessagePattern({ cmd: 'updatePost' })
+  async updatePost({payload, userId, postId}: {payload: UpdatePostDto, userId: string, postId: string} ) {
+    return await this.postService.updatePost(userId, payload, postId); 
   }
 
   // ****** View users post *******
