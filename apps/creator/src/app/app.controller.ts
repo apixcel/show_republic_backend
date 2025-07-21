@@ -3,12 +3,14 @@ import { MessagePattern } from '@nestjs/microservices';
 import { CreatorDto } from '@show-republic/dtos';
 import { CreatorService } from './services/creator.service';
 import { CreatorChannelService } from './services/creatorChannel.service';
+import { SubscriptionService } from './services/subscription.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly creatorService: CreatorService,
     private readonly creatorChannelService: CreatorChannelService,
+    private readonly subscriptionService: SubscriptionService,
   ) {}
 
   @MessagePattern({ cmd: 'create_creator_profile' })
@@ -36,5 +38,10 @@ export class AppController {
     sortBy?: string;
   }) {
     return this.creatorChannelService.getUserChannelShows({ userId, page, limit, sort, sortBy });
+  }
+
+  @MessagePattern({ cmd: 'creator_subcription_suggestions' })
+  subcriptionSuggestions({ userId, query }: { userId: string; query: Record<string, any> }) {
+    return this.subscriptionService.subcriptionSuggestions(userId, query);
   }
 }

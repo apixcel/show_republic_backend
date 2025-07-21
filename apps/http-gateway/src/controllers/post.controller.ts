@@ -1,7 +1,14 @@
-import { Body, Controller, Get, Inject, Param, Post, Put, Req, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Req, Request, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { CategoryDto, CreatePostCommentDto, CreatePostDto, ToggleLikeDto, UpdatePostDto, UserDto } from '@show-republic/dtos';
+import {
+  CategoryDto,
+  CreatePostCommentDto,
+  CreatePostDto,
+  ToggleLikeDto,
+  UpdatePostDto,
+  UserDto,
+} from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
 
 @UseGuards(AuthGuard('jwt')) // Use the built-in JwtAuthGuard directly
@@ -23,6 +30,14 @@ export class PostController {
     const userId = req.user.userId;
     const postData = await lastValueFrom(
       this.natsClient.send({ cmd: 'updatePost' }, { payload: payload, userId, postId: req.params.postId }),
+    );
+    return postData;
+  }
+  @Delete('delete/:postId')
+  async deletePostById(@Request() req: any) {
+    const userId = req.user.userId;
+    const postData = await lastValueFrom(
+      this.natsClient.send({ cmd: 'deletePost' }, { userId, postId: req.params.postId }),
     );
     return postData;
   }

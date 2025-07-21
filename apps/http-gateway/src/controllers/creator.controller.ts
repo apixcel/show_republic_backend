@@ -28,7 +28,15 @@ export class CreatorController {
     const sort = req.query?.sort;
     const sortBy = req.query?.sortBy;
     const order = await lastValueFrom(
-      this.natsClient.send({ cmd: 'get_creator_channel_shows' }, { userId, page, limit, sort,sortBy }),
+      this.natsClient.send({ cmd: 'get_creator_channel_shows' }, { userId, page, limit, sort, sortBy }),
+    );
+    return order;
+  }
+  @Get('subcription/suggestions')
+  async subcriptionSuggestions(@Req() req: any) {
+    const userId = req.user.userId;
+    const order = await lastValueFrom(
+      this.natsClient.send({ cmd: 'creator_subcription_suggestions' }, { userId, query: req.query }),
     );
     return order;
   }

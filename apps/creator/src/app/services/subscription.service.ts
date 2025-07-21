@@ -1,16 +1,83 @@
 import { EntityManager } from '@mikro-orm/mongodb';
 import { InjectEntityManager } from '@mikro-orm/nestjs';
+import { RpcException } from '@nestjs/microservices';
 import { SubscribeToCreatorDto } from '@show-republic/dtos';
+import { CreatorEntity, SubscriptionEntity } from '@show-republic/entities';
 
-export class CreatorService {
+export class SubscriptionService {
   constructor(
     @InjectEntityManager('postgres')
     private readonly pgEm: EntityManager,
   ) {}
 
-  async subscribeToCreatorAccount(subscribeToCreatorDto: SubscribeToCreatorDto) {
+  async subscribeToCreatorAccount(subscribeToCreatorDto: SubscribeToCreatorDto, userId: string) {
+    const { creatorId } = subscribeToCreatorDto;
+    const forkedEm = this.pgEm.fork();
 
-    
-    return '';
+    const creator = await forkedEm.getRepository(CreatorEntity).findOne({ id: creatorId });
+    if (!creator) {
+      throw new RpcException('Creator not found.');
+    }
+
+    const isSubscribed = await forkedEm.getRepository(SubscriptionEntity).findOne({ subscriber: userId });
+    if (isSubscribed) {
+      await forkedEm.removeAndFlush(isSubscribed);
+      return null;
+    }
+
+    const subscription = forkedEm
+      .getRepository(SubscriptionEntity)
+      .create({ subscriber: userId, creator: creator, isActive: true });
+    await forkedEm.persistAndFlush(subscription);
+
+    return subscribeToCreatorDto;
+  }
+
+  async getSubscriberCount(userId: string) {
+    const forkedEm = this.pgEm.fork();
+    const creator = await forkedEm.getRepository(CreatorEntity).findOne({ user: userId });
+    if (!creator) {
+      throw new RpcException('Creator not found.');
+    }
+    const creatorId = creator.id;
+
+    return forkedEm.getRepository(SubscriptionEntity).count({ creator: creatorId });
+  }
+
+  async subcriptionSuggestions(userId: string, query: Record<string, any>) {
+    const forkedEm = this.pgEm.fork();
+
+    const existingSubscriptions = await forkedEm
+      .getRepository(SubscriptionEntity)
+      .find({ subscriber: userId }, { populate: ['creator'] });
+
+    const subscribedCreatorIds = new Set(
+      existingSubscriptions.map((sub) => (typeof sub.creator === 'object' ? sub.creator.id : sub.creator)),
+    );
+
+    const filter: Record<string, any> = {};
+    if (query.accountType) {
+      filter.accountType = query.accountType;
+    }
+
+    const allCreators = await forkedEm.getRepository(CreatorEntity).find(filter, {
+      populate: ['user'],
+    });
+
+    const suggestions = allCreators
+      .filter((creator) => !subscribedCreatorIds.has(creator.id))
+      .map((creator) => ({
+        ...creator,
+        user: {
+          firstName: creator.user?.firstName,
+          lastName: creator.user?.lastName,
+          userName: creator.user?.userName,
+          profilePicture: creator.user?.profilePicture,
+          coverPhoto: creator.user?.coverPhoto,
+          _id: creator.user.id,
+        },
+      }));
+
+    return suggestions;
   }
 }

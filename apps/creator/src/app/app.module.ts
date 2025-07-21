@@ -5,6 +5,7 @@ import { CreatorEntity } from '@show-republic/entities';
 import { AppController } from './app.controller';
 import { CreatorService } from './services/creator.service';
 import { CreatorChannelService } from './services/creatorChannel.service';
+import { SubscriptionService } from './services/subscription.service';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { CreatorChannelService } from './services/creatorChannel.service';
     MikroOrmModule.forFeature([CreatorEntity], 'postgres'), // Use 'mongo' context here
   ],
   controllers: [AppController],
-  providers: [CreatorService, CreatorChannelService],
+  providers: [CreatorService, CreatorChannelService,SubscriptionService],
 })
 export class AppModule {}

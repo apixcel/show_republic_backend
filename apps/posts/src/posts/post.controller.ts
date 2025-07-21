@@ -19,11 +19,15 @@ export class PostController {
   // ****** Create Post *******
   @MessagePattern({ cmd: 'createPost' })
   async createPost(createPostDto: CreatePostDto) {
-    return await this.postService.create(createPostDto); 
+    return await this.postService.create(createPostDto);
   }
   @MessagePattern({ cmd: 'updatePost' })
-  async updatePost({payload, userId, postId}: {payload: UpdatePostDto, userId: string, postId: string} ) {
-    return await this.postService.updatePost(userId, payload, postId); 
+  async updatePost({ payload, userId, postId }: { payload: UpdatePostDto; userId: string; postId: string }) {
+    return await this.postService.updatePost(userId, payload, postId);
+  }
+  @MessagePattern({ cmd: 'deletePost' })
+  async deletePostById({ userId, postId }: { userId: string; postId: string }) {
+    return await this.postService.deletePostById(userId, postId);
   }
 
   // ****** View users post *******

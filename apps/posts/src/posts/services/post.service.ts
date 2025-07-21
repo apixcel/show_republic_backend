@@ -3,7 +3,7 @@ import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { CreatePostDto, UpdatePostDto } from '@show-republic/dtos';
-import { CreatorEntity, LikeEntity, PostEntity, UserEntity } from '@show-republic/entities';
+import { CreatorEntity, LikeEntity, PlaylistEntity, PostEntity, UserEntity } from '@show-republic/entities';
 import { errorConstants } from '@show-republic/utils';
 
 @Injectable()
@@ -31,6 +31,13 @@ export class PostService {
       dislikes: 0,
       creatorId: creator.id,
     });
+
+    if (data.playlist) {
+      const playlist = await forkedEm.getRepository(PlaylistEntity).findOne({ _id: new ObjectId(data.playlist) });
+      if (playlist) {
+        playlist.posts.add(post);
+      }
+    }
 
     await forkedEm.persistAndFlush(post);
     return post;
@@ -70,6 +77,25 @@ export class PostService {
     }
 
     await forkedEm.persistAndFlush(post);
+    return post;
+  }
+
+  async deletePostById(userId: string, postId: string) {
+    const forkedEm = this.mongoEm.fork();
+
+    const postRepo = forkedEm.getRepository(PostEntity);
+
+    const post = await postRepo.findOne({ _id: new ObjectId(postId) });
+
+    if (!post) {
+      throw new RpcException('Post not found');
+    }
+
+    if (post.userId !== userId) {
+      throw new RpcException('You are not allowed to delete this post');
+    }
+
+    await forkedEm.removeAndFlush(post);
     return post;
   }
 
