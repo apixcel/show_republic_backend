@@ -16,6 +16,10 @@ export class AppController {
   async getUserProfile(userId: string) {
     return await this.profileService.getUserProfile(userId);
   }
+  @MessagePattern({ cmd: 'get_profile_by_id' })
+  async getProfileById({ userId, currentUserId }: { userId: string; currentUserId: string }) {
+    return await this.profileService.getProfileById(userId, currentUserId);
+  }
   @MessagePattern({ cmd: 'update_profile' })
   async updateUserProfile({ userId, userProfileDto }: { userId: string; userProfileDto: UpdateUserDto }) {
     return await this.profileService.updateUserProfile(userProfileDto, userId);
@@ -33,6 +37,10 @@ export class AppController {
   @MessagePattern({ cmd: 'get_user_playlist' })
   getUserPlaylist(userId: string) {
     return this.playlistService.getUserPlaylist(userId);
+  }
+  @MessagePattern({ cmd: 'get_public_playlist_by_user_id' })
+  getUblicPlaylistByuserId(userId: string) {
+    return this.playlistService.getPublicPlaylistByuserId(userId);
   }
   @MessagePattern({ cmd: 'get_playlist_details' })
   getPlaylistDetailsByPlaylistId({ playlistId, userId }: { playlistId: string; userId: string }) {

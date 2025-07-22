@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Inject, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
-import { CreatorDto } from '@show-republic/dtos';
+import { CreatorDto, SubscribeToCreatorDto } from '@show-republic/dtos';
 import { lastValueFrom } from 'rxjs';
 
 @Controller('creator')
@@ -38,6 +38,19 @@ export class CreatorController {
     const order = await lastValueFrom(
       this.natsClient.send({ cmd: 'creator_subcription_suggestions' }, { userId, query: req.query }),
     );
+    return order;
+  }
+
+  @Post('subscribe')
+  async subscribeToCreator(@Body() payload: SubscribeToCreatorDto, @Req() req: any) {
+    const userId = req.user.userId;
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'subscribe_to_creator' }, { userId, payload }));
+    return order;
+  }
+
+  @Get('subscribe/count/:userId')
+  async getSubscribedCreators(@Param('userId') userId: string) {
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_creator_subscriber_count' }, userId));
     return order;
   }
 }

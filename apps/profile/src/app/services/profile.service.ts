@@ -3,7 +3,7 @@ import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { UpdateUserDto } from '@show-republic/dtos';
-import { UserEntity } from '@show-republic/entities';
+import { SubscriptionEntity, UserEntity } from '@show-republic/entities';
 
 @Injectable()
 export class ProfileService {
@@ -17,6 +17,21 @@ export class ProfileService {
     return {
       ...user,
       password: undefined,
+    };
+  }
+
+  async getProfileById(userId: string, currentUserId: string) {
+    const user = await this.pgEm.fork().getRepository(UserEntity).findOne({ id: userId });
+    const subscriberCount = await this.pgEm.fork().getRepository(UserEntity).count({ creatorAccount: userId });
+    const isSubscribed = await this.pgEm
+      .fork()
+      .getRepository(SubscriptionEntity)
+      .findOne({ creator: userId, subscriber: currentUserId });
+    return {
+      ...user,
+      password: undefined,
+      subscriberCount,
+      isSubscribed: Boolean(isSubscribed),
     };
   }
 

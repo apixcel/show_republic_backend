@@ -15,6 +15,15 @@ export class ProfileController {
 
     return await lastValueFrom(this.natsClient.send({ cmd: 'my_profile' }, user?.userId));
   }
+  @Get('c/:userId')
+  async getProfileById(@Req() req: any, @Param('userId') userId: string) {
+    const user = req.user || {};
+
+    return await lastValueFrom(this.natsClient.send({ cmd: 'get_profile_by_id' },{
+      currentUserId: user?.userId,
+      userId
+    }));
+  }
   @Put('my/update')
   async updateUserProfile(@Req() req: any, @Body() userProfileDto: UpdateUserDto) {
     const user = req.user || {};
@@ -37,6 +46,11 @@ export class ProfileController {
   async getUserPlaylist(@Req() req: any) {
     const user = req.user || {};
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_user_playlist' }, user.userId));
+    return order;
+  }
+  @Get('playlist/user/:userId')
+  async getUblicPlaylistByuserId(@Param('userId') userId: string) {
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_public_playlist_by_user_id' }, userId));
     return order;
   }
   @Get('playlist/get/:playlistId')

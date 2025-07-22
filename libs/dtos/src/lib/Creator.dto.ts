@@ -39,7 +39,7 @@ export class CreatorDto {
 export class SubscribeToCreatorDto {
   @IsString()
   @IsNotEmpty()
-  creatorId!: string;
+  userId!: string;
 
   // @IsOptional()
   // @IsEnum(BillingPeriod, {

@@ -42,8 +42,9 @@ export class PostController {
     page = 1,
     limit = 30,
     currentUserId,
-  }: { page?: number; limit?: number; currentUserId?: string } = {}): Promise<any> {
-    return await this.postService.viewAll(page, limit, currentUserId);
+    userId,
+  }: { page?: number; limit?: number; currentUserId?: string; userId?: string } = {}) {
+    return await this.postService.viewAll(page, limit, currentUserId, userId);
   }
 
   @MessagePattern({ cmd: 'viewPostByPostId' })

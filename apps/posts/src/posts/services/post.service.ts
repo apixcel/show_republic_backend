@@ -3,7 +3,14 @@ import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { CreatePostDto, UpdatePostDto } from '@show-republic/dtos';
-import { CreatorEntity, LikeEntity, PlaylistEntity, PostEntity, UserEntity } from '@show-republic/entities';
+import {
+  CreatorEntity,
+  LikeEntity,
+  PlaylistEntity,
+  PostEntity,
+  SubscriptionEntity,
+  UserEntity,
+} from '@show-republic/entities';
 import { errorConstants } from '@show-republic/utils';
 
 @Injectable()
@@ -99,15 +106,30 @@ export class PostService {
     return post;
   }
 
-  async viewAll(page = 1, limit = 30, currentUserId?: string): Promise<{ posts: any[]; users?: any[] }> {
+  async viewAll(
+    page = 1,
+    limit = 30,
+    currentUserId?: string,
+    userId?: string,
+  ): Promise<{ posts: any[]; users?: any[] }> {
     const forkedMongoEm = this.mongoEm.fork();
+    const forkedPgEm = this.pgEm.fork();
     const skip = (page - 1) * limit;
 
     // ============= Fetching a page of posts ============>
     const likedRepo = forkedMongoEm.getRepository(LikeEntity);
+
+    const query: Record<string, any> = {};
+
+    if (userId) {
+      query['userId'] = userId;
+    }
+
+    console.log(query);
+
     const posts = await forkedMongoEm
       .getRepository(PostEntity)
-      .find({}, { limit, offset: skip, orderBy: { createdAt: 'DESC' } });
+      .find(query, { limit, offset: skip, orderBy: { createdAt: 'DESC' } });
     if (!posts || posts.length === 0) {
       throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND));
     }
@@ -122,7 +144,6 @@ export class PostService {
     // ========== and Fork the Postgres EntityManager to avoid conflicts with the main transaction =======>
     let users: UserEntity[];
     try {
-      const forkedPgEm = this.pgEm.fork();
       const userRepo = forkedPgEm.getRepository(UserEntity);
       users = await userRepo.find({ id: { $in: userIds } });
     } catch (error) {
@@ -146,7 +167,10 @@ export class PostService {
 
     for (let post of postsWithUser) {
       const isLiked = await likedRepo.findOne({ post: post.id, userId: currentUserId });
-      result.push({ ...post, isReacted: isLiked });
+      const isSubscribed = await forkedPgEm
+        .getRepository(SubscriptionEntity)
+        .findOne({ subscriber: currentUserId, creator: post.creatorId });
+      result.push({ ...post, isReacted: Boolean(isLiked), isSubscribed: Boolean(isSubscribed) });
     }
 
     return { posts: result };

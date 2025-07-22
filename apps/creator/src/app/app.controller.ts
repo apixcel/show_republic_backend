@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { CreatorDto } from '@show-republic/dtos';
+import { CreatorDto, SubscribeToCreatorDto } from '@show-republic/dtos';
 import { CreatorService } from './services/creator.service';
 import { CreatorChannelService } from './services/creatorChannel.service';
 import { SubscriptionService } from './services/subscription.service';
@@ -43,5 +43,14 @@ export class AppController {
   @MessagePattern({ cmd: 'creator_subcription_suggestions' })
   subcriptionSuggestions({ userId, query }: { userId: string; query: Record<string, any> }) {
     return this.subscriptionService.subcriptionSuggestions(userId, query);
+  }
+
+  @MessagePattern({ cmd: 'subscribe_to_creator' })
+  subscribeToCreatorAccount({ payload, userId }: { payload: SubscribeToCreatorDto; userId: string }) {
+    return this.subscriptionService.subscribeToCreatorAccount(payload, userId);
+  }
+  @MessagePattern({ cmd: 'get_creator_subscriber_count' })
+  getSubscriberCount(userId: string) {
+    return this.subscriptionService.getSubscriberCount(userId);
   }
 }

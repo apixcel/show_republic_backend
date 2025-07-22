@@ -11,10 +11,10 @@ export class SubscriptionService {
   ) {}
 
   async subscribeToCreatorAccount(subscribeToCreatorDto: SubscribeToCreatorDto, userId: string) {
-    const { creatorId } = subscribeToCreatorDto;
+    const { userId: creatorUserId } = subscribeToCreatorDto;
     const forkedEm = this.pgEm.fork();
 
-    const creator = await forkedEm.getRepository(CreatorEntity).findOne({ id: creatorId });
+    const creator = await forkedEm.getRepository(CreatorEntity).findOne({ user: creatorUserId });
     if (!creator) {
       throw new RpcException('Creator not found.');
     }
@@ -41,7 +41,9 @@ export class SubscriptionService {
     }
     const creatorId = creator.id;
 
-    return forkedEm.getRepository(SubscriptionEntity).count({ creator: creatorId });
+    const count = await forkedEm.getRepository(SubscriptionEntity).count({ creator: creatorId });
+
+    return { count };
   }
 
   async subcriptionSuggestions(userId: string, query: Record<string, any>) {

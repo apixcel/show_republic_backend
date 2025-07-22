@@ -57,8 +57,10 @@ export class PostController {
     const page = req.query?.page ? Number(req.query.page) : 1;
     const limit = req.query?.limit ? Number(req.query.limit) : 30;
     const currentUserId = req.user.userId;
-    console.log(currentUserId, 'userId 🐞🐞🐞🐞🐞🐞🐞🐞');
-    const postData = await lastValueFrom(this.natsClient.send({ cmd: 'viewAllPosts' }, { page, limit, currentUserId }));
+    const userId = req.query.userId;
+    const postData = await lastValueFrom(
+      this.natsClient.send({ cmd: 'viewAllPosts' }, { page, limit, currentUserId, userId }),
+    );
     return postData;
   }
 

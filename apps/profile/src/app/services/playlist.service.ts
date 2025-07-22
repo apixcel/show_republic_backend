@@ -43,6 +43,24 @@ export class PlaylistService {
       return playlist;
     }
   }
+  async getPublicPlaylistByuserId(userId: string) {
+    const forkedEm = this.mongoEm.fork();
+    const PlaylistRepo = forkedEm.getRepository(PlaylistEntity);
+    const playlist = await PlaylistRepo.find({ userId, privacy: 'public' }, { populate: ['posts'] });
+
+    const result = [];
+    if (playlist.length) {
+      for (const list of playlist) {
+        const firstPostId = list.posts[0]?._id;
+        const firstPost = await forkedEm.findOne(PostEntity, { _id: firstPostId });
+
+        result.push({ ...list, playlistThumbnail: firstPost?.thumbnail });
+      }
+      return result;
+    } else {
+      return playlist;
+    }
+  }
   async getPlaylistDetailsByPlaylistId(playlistId: string, userId: string) {
     const forkedEm = this.mongoEm.fork();
     const PlaylistRepo = forkedEm.getRepository(PlaylistEntity);

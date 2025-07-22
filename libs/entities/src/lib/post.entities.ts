@@ -9,14 +9,14 @@ export class PostEntity {
   @Property({ type: 'string' }) // Ensure it's a UUID as a string
   userId!: string; // UUID type for userId
 
-  @Property({ type: 'string' }) // Ensure it's a UUID as a string
-  creatorId!: string; // UUID type for creatorAccount
+  @Property({ type: 'string', nullable: true   }) // Ensure it's a UUID as a string
+  creatorId?: string; // UUID type for creatorAccount
 
   @Property({ type: 'string' })
   postType!: PostType;
 
   @Property({ type: 'string' })
-  category!: string;
+  category?: string;
 
   @Property()
   title!: string;
@@ -48,11 +48,11 @@ export class PostEntity {
   @Property({ nullable: true, type: 'string' })
   playlist?: string;
 
-  @Property()
-  audience!: string;
+  @Property({ nullable: true, type: 'string' })
+  audience?: string;
 
-  @Property()
-  ageRestriction!: string;
+  @Property({ nullable: true, type: 'string' })
+  ageRestriction?: string;
 
   @Property({ type: 'timestamp', onCreate: () => new Date() })
   createdAt?: Date = new Date();

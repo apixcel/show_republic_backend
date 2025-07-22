@@ -17,12 +17,15 @@ export class CreatePostDto {
   postType!: PostType;
 
   @IsString({ message: errorConstants.INVALID_CATEGORY })
+  @IsOptional()
   category!: string;
 
   @IsEnum(YesNO, { message: 'audience must be yes or no' })
+  @IsOptional()
   audience!: string;
 
   @IsEnum(YesNO, { message: 'ageRestriction must be yes or no' })
+  @IsOptional()
   ageRestriction!: string;
 
   @Length(0, 100, { message: errorConstants.TITLE_LENGTH })
