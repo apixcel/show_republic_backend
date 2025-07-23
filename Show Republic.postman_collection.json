@@ -82,7 +82,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"sakibsarkar707@gmail.com\",\n    \"password\":\"123456\"\n}",
+							"raw": "{\n    \"email\":\"sakibsarkar707@gmail.com\",\n    \"password\":\"$@Kib123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1225,7 +1225,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{uniBaseURL}}/creator/post/analytics/view/687f5079e20cd4ce491a8ec4",
+									"raw": "{{uniBaseURL}}/creator/post/analytics/subscription/687f5079e20cd4ce491a8ec4",
 									"host": [
 										"{{uniBaseURL}}"
 									],
@@ -1233,7 +1233,7 @@
 										"creator",
 										"post",
 										"analytics",
-										"view",
+										"subscription",
 										"687f5079e20cd4ce491a8ec4"
 									]
 								}
@@ -1879,7 +1879,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"sakibsarkar707@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"raw": "{\n    \"email\": \"sakibsarkar707@gmail.com\",\n    \"password\": \"$@Kib123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1992,13 +1992,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{uniBaseURL}}/admin/profile",
+							"raw": "{{uniBaseURL}}/admin/profile/main",
 							"host": [
 								"{{uniBaseURL}}"
 							],
 							"path": [
 								"admin",
-								"profile"
+								"profile",
+								"main"
 							]
 						}
 					},
