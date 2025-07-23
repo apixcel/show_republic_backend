@@ -12,7 +12,10 @@ export class GameficationService {
   async createChellenge(payload: ChallengeDto) {
     const forkedEm = this.em.fork();
     const challengeRepo = forkedEm.getRepository(ChallengeEntity);
-    const challenge = challengeRepo.create(payload);
+    const challenge = challengeRepo.create({
+      ...payload,
+      startTime: payload.startTime || undefined,
+    });
     await forkedEm.flush();
 
     return challenge;
@@ -52,7 +55,7 @@ export class GameficationService {
     const activeChallenges = await challengeRepo.find(
       {
         endTime: { $gt: now },
-        $or: [{ startTime: null }, { startTime: { $lte: now } }],
+        // $or: [{ startTime: null }, { startTime: { $lte: now } }],
       },
       limit !== undefined ? { limit, offset } : {},
     );

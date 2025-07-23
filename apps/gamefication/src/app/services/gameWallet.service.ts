@@ -3,7 +3,7 @@ import { InjectEntityManager } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class GameWallerService {
+export class GameWalletService {
   constructor(
     @InjectEntityManager('mongo')
     private readonly em: EntityManager,

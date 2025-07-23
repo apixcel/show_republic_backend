@@ -1,6 +1,6 @@
 import { AccountType, BillingPeriod, PaymentMethod } from '@show-republic/entities';
 import { Type } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 export class AcceptedPaymentMethodDto {
   @IsEnum(PaymentMethod)
@@ -40,6 +40,10 @@ export class SubscribeToCreatorDto {
   @IsString()
   @IsNotEmpty()
   userId!: string;
+
+  @IsOptional()
+  @IsString()
+  postId?: string;
 
   // @IsOptional()
   // @IsEnum(BillingPeriod, {

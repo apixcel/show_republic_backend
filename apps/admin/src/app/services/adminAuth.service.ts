@@ -40,6 +40,8 @@ export class AdminAuthService {
     const forkedEm = this.em.fork();
     const adminRepo = forkedEm.getRepository(AdminEntity);
 
+    console.log(adminId);
+
     const admin = await adminRepo.findOne({ _id: new ObjectId(adminId.toString()) });
 
     if (!admin) {
@@ -68,5 +70,17 @@ export class AdminAuthService {
     const adminProfile = await forkedEm.findOne(AdminProfileEntity, { admin: admin._id.toString() });
 
     return adminProfile;
+  }
+
+  async getMainProfile(adminId: string) {
+    const forkedEm = this.em.fork();
+    const adminRepo = forkedEm.getRepository(AdminEntity);
+    const admin = await adminRepo.findOne({ _id: new ObjectId(adminId) });
+
+    if (!admin) {
+      throw new RpcException(new NotFoundException(errorConstants.USER_NOT_FOUND));
+    }
+
+    return { ...admin, password: undefined };
   }
 }

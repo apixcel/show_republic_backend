@@ -62,10 +62,17 @@ export class CreatorController {
 
   // ---- analytics api start ----
 
-  @Get('post/analytics/:postId')
+  @Get('post/analytics/view/:postId')
   async getPostAnalytics(@Param('postId') postId: string, @Req() req: any) {
     const order = await lastValueFrom(
       this.natsClient.send({ cmd: 'get_post_view_analytics' }, { postId, query: req.query }),
+    );
+    return order;
+  }
+  @Get('post/analytics/subscription/:postId')
+  async getSubscriptionAnalyticsByPostId(@Param('postId') postId: string, @Req() req: any) {
+    const order = await lastValueFrom(
+      this.natsClient.send({ cmd: 'get_post_subscription_analytics' }, { postId, query: req.query }),
     );
     return order;
   }

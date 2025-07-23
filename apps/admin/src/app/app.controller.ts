@@ -39,6 +39,10 @@ export class AppController {
   getAdminProfile(adminId: string) {
     return this.adminService.getAdminProfile(adminId);
   }
+  @MessagePattern({ cmd: 'admin_main_profile' })
+  getMainProfile(adminId: string) {
+    return this.adminService.getMainProfile(adminId);
+  }
 
   @MessagePattern({ cmd: 'admin_um_get_u' })
   getAllUser(query: Record<string, any>) {

@@ -27,7 +27,7 @@ export class SubscriptionService {
 
     const subscription = forkedEm
       .getRepository(SubscriptionEntity)
-      .create({ subscriber: userId, creator: creator, isActive: true });
+      .create({ subscriber: userId, creator: creator, isActive: true, postId: subscribeToCreatorDto.postId });
     await forkedEm.persistAndFlush(subscription);
 
     return subscribeToCreatorDto;

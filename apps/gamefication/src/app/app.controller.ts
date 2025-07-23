@@ -2,13 +2,13 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { ChallengeDto } from '@show-republic/dtos';
 import { GameficationService } from './services/gamefication.service';
-import { GameWallerService } from './services/gameWallet.service';
+import { GameWalletService } from './services/gameWallet.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly gameficationService: GameficationService,
-    private gameWalletService: GameWallerService,
+    private gameWalletService: GameWalletService,
   ) {}
 
   @MessagePattern({ cmd: 'create_challenge' })

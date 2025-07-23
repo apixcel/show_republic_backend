@@ -19,6 +19,9 @@ export class SubscriptionEntity {
   @Property({ type: 'timestamp', onUpdate: () => new Date() })
   updatedAt?: Date = new Date();
 
+  @Property({ type: 'string', nullable: true })
+  postId?: string;
+
   @Property({ type: 'boolean', default: true })
   isActive: boolean = true;
 }

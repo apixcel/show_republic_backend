@@ -28,6 +28,7 @@ export class AdminController {
   @Patch('change-password')
   async changePassword(@Req() req: any, @Body() changePasswordDto: ChangePasswordDto) {
     const userId = req.user.userId;
+    console.log(userId);
 
     const res = await lastValueFrom(
       this.natsClient.send({ cmd: 'admin_change_password' }, { adminId: userId.toString(), changePasswordDto }),
@@ -40,6 +41,13 @@ export class AdminController {
   async getAdminProfile(@Req() req: any) {
     const userId = req.user.userId;
     const res = await lastValueFrom(this.natsClient.send({ cmd: 'admin_profile' }, userId));
+    return res;
+  }
+  @UseGuards(AuthGuard('jwt'))
+  @Get('profile/main')
+  async getMainProfile(@Req() req: any) {
+    const userId = req.user.userId;
+    const res = await lastValueFrom(this.natsClient.send({ cmd: 'admin_main_profile' }, userId));
     return res;
   }
 

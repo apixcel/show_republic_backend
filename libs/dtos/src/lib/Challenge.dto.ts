@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class ChallengeDto {
   @IsNotEmpty({ message: 'label is required' })
@@ -11,8 +11,8 @@ export class ChallengeDto {
   @IsString({ message: 'status must be a string' })
   status!: 'live' | 'scheduled';
 
-  @IsNotEmpty({ message: 'start date must be added' })
-  startTime!: Date;
+  @IsOptional()
+  startTime?: Date;
 
   @IsNotEmpty({ message: 'end date must be added' })
   endTime!: Date;

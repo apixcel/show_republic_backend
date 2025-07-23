@@ -65,4 +65,8 @@ export class AppController {
   getUblicPlaylistByuserId({ postId, query }: { postId: string; query: Record<string, any> }) {
     return this.creatorAnalyticsService.getViewAnalytics(postId, query);
   }
+  @MessagePattern({ cmd: 'get_post_subscription_analytics' })
+  getSubscriptionAnalyticsByPostId({ postId, query }: { postId: string; query: Record<string, any> }) {
+    return this.creatorAnalyticsService.getSubscriptionAnalyticsByPostId(postId, query);
+  }
 }
