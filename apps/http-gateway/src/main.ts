@@ -20,7 +20,6 @@ async function bootstrap() {
 
   app.useGlobalPipes(new CustomValidationPipe());
 
-
   // Add the global exception filter
   app.useGlobalFilters(new GlobalExceptionFilter());
 

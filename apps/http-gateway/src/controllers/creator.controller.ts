@@ -53,4 +53,10 @@ export class CreatorController {
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_creator_subscriber_count' }, userId));
     return order;
   }
+  @Get('subscription/my')
+  async getMySubscriptions(@Req() req: any) {
+    const userId = req.user.userId;
+    const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_my_subscriptions' }, userId));
+    return order;
+  }
 }

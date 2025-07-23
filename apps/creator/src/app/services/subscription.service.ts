@@ -82,4 +82,31 @@ export class SubscriptionService {
 
     return suggestions;
   }
+
+  async getMySubscriptions(userId: string) {
+    const forkedEm = this.pgEm.fork();
+
+    const subscriptions = await forkedEm
+      .getRepository(SubscriptionEntity)
+      .find({ subscriber: userId }, { populate: ['creator.user'] });
+
+    const result = subscriptions.map((sub) => {
+      const creator = sub.creator;
+      const user = creator.user;
+
+      return {
+        ...creator,
+        user: {
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          userName: user?.userName,
+          profilePicture: user?.profilePicture,
+          coverPhoto: user?.coverPhoto,
+          _id: user.id,
+        },
+      };
+    });
+
+    return result;
+  }
 }

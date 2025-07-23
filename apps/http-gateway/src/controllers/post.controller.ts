@@ -63,6 +63,17 @@ export class PostController {
     );
     return postData;
   }
+  @Get('view_all/subscribed')
+  async viewAllSubscribedCreatorPost(@Request() req: any) {
+    const page = req.query?.page ? Number(req.query.page) : 1;
+    const limit = req.query?.limit ? Number(req.query.limit) : 30;
+    const currentUserId = req.user.userId;
+    const userId = req.query.userId;
+    const postData = await lastValueFrom(
+      this.natsClient.send({ cmd: 'viewAllSubscribedCreatorPosts' }, { page, limit, currentUserId, userId }),
+    );
+    return postData;
+  }
 
   @Get('view_post/:postId')
   async viewPostByPostId(@Param('postId') postId: string, @Req() req: any) {

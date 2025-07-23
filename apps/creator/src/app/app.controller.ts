@@ -53,4 +53,8 @@ export class AppController {
   getSubscriberCount(userId: string) {
     return this.subscriptionService.getSubscriberCount(userId);
   }
+  @MessagePattern({ cmd: 'get_my_subscriptions' })
+  getMySubscriptions(userId: string) {
+    return this.subscriptionService.getMySubscriptions(userId);
+  }
 }

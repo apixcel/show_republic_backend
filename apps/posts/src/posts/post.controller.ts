@@ -46,6 +46,15 @@ export class PostController {
   }: { page?: number; limit?: number; currentUserId?: string; userId?: string } = {}) {
     return await this.postService.viewAll(page, limit, currentUserId, userId);
   }
+  @MessagePattern({ cmd: 'viewAllSubscribedCreatorPosts' })
+  async viewAllSubscribedCreatorPost({
+    page = 1,
+    limit = 30,
+    currentUserId,
+    userId,
+  }: { page?: number; limit?: number; currentUserId?: string; userId?: string } = {}) {
+    return await this.postService.viewAllSubscribedCreatorPost(page, limit, currentUserId, userId);
+  }
 
   @MessagePattern({ cmd: 'viewPostByPostId' })
   async viewPostByPostId({ postId, userId }: { postId: string; userId: string }): Promise<any> {

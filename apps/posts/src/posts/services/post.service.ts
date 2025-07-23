@@ -175,6 +175,82 @@ export class PostService {
 
     return { posts: result };
   }
+  async viewAllSubscribedCreatorPost(
+    page = 1,
+    limit = 30,
+    currentUserId?: string,
+    userId?: string,
+  ): Promise<{ posts: any[]; users?: any[] }> {
+    const forkedMongoEm = this.mongoEm.fork();
+    const forkedPgEm = this.pgEm.fork();
+    const skip = (page - 1) * limit;
+
+    // ============= Fetching a page of posts ============>
+    const likedRepo = forkedMongoEm.getRepository(LikeEntity);
+    const subscriptionRepo = forkedPgEm.getRepository(SubscriptionEntity);
+
+    const mySubscribedCreators = await subscriptionRepo.find({ subscriber: currentUserId }, { populate: ['creator'] });
+
+    const creatorsUserId = mySubscribedCreators.map((creator) => creator.creator?.user)?.map((user) => user.id);
+
+    console.log(creatorsUserId);
+
+    const query: Record<string, any> = {};
+
+    if (creatorsUserId.length) {
+      query['userId'] = { $in: creatorsUserId };
+    } else {
+      return { posts: [] };
+    }
+
+    const posts = await forkedMongoEm
+      .getRepository(PostEntity)
+      .find(query, { limit, offset: skip, orderBy: { createdAt: 'DESC' } });
+    if (!posts || posts.length === 0) {
+      throw new RpcException(new NotFoundException(errorConstants.POST_NOT_FOUND));
+    }
+
+    // ============= Extracting unique userIds for this page =====================>
+    const userIds = [...new Set(posts.map((post) => post.userId))];
+    if (userIds.length === 0) {
+      return { posts: [] };
+    }
+
+    // =========== Fetching only those users depending on the posts fetched ============>
+    // ========== and Fork the Postgres EntityManager to avoid conflicts with the main transaction =======>
+    let users: UserEntity[];
+    try {
+      const userRepo = forkedPgEm.getRepository(UserEntity);
+      users = await userRepo.find({ id: { $in: userIds } });
+    } catch (error) {
+      console.log(error);
+
+      throw new RpcException(new InternalServerErrorException('Something went wrong while fetching users'));
+    }
+
+    //=========== Remove password from each user object ==========>
+    const safeUsers = users.map(({ password, ...user }) => user);
+
+    const userMap = Object.fromEntries(safeUsers.map((user) => [user.id, user]));
+    const postsWithUser = posts.map((post) => ({
+      ...post,
+      _id: undefined,
+      id: post._id,
+      user: userMap[post.userId] || null,
+    }));
+
+    const result = [];
+
+    for (let post of postsWithUser) {
+      const isLiked = await likedRepo.findOne({ post: post.id, userId: currentUserId });
+      const isSubscribed = await forkedPgEm
+        .getRepository(SubscriptionEntity)
+        .findOne({ subscriber: currentUserId, creator: post.creatorId });
+      result.push({ ...post, isReacted: Boolean(isLiked), isSubscribed: Boolean(isSubscribed) });
+    }
+
+    return { posts: result };
+  }
 
   async viewPostByPostId(postId: string, userId: string) {
     // Fork the EntityManager to isolate the transaction

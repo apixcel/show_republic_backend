@@ -11,6 +11,33 @@ export class PostCategoryService {
     private readonly pgEm: EntityManager,
   ) {}
 
+  async onModuleInit() {
+    const em = this.pgEm.fork();
+    const categoryRepo = em.getRepository(CategoryEntity);
+
+    const defaultCategories: { label: string; value: string }[] = [
+      { label: 'Gaming', value: 'gaming' },
+      { label: 'Technology', value: 'technology' },
+      { label: 'Sports', value: 'sports' },
+      { label: 'Gardening', value: 'gardening' },
+      { label: 'Entertainment', value: 'entertainment' },
+      { label: 'Fitness', value: 'fitness' },
+    ];
+
+    for (const cat of defaultCategories) {
+      const exists = await categoryRepo.findOne({
+        $or: [{ label: cat.label }, { value: cat.value }],
+      });
+
+      if (!exists) {
+        const newCategory = categoryRepo.create(cat);
+        await em.persistAndFlush(newCategory);
+        console.log(`[Category Seed] Created: ${cat.label}`);
+      } else {
+        console.log(`[Category Seed] Already exists: ${cat.label}`);
+      }
+    }
+  }
   async createCategory(categoryDto: CategoryDto): Promise<CategoryEntity> {
     const em = this.pgEm.fork();
     const categoryRepo = em.getRepository(CategoryEntity);
