@@ -8,6 +8,7 @@ import {
   LikeEntity,
   PlaylistEntity,
   PostEntity,
+  PostViewEntity,
   SubscriptionEntity,
   UserEntity,
 } from '@show-republic/entities';
@@ -254,11 +255,11 @@ export class PostService {
 
   async viewPostByPostId(postId: string, userId: string) {
     // Fork the EntityManager to isolate the transaction
-    const forkedEm = this.mongoEm.fork();
+    const forkedMongoEm = this.mongoEm.fork();
     const forkedPgEm = this.pgEm.fork();
 
     // Query MongoDB for products by userId
-    const post = await forkedEm.getRepository(PostEntity).findOne(postId);
+    const post = await forkedMongoEm.getRepository(PostEntity).findOne(postId);
 
     // If no products are found, throw a RpcException
     if (!post) {
@@ -266,6 +267,20 @@ export class PostService {
     }
     const user = await forkedPgEm.getRepository(UserEntity).findOne({ id: post.userId });
 
+    const isViwed = await forkedMongoEm
+      .getRepository(PostViewEntity)
+      // @ts-ignore
+      .findOne({ postId: post._id || post.id, userId: userId });
+    if (!isViwed) {
+      const postView = forkedMongoEm
+        .getRepository(PostViewEntity)
+        // @ts-ignore
+        .create({ postId: post.id || post._id, userId: userId });
+      post.views = (post.views || 0) + 1;
+
+      await forkedMongoEm.persistAndFlush(postView);
+      await forkedMongoEm.persistAndFlush(post);
+    }
     // Return the products found
     return { ...post, user: user };
   }

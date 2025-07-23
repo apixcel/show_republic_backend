@@ -19,3 +19,4 @@ export * from './lib/PostCommentReaction.entities';
 
 export * from './lib/Notification.entities';
 export * from './lib/RolePermission.entities';
+export * from './lib/PostView.entities';

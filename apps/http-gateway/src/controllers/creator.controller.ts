@@ -59,4 +59,14 @@ export class CreatorController {
     const order = await lastValueFrom(this.natsClient.send({ cmd: 'get_my_subscriptions' }, userId));
     return order;
   }
+
+  // ---- analytics api start ----
+
+  @Get('post/analytics/:postId')
+  async getPostAnalytics(@Param('postId') postId: string, @Req() req: any) {
+    const order = await lastValueFrom(
+      this.natsClient.send({ cmd: 'get_post_view_analytics' }, { postId, query: req.query }),
+    );
+    return order;
+  }
 }

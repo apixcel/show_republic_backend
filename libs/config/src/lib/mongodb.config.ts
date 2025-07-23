@@ -13,6 +13,7 @@ import {
   PostCommentEntity,
   PostCommentReactionEntity,
   PostEntity,
+  PostViewEntity,
   ProductEntity,
   RoleEntity,
 } from '@show-republic/entities';
@@ -25,7 +26,7 @@ const MongodbConfig: Options<MongoDriver> = {
     LikeEntity,
     PostCommentReactionEntity,
     ChallengeEntity,
-
+    PostViewEntity,
     AdminEntity,
     AdminProfileEntity,
     PlaylistEntity,

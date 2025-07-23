@@ -2,6 +2,7 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreatorDto, SubscribeToCreatorDto } from '@show-republic/dtos';
 import { CreatorService } from './services/creator.service';
+import { CreatorAnalyticsService } from './services/creatorAnalytics.service';
 import { CreatorChannelService } from './services/creatorChannel.service';
 import { SubscriptionService } from './services/subscription.service';
 
@@ -11,6 +12,7 @@ export class AppController {
     private readonly creatorService: CreatorService,
     private readonly creatorChannelService: CreatorChannelService,
     private readonly subscriptionService: SubscriptionService,
+    private readonly creatorAnalyticsService: CreatorAnalyticsService,
   ) {}
 
   @MessagePattern({ cmd: 'create_creator_profile' })
@@ -56,5 +58,11 @@ export class AppController {
   @MessagePattern({ cmd: 'get_my_subscriptions' })
   getMySubscriptions(userId: string) {
     return this.subscriptionService.getMySubscriptions(userId);
+  }
+
+  // analytics
+  @MessagePattern({ cmd: 'get_post_view_analytics' })
+  getUblicPlaylistByuserId({ postId, query }: { postId: string; query: Record<string, any> }) {
+    return this.creatorAnalyticsService.getViewAnalytics(postId, query);
   }
 }
