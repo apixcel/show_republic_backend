@@ -1,0 +1,2650 @@
+{
+	"info": {
+		"_postman_id": "641367d4-a6dc-4fef-af8d-ec13ce790799",
+		"name": "Show Republic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30949072",
+		"_collection_link": "https://interstellar-crescent-244153.postman.co/workspace/Team-Workspace~0b88e004-402f-46e3-87cb-9de7b0dc324d/collection/45040705-641367d4-a6dc-4fef-af8d-ec13ce790799?action=share&source=collection_link&creator=30949072"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "social Oauth",
+					"item": [
+						{
+							"name": "Google oauth",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/auth/google",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"google"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "sign up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\n//     \"firstName\":\"Mr\",\n//     \"lastName\":\"Robot\",\n//     \"email\":\"sakibsarkar707@gmail.com\",\n//     \"password\":\"123456\",\n//     \"interests\":[\"coding\"]\n// }\n\n\n{\n    \"firstName\":\"Mr\",\n    \"lastName\":\"Robot\",\n    \"email\":\"mdmuzahid.dev@gmail.com\",\n    \"password\":\"123456\",\n    \"interests\":[\"149d0b83-dbac-4af9-ab8f-db849f013d88\"],\n    \"gender\":\"male\"\n}\n\n\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/auth/register",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"sakibsarkar707@gmail.com\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/auth/login",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resend otp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1kbXV6YWhpZC5kZXZAZ21haWwuY29tIiwic3ViIjoiZjZlYmIzZmUtYmYwYy00OGMyLWFkNzktZjA2NzQ5ZDc5MGIzIiwiaWF0IjoxNzUwMTQwNjkxLCJleHAiOjE3NTA0ODYyOTF9.rPdpMzsWMX46VgfMwh3PwoSuNhqbovP7-uoVtNUX9KI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"email\":\"developer@gmail.com\",\n   \"otp\":\"776499\"\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/auth/resend-otp",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"auth",
+								"resend-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifyotp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\n//     \"secret\":\"724609\",   \"email\":\"midul.isdb@gmail.com\"\n// }\n\n\n{\n    \"secret\":\"620687\",   \"email\":\"mdmuzahid.dev@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/auth/verify-otp",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"auth",
+								"verify-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1kbXV6YWhpZC5kZXZAZ21haWwuY29tIiwic3ViIjoiZjZlYmIzZmUtYmYwYy00OGMyLWFkNzktZjA2NzQ5ZDc5MGIzIiwiaWF0IjoxNzUwMTQwNjkxLCJleHAiOjE3NTA0ODYyOTF9.rPdpMzsWMX46VgfMwh3PwoSuNhqbovP7-uoVtNUX9KI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"email\":\"sakibsarkar707@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/auth/forgot-password",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user interest",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"interests\":[\"772d9bfa-72b4-42fe-a89a-912fdc908725\",\"96170e5c-3f37-4069-9b03-3574b3124ccc\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/post/category/update/user-interests",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"post",
+								"category",
+								"update",
+								"user-interests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset-password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1kbXV6YWhpZC5kZXZAZ21haWwuY29tIiwic3ViIjoiZjZlYmIzZmUtYmYwYy00OGMyLWFkNzktZjA2NzQ5ZDc5MGIzIiwiaWF0IjoxNzUwMTQwNjkxLCJleHAiOjE3NTA0ODYyOTF9.rPdpMzsWMX46VgfMwh3PwoSuNhqbovP7-uoVtNUX9KI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNha2lic2Fya2FyNzA3QGdtYWlsLmNvbSIsInVzZXJJZCI6IjFiZjllYmNmLTY0M2YtNDMwNi04NGFlLTYxZjE1ZjVjYjA3OSIsImlhdCI6MTc1MDc2NjIwMiwiZXhwIjoxNzUwNzY2NTAyfQ.ACt-0k4IEEc2QnGJemeoehPC0WtkYWluXbNBHeLR6ws\",\n      \"password\":\"user_403\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/auth/reset-password",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/auth/profile",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "category",
+					"item": [
+						{
+							"name": "get all",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/post/category/get",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"post",
+										"category",
+										"get"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"label\": \"Coding\",\n    \"value\": \"coding\"\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/post/category/create",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"post",
+										"category",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "subscription suggestion",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/creator/subcription/suggestions?accountType=paid",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"creator",
+										"subcription",
+										"suggestions"
+									],
+									"query": [
+										{
+											"key": "accountType",
+											"value": "paid"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "reactions",
+					"item": [
+						{
+							"name": "Like/Dislike-toggle",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"postId\": \"686cb95f2fdb7cdd03cd3813\",\n  \"action\": \"like\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/post/reaction/toggle",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"post",
+										"reaction",
+										"toggle"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "post Comment",
+					"item": [
+						{
+							"name": "create comment by post id",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \r\n  \"content\": \"This is a test comment for the post. Looks good!\",\r\n  \"images\": [\r\n    \"https://picsum.photos/id/1011/600/400\",\r\n    \"https://placekitten.com/800/600\",\r\n    \"https://source.unsplash.com/random/800x600\"\r\n  ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/post/comment/create/687a419878d5f4598d1eb212",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"post",
+										"comment",
+										"create",
+										"687a419878d5f4598d1eb212"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get comment by post id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/post/comment/get/687a419878d5f4598d1eb212",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"post",
+										"comment",
+										"get",
+										"687a419878d5f4598d1eb212"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get comment replies by comment id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/post/comment/get/replies-of/687b6146185bc5da6a7a09bf",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"post",
+										"comment",
+										"get",
+										"replies-of",
+										"687b6146185bc5da6a7a09bf"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "toggle like by comment id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/post/comment/react/t/687b6146185bc5da6a7a09bf",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"post",
+										"comment",
+										"react",
+										"t",
+										"687b6146185bc5da6a7a09bf"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "view users post",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/post/view_post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"post",
+								"view_post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view all post",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/post/view_all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"post",
+								"view_all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "40",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view all post",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uniBaseURL}}/post/view_all/subscribed",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"post",
+								"view_all",
+								"subscribed"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "40",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view post by postId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uniBaseURL}}/post/view_post/687f5079e20cd4ce491a8ec4",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"post",
+								"view_post",
+								"687f5079e20cd4ce491a8ec4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"promotion\",\r\n    \"thumbnail\": \"https://res.cloudinary.com/dlvchiynp/image/upload/v1753159896/showrepublic/bzqebzlp43gbgadnttdw.jpg\",\r\n    \"videoUrl\": \"https://res.cloudinary.com/dlvchiynp/video/upload/v1753159894/showrepublic/sp6vtygrrkjnfgqfcbh7.mp4\",\r\n    \"description\": \"promo desk\",\r\n    \"tags\": [\r\n        \"Ghosting\"\r\n    ],\r\n    \"goal\": \"more profile\",\r\n    \"audience\": \"yes\",\r\n    \"duration\": 6,\r\n    \"budget\": 52,\r\n    \"postType\": \"promotion\",\r\n    \"category\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/post/create_post",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"post",
+								"create_post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n\r\n  \"title\": \"saskib update koreche\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/post/update/687dca79eac14bff99d25688",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"post",
+								"update",
+								"687dca79eac14bff99d25688"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "view users product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/view_product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"view_product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"image\": \"https://example.com/product-image.jpg\",\r\n\r\n  \"productName\": \"Sample Product 2\",\r\n  \"deliveryType\": \"Nation Wide\", \r\n  \"storeName\": \"Sample Store\",\r\n  \"storeLink\": \"https://examplestore.com/product\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/create_product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"create_product"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "gamefication",
+			"item": [
+				{
+					"name": "game waller",
+					"item": [
+						{
+							"name": "New Request",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"label\": \"Ghosting\",\n    \"value\": \"ghosting\"\n  }"
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/gamefication/my-wallet",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"gamefication",
+										"my-wallet"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "create challenge",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"coin\": 500,\r\n  \"status\": \"live\",\r\n  \"startTime\": \"2025-07-01T10:00:00.000Z\",\r\n  \"endTime\": \"2025-07-01T12:00:00.000Z\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/gamefication/create-challenge",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"gamefication",
+								"create-challenge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get upcoming challenge",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"label\": \"Ghosting\",\n    \"value\": \"ghosting\"\n  }"
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/gamefication/upcomming-challenge",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"gamefication",
+								"upcomming-challenge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get active challenge",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"label\": \"Ghosting\",\n    \"value\": \"ghosting\"\n  }"
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/gamefication/active-challenge",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"gamefication",
+								"active-challenge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get complete challenge",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"label\": \"Ghosting\",\n    \"value\": \"ghosting\"\n  }"
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/gamefication/completed-challenge",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"gamefication",
+								"completed-challenge"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "creator",
+			"item": [
+				{
+					"name": "creator channel",
+					"item": [
+						{
+							"name": "get shows",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/creator/channel/shows",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"creator",
+										"channel",
+										"shows"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "subscription",
+					"item": [
+						{
+							"name": "subscribe",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\":\"22fbe4fd-99f8-4ddd-b222-2aaecf497a8a\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/creator/subscribe",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"creator",
+										"subscribe"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "subscribe count",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/creator/subscribe/count/22fbe4fd-99f8-4ddd-b222-2aaecf497a8a",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"creator",
+										"subscribe",
+										"count",
+										"22fbe4fd-99f8-4ddd-b222-2aaecf497a8a"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "40",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "subscribe count Copy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/creator/subscription/my",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"creator",
+										"subscription",
+										"my"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "40",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "analytics",
+					"item": [
+						{
+							"name": "post view analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/creator/post/analytics/view/687f5079e20cd4ce491a8ec4",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"creator",
+										"post",
+										"analytics",
+										"view",
+										"687f5079e20cd4ce491a8ec4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "post subscription analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/creator/post/analytics/view/687f5079e20cd4ce491a8ec4",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"creator",
+										"post",
+										"analytics",
+										"view",
+										"687f5079e20cd4ce491a8ec4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "create creator account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"accountType\": \"paid\",\r\n    \"billingPrices\": {\r\n        \"1\": \"500\",\r\n        \"6\": \"5\"\r\n    },\r\n    \"acceptedPaymentMethod\": {\r\n        \"method\": \"card\",\r\n        \"amount\": 686\r\n    },\r\n    \"bankName\": \"Bank\",\r\n    \"accountNumber\": \"68\",\r\n    \"accountHolderName\": \"flasd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/creator/create",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"creator",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get creator account",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"accountType\": \"paid\",\r\n  \"billingPeriod\": 6,\r\n  \"acceptedPaymentMethod\": {\r\n    \"method\": \"card\",\r\n    \"amount\": 24.99\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/creator/get",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"creator",
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "role permission",
+					"item": [
+						{
+							"name": "create role permission",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Hitman\",\r\n  \"permissions\": [\r\n    {\r\n      \"category\": \"Gamification\",\r\n      \"action\": \"create_challenge\"\r\n    },\r\n    {\r\n      \"category\": \"Gamification\",\r\n      \"action\": \"modify_challenge\"\r\n    },\r\n    {\r\n      \"category\": \"Admins\",\r\n      \"action\": \"add_admin\"\r\n    },\r\n    {\r\n      \"category\": \"Admins\",\r\n      \"action\": \"remove_admin\"\r\n    },\r\n    {\r\n      \"category\": \"Admins\",\r\n      \"action\": \"suspend_admin\"\r\n    },\r\n    {\r\n      \"category\": \"Admins\",\r\n      \"action\": \"approve_leave\"\r\n    },\r\n    {\r\n      \"category\": \"Roles\",\r\n      \"action\": \"create_role\"\r\n    },\r\n    {\r\n      \"category\": \"General\",\r\n      \"action\": \"access_analytics\"\r\n    },\r\n    {\r\n      \"category\": \"General\",\r\n      \"action\": \"export_analytics\"\r\n    }\r\n  ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/role-permission/create",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"role-permission",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all role",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/role-permission/get",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"role-permission",
+										"get"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get role permission by role id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/role-permission/get/686a509de6654376c6ef6495",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"role-permission",
+										"get",
+										"686a509de6654376c6ef6495"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete role by role id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n     \"permissions\": [\r\n            {\r\n                \"category\": \"Gamification\",\r\n                \"action\": \"create_challenge\",\r\n                \"role\": \"686a509de6654376c6ef6495\",\r\n                \"id\": \"686a509de6654376c6ef6496\"\r\n            },\r\n            {\r\n                \"category\": \"Gamification\",\r\n                \"action\": \"modify_challenge\",\r\n                \"role\": \"686a509de6654376c6ef6495\",\r\n                \"id\": \"686a509de6654376c6ef6497\"\r\n            },\r\n            {\r\n                \"category\": \"Admins\",\r\n                \"action\": \"add_admin\",\r\n                \"role\": \"686a509de6654376c6ef6495\",\r\n                \"id\": \"686a509de6654376c6ef6498\"\r\n            }]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/role-permission/permissions/686a509de6654376c6ef6495",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"role-permission",
+										"permissions",
+										"686a509de6654376c6ef6495"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update role permission by role id Copy 2",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n     \"permissions\": [\r\n            {\r\n                \"category\": \"Gamification\",\r\n                \"action\": \"create_challenge\",\r\n                \"role\": \"686a509de6654376c6ef6495\",\r\n                \"id\": \"686a509de6654376c6ef6496\"\r\n            },\r\n            {\r\n                \"category\": \"Gamification\",\r\n                \"action\": \"modify_challenge\",\r\n                \"role\": \"686a509de6654376c6ef6495\",\r\n                \"id\": \"686a509de6654376c6ef6497\"\r\n            },\r\n            {\r\n                \"category\": \"Admins\",\r\n                \"action\": \"add_admin\",\r\n                \"role\": \"686a509de6654376c6ef6495\",\r\n                \"id\": \"686a509de6654376c6ef6498\"\r\n            }]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/role-permission/delete/686a509de6654376c6ef6495",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"role-permission",
+										"delete",
+										"686a509de6654376c6ef6495"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user management",
+					"item": [
+						{
+							"name": "get all users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/um/get-all?searchTerm=mr&page=1&limit=10&status=disable",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"um",
+										"get-all"
+									],
+									"query": [
+										{
+											"key": "searchTerm",
+											"value": "mr"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "status",
+											"value": "disable"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user profile logs by user id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/um/get-user-state/34435c2f-b38b-42c0-be16-6b3f5172ff9f",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"um",
+										"get-user-state",
+										"34435c2f-b38b-42c0-be16-6b3f5172ff9f"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "change status",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\":\"dbdeac52-05b6-4372-a4fe-cf0dc3a93d2e\",\r\n    \"status\":\"active\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/um/update/change-status",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"um",
+										"update",
+										"change-status"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "admin management",
+					"item": [
+						{
+							"name": "get all admin",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/am/get-all",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"am",
+										"get-all"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "superadmin?serachTerm=john",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "role count",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\":\"\",\r\n    \"status\":\"active\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/am/count-by-role",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"am",
+										"count-by-role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create admin profile by invitation token",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fullName\": \"John Doe\",\r\n  \"birthDate\": \"1990-05-15\",\r\n  \"gender\": \"male\",\r\n  \"state\": \"California\",\r\n  \"city\": \"Los Angeles\",\r\n  \"maritalStatus\": \"single\",\r\n  \"nationality\": \"American\",\r\n  \"timeZone\": \"America/Los_Angeles\",\r\n  \"email\": \"mdmuzahid.dev@gmail.com\",\r\n  \"phoneNumber\": \"+1-310-555-1234\",\r\n  \"postalCode\": \"90001\",\r\n  \"address\": \"1234 Sunset Blvd, Los Angeles, CA\",\r\n\r\n  \"emergencyContact\": {\r\n    \"name\": \"Jane Doe\",\r\n    \"relationship\": \"Sister\",\r\n    \"phoneNumber\": \"+1-310-555-5678\",\r\n    \"address\": \"5678 Ocean Drive, Los Angeles, CA\"\r\n  },\r\n\r\n  \"jobInfo\": {\r\n    \"position\": \"System Administrator\",\r\n    \"workLocation\": \"Headquarters\",\r\n    \"jobType\": \"Full-time\",\r\n    \"workEmail\": \"j.doe@company.com\",\r\n    \"salary\": \"$90,000\"\r\n  },\r\n\r\n  \"documents\": [\r\n    {\r\n      \"type\": \"ID Card\",\r\n      \"name\": \"California State ID\",\r\n      \"url\": \"https://example.com/docs/john_doe_id.pdf\"\r\n    },\r\n    {\r\n      \"type\": \"Resume\",\r\n      \"name\": \"Resume 2025\",\r\n      \"url\": \"https://example.com/docs/john_doe_resume.pdf\"\r\n    }\r\n  ],\r\n\r\n  \"username\":\"muzahid\",\r\n  \"password\":\"muzahid\"\r\n\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/am/create-profile/686a1c3c4d100957d96d02c9",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"am",
+										"create-profile",
+										"686a1c3c4d100957d96d02c9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get admin profile by admin id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/am/get-profile/686a1c3c4d100957d96d02c9",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"am",
+										"get-profile",
+										"686a1c3c4d100957d96d02c9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "send invitation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "// {\r\n//     \"emails\":[\"sakibsarkar707@gmail.com\"]\r\n// }\r\n\r\n{\r\n    \"emails\":[\"mdmuzahid.dev@gmail.com\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/am/send-invitation",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"am",
+										"send-invitation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "notification",
+					"item": [
+						{
+							"name": "get notifications",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/notification/my",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"notification",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get my notification prefrence",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/notification/my/preference",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"notification",
+										"my",
+										"preference"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update notification prererence",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/admin/notification/update-preference",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"admin",
+										"notification",
+										"update-preference"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "view-admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n"
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/admin/view_admins",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"admin",
+								"view_admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sakibsarkar707@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/admin/login",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"admin",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin login Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\":\"fafas\",\n    \"newPassword\":\"fasdfasdfasdadfsd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/admin/change-password",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"admin",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get admin profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"mdmuzahid.dev@gmail.com\",\n    \"password\": \"muzahid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/admin/profile",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"admin",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get admin main profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"mdmuzahid.dev@gmail.com\",\n    \"password\": \"muzahid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/admin/profile",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"admin",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "statistics",
+			"item": [
+				{
+					"name": "Analytics",
+					"item": [
+						{
+							"name": "country based",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uniBaseURL}}/statistics/analytics/country-based",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"statistics",
+										"analytics",
+										"country-based"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user by country",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{uniBaseURL}}/statistics/analytics/country-based/bangladesh",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"statistics",
+										"analytics",
+										"country-based",
+										"bangladesh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "admin statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uniBaseURL}}/statistics/admin",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"statistics",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user statistiscs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uniBaseURL}}/statistics/user",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"statistics",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "age group statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uniBaseURL}}/statistics/user-age-group",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"statistics",
+								"user-age-group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gender group statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uniBaseURL}}/statistics/user-gender-group",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"statistics",
+								"user-gender-group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account type statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uniBaseURL}}/statistics/user-account-group",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"statistics",
+								"user-account-group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gameficatoin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uniBaseURL}}/statistics/gameficatoin",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"statistics",
+								"gameficatoin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "file upload",
+			"item": []
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "playlist",
+					"item": [
+						{
+							"name": "create playlist",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Most Loved\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/profile/playlist/create",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"profile",
+										"playlist",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add post to playlist",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\":\"6874dca3f7af333312dae2cf\",\r\n    \"playlistId\":\"6874c022d20b037ddf988664\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/profile/playlist/add-post",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"profile",
+										"playlist",
+										"add-post"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get my play list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/profile/playlist/my-playlist",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"profile",
+										"playlist",
+										"my-playlist"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get public playslist by user id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/profile/playlist/user/22fbe4fd-99f8-4ddd-b222-2aaecf497a8a",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"profile",
+										"playlist",
+										"user",
+										"22fbe4fd-99f8-4ddd-b222-2aaecf497a8a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get post detail",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{uniBaseURL}}/profile/playlist/get/68763473e9ebd41b4d2abde9?post=6875ce71d4f3276e129f4728",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"profile",
+										"playlist",
+										"get",
+										"68763473e9ebd41b4d2abde9"
+									],
+									"query": [
+										{
+											"key": "post",
+											"value": "6875ce71d4f3276e129f4728"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "product",
+					"item": [
+						{
+							"name": "create product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Resident Evil 4\",\r\n  \"price\": 19.99,\r\n  \"description\": \"A reusable BPA-free water bottle perfect for travel and everyday use.\",\r\n\"image\":\"https://cdn.wccftech.com/wp-content/uploads/2023/02/WCCFresidentevil4remake14.jpg\",\r\n\"store_name\":\"NIKE\",\r\n\"store_link\":\"https://mail.google.com/mail/u/0/#inbox\",\r\n\"deliveryLocation\":\"Nation Wide\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/profile/product/create",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"profile",
+										"product",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get users product",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{uniBaseURL}}/profile/product/get/my",
+									"host": [
+										"{{uniBaseURL}}"
+									],
+									"path": [
+										"profile",
+										"product",
+										"get",
+										"my"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "my profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n  \"postType\": \"show\",\r\n  \"category\":\"ff4e0b58-b554-4491-a178-1f7be99799b4\",\r\n  \"title\": \"by developer@gmail, test post\",\r\n  \"videoUrl\": \"https://mims.pshealthpunjab.gov.pk/\",\r\n  \"views\": 20,\r\n  \"likes\": 0,\r\n  \"dislikes\":0,\r\n  \"isReacted\":\"\",\r\n  \"description\": \"This isn't just a video; it's a symphony of moments, a dance of light and sound that captures the essence of pure joy. So, turn up the volume, immerse yourself in the visual symphony, and let the beats carry you into a world where time stands still, and the rhythm\",\r\n  \"tags\": [\r\n    \"Coding\",\r\n    \"Technology\"\r\n  ],\r\n  \"thumbnail\": \"https://mims.pshealthpunjab.gov.pk/\"\r\n}"
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/profile/my",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"profile",
+								"my"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n  \"postType\": \"show\",\r\n  \"category\":\"ff4e0b58-b554-4491-a178-1f7be99799b4\",\r\n  \"title\": \"by developer@gmail, test post\",\r\n  \"videoUrl\": \"https://mims.pshealthpunjab.gov.pk/\",\r\n  \"views\": 20,\r\n  \"likes\": 0,\r\n  \"dislikes\":0,\r\n  \"isReacted\":\"\",\r\n  \"description\": \"This isn't just a video; it's a symphony of moments, a dance of light and sound that captures the essence of pure joy. So, turn up the volume, immerse yourself in the visual symphony, and let the beats carry you into a world where time stands still, and the rhythm\",\r\n  \"tags\": [\r\n    \"Coding\",\r\n    \"Technology\"\r\n  ],\r\n  \"thumbnail\": \"https://mims.pshealthpunjab.gov.pk/\"\r\n}"
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/profile/c/22fbe4fd-99f8-4ddd-b222-2aaecf497a8a",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"profile",
+								"c",
+								"22fbe4fd-99f8-4ddd-b222-2aaecf497a8a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"country\":\"bangladesh\",\r\n    \"profilePicture\":\"https://res.cloudinary.com/dlxfcyc7x/image/upload/v1729855294/xt4oxilvlymeei7ryxsb.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/profile/my/update",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"profile",
+								"my",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change-password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"oldPassword\": \"123456\",\n  \"newPassword\": \"muzahid\",\n  \"confirmPassword\": \"muzahid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/profile/change-password",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"profile",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "brand",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"businessName\": \"TechNova Ltd.\",\r\n  \"companyRC\": \"RC-8230493\",\r\n  \"businessType\": \"Private Limited\",\r\n  \"country\": \"Bangladesh\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/brand/create",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"brand",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"businessName\": \"TechNova Ltd.\",\r\n  \"companyRC\": \"RC-8230493\",\r\n  \"businessType\": \"Private Limited\",\r\n  \"country\": \"Bangladesh\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{uniBaseURL}}/brand/my",
+							"host": [
+								"{{uniBaseURL}}"
+							],
+							"path": [
+								"brand",
+								"my"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "upload",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/sakib/Downloads/AQOOPqG8mOfJM6ye73qpzPWH_44AhmexI4grWwY-x2D3RTZqBI6AT7rYh7M5NmpBDECVPiAcBUDCA-epFZ8na_nj.mp4"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "access_token",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1kbXV6YWhpZC5kZXZAZ21haWwuY29tIiwic3ViIjoiZjZlYmIzZmUtYmYwYy00OGMyLWFkNzktZjA2NzQ5ZDc5MGIzIiwiaWF0IjoxNzUwMTQ4Mjg0LCJleHAiOjE3NTA0OTM4ODR9.Vf034o1KqjNhCvAU2AeH_QOP3-0mAhutlNlbWitwBNs",
+			"type": "default"
+		}
+	]
+}
