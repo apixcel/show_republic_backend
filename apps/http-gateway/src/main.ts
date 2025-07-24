@@ -10,7 +10,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {});
 
   app.enableCors({
-    origin: ['http://localhost:3001', 'http://localhost:3003'],
+    origin: [
+      'http://localhost:3001',
+      'http://localhost:3003',
+      'https://showrepublicadmin.apixcel.com',
+      'https://showrepublicweb.apixcel.com',
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
