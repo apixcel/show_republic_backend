@@ -32,7 +32,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   // const configService = { port: 3000 };
   const port = configService.port || 3000;
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   Logger.log(`🚀 Http Gateway is running on: http://localhost:${port}/${globalPrefix}`);
 }
 
