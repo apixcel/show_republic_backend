@@ -12,7 +12,7 @@ services:
     env_file:
       - .env
     ports:
-      - '6000:3000'
+      - '6003:3000'
     networks:
       - app-network
     restart: always
