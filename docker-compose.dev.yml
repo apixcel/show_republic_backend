@@ -163,18 +163,18 @@ services:
       - app-network
     restart: always
 
-  live:
+  brand:
     build:
       context: .
-      dockerfile: ./apps/live/Dockerfile
-    container_name: live
+      dockerfile: ./apps/brand/Dockerfile
+    container_name: brand
     volumes:
-      - ./apps/live:/var/www/apps/live
+      - ./apps/brand:/var/www/apps/brand
       - ./libs:/var/www/libs/
     env_file:
       - .env
     ports:
-      - '2142:3000'
+      - '2144:3000'
     environment:
       NODE_ENV: development
     depends_on:
@@ -183,48 +183,6 @@ services:
     networks:
       - app-network
     restart: always
-
-  # brand:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/brand/Dockerfile
-  #   container_name: brand
-  #   volumes:
-  #     - ./apps/brand:/var/www/apps/brand
-  #     - ./libs:/var/www/libs/
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '2144:3000'
-  #   environment:
-  #     NODE_ENV: development
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
-
-  # promotion:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/promotion/Dockerfile
-  #   container_name: promotion
-  #   volumes:
-  #     - ./apps/promotion:/var/www/apps/promotion
-  #     - ./libs:/var/www/libs/
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - '2145:3000'
-  #   environment:
-  #     NODE_ENV: development
-  #   depends_on:
-  #     - nats
-  #     - postgresdb
-  #   networks:
-  #     - app-network
-  #   restart: always
 
   profile:
     build:
@@ -238,27 +196,6 @@ services:
       - .env
     ports:
       - '2138:3000'
-    environment:
-      NODE_ENV: development
-    depends_on:
-      - nats
-      - postgresdb
-    networks:
-      - app-network
-    restart: always
-
-  notification:
-    build:
-      context: .
-      dockerfile: ./apps/notification/Dockerfile
-    container_name: notification
-    volumes:
-      - ./apps/notification:/var/www/apps/notification
-      - ./libs:/var/www/libs/
-    env_file:
-      - .env
-    ports:
-      - '4400:3000'
     environment:
       NODE_ENV: development
     depends_on:
