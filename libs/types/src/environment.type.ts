@@ -42,14 +42,6 @@ export class EnvironmentType {
 
   @IsString()
   @IsNotEmpty()
-  GOOGLE_AUTH_CLIENT_ID!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  GOOGLE_AUTH_CLIENT_SECRET!: string;
-
-  @IsString()
-  @IsNotEmpty()
   SERVER_URL!: string;
 
   @IsString()

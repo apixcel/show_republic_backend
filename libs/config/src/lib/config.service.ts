@@ -58,10 +58,4 @@ export class ConfigService {
   public get FRONTEND_URL(): string {
     return this.config.get<string>('FRONTEND_URL');
   }
-  public get GOOGLE_AUTH_CLIENT_ID(): string {
-    return this.config.get<string>('GOOGLE_AUTH_CLIENT_ID');
-  }
-  public get GOOGLE_AUTH_CLIENT_SECRET(): string {
-    return this.config.get<string>('GOOGLE_AUTH_CLIENT_SECRET');
-  }
 }
