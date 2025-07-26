@@ -6,7 +6,6 @@ import { PassportModule } from '@nestjs/passport';
 import { DatabaseModule } from '@show-republic/config';
 import { UserEntity } from '@show-republic/entities';
 import { JWTSTRATEGY } from '@show-republic/guards';
-import { GoogleStrategy } from '@show-republic/oauthStrategy';
 import { JwtUtilService, OtpService, SendEmailService, SetCookieUtilService } from '@show-republic/utils';
 import { AppController } from './app.controller';
 import { PasswordService } from './services/Password.service';
@@ -14,7 +13,6 @@ import { LoginService } from './services/login.service';
 import { GetProfileService } from './services/profile.service';
 import { RegisterService } from './services/register.service';
 import { ResendOtpService } from './services/resendOtp.service';
-import { SocialLoginService } from './services/socialLogin.service';
 import { VerifyOtpService } from './services/verifyOtp.service';
 
 @Module({
@@ -29,8 +27,6 @@ import { VerifyOtpService } from './services/verifyOtp.service';
   providers: [
     LoginService,
     RegisterService,
-    SocialLoginService,
-    GoogleStrategy,
     JWTSTRATEGY,
     JwtUtilService,
     OtpService,

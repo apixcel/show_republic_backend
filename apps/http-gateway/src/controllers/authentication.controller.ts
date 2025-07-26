@@ -7,7 +7,6 @@ import {
   Put,
   Req,
   Request,
-  Res,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
@@ -80,30 +79,5 @@ export class AuthenticationController {
     }
     const user = await lastValueFrom(this.natsClient.send({ cmd: 'user_profile' }, { currentUserId }));
     return user;
-  }
-
-  @Get('google')
-  @UseGuards(AuthGuard('google'))
-  async googleAuth() {
-    // Redirects to Google OAuth
-  }
-
-  // *****Signup*******
-  @Get('google/callback')
-  @UseGuards(AuthGuard('google'))
-  async googleOauthCallBack(@Request() req: any, @Res() res: any) {
-    const user = req.user;
-    const order = (await lastValueFrom(this.natsClient.send({ cmd: 'auth_oauth_google_callback' }, user))) as {
-      accessToken: string;
-      refreshToken: string;
-    };
-
-    this.setCookieUtilService.setCookie({ res: res, token: order.refreshToken, cookieName: 'refreshToken' });
-    return res.redirect(`https://apixrec.apixcel.com?token=${order.accessToken}`);
-  }
-  @Get('test')
-  async signUp() {
-    const order = await lastValueFrom(this.natsClient.send({ cmd: 'auth_test' }, {}));
-    return order;
   }
 }

@@ -24,10 +24,6 @@ export class EnvironmentType {
   @IsNotEmpty()
   JWT_EXPIRE_KEY!: string;
 
-  @IsString()
-  @IsNotEmpty()
-  MONGO_CLIENT_URL!: string;
-
   @IsNumber()
   @IsNotEmpty()
   DEFAULT_OTP_LENGTH!: number;

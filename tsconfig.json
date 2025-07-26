@@ -18,8 +18,7 @@
       "@show-republic/guards": ["libs/guards/src/index.ts"],
       "@show-republic/types": ["libs/types/src/index.ts"],
       "@show-republic/utils": ["libs/utils/src/index.ts"],
-      "@show-republic/validators": ["libs/validators/src/index.ts"],
-      "@show-republic/oauthStrategy": ["libs/OAuthStrategries/src/index.ts"]
+      "@show-republic/validators": ["libs/validators/src/index.ts"]
     }
   },
   "include": [

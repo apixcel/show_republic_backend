@@ -4,7 +4,6 @@ import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, DatabaseModule } from '@show-republic/config';
 import { UserEntity } from '@show-republic/entities';
 import { JWTSTRATEGY } from '@show-republic/guards';
-import { GoogleStrategy } from '@show-republic/oauthStrategy';
 import { SetCookieUtilService } from '@show-republic/utils';
 import { AdminController } from './controllers/admin.controller';
 import { AuthenticationController } from './controllers/authentication.controller';
@@ -40,7 +39,7 @@ import { NatsClientModule } from './nats-client.module';
     ProfileController,
     NotificationController,
   ],
-  providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
+  providers: [JWTSTRATEGY,  SetCookieUtilService],
   // providers: [],
 })
 export class AppModule {}

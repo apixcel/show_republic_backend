@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
-import { EnvironmentType} from '@show-republic/types'; // Adjust the path as necessary
+import { EnvironmentType } from '@show-republic/types'; // Adjust the path as necessary
 
 @Injectable()
 export class ConfigService {
@@ -17,11 +17,6 @@ export class ConfigService {
   public get email(): string {
     return this.config.get<string>('EMAIL');
   }
-
-  public get MONGO_CLIENT_URL(): string {
-    return this.config.get<string>('MONGO_CLIENT_URL');
-  }
-
 
   public get JWT_EXPIRE_KEY(): string {
     return this.config.get<string>('JWT_EXPIRE_KEY');
@@ -42,7 +37,6 @@ export class ConfigService {
   public get isProdEnv(): boolean {
     return this.nodeEnv === 'production';
   }
-
 
   public get DEFAULT_OTP_LENGTH(): number {
     return this.config.get<number>('DEFAULT_OTP_LENGTH');
@@ -70,5 +64,4 @@ export class ConfigService {
   public get GOOGLE_AUTH_CLIENT_SECRET(): string {
     return this.config.get<string>('GOOGLE_AUTH_CLIENT_SECRET');
   }
-
 }
