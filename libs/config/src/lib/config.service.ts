@@ -18,8 +18,8 @@ export class ConfigService {
     return this.config.get<string>('EMAIL');
   }
 
-  public get CLIENT_URL(): string {
-    return this.config.get<string>('CLIENT_URL');
+  public get MONGO_CLIENT_URL(): string {
+    return this.config.get<string>('MONGO_CLIENT_URL');
   }
 
 

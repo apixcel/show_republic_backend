@@ -1,7 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { ConfigModule, DatabaseModule, S3ClientProvider } from '@show-republic/config';
+import { ConfigModule, DatabaseModule } from '@show-republic/config';
 import { UserEntity } from '@show-republic/entities';
 import { JWTSTRATEGY } from '@show-republic/guards';
 import { GoogleStrategy } from '@show-republic/oauthStrategy';
@@ -18,7 +18,6 @@ import { ProfileController } from './controllers/profile.controller';
 import { StatisticsController } from './controllers/statistics.controller';
 import { SubscriptionController } from './controllers/subscription.controller';
 import { NatsClientModule } from './nats-client.module';
-import { UploadfileService } from './service/upload.service';
 
 @Module({
   imports: [
@@ -41,7 +40,7 @@ import { UploadfileService } from './service/upload.service';
     ProfileController,
     NotificationController,
   ],
-  providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService, UploadfileService, S3ClientProvider],
+  providers: [JWTSTRATEGY, GoogleStrategy, SetCookieUtilService],
   // providers: [],
 })
 export class AppModule {}

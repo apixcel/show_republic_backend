@@ -26,7 +26,7 @@ export class EnvironmentType {
 
   @IsString()
   @IsNotEmpty()
-  CLIENT_URL!: string;
+  MONGO_CLIENT_URL!: string;
 
   @IsNumber()
   @IsNotEmpty()

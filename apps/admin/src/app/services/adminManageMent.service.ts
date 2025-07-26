@@ -11,6 +11,7 @@ export class AdminManagementService {
     @InjectEntityManager('mongo')
     private readonly em: EntityManager,
     private readonly sendEmailService: SendEmailService,
+    
   ) { }
 
   async getAllAdmins(query: Record<string, any> = {}) {
